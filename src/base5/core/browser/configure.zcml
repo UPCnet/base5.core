@@ -18,4 +18,70 @@
       directory="static"
       />
 
+   <include package ="plone.app.portlets" />
+
+<!-- add a management view for the portlet manager -->
+    <browser:page
+        name="manage-homeportlets"
+        for="plone.portlets.interfaces.ILocalPortletAssignable"
+        class="base5.core.browser.manager.gwManageContextualPortlets"
+        template="templates/managehomeportlets.pt"
+        permission="base.manage.homeportlets"
+    />
+
+    <browser:page
+        name="manage-subhome"
+        for="plone.portlets.interfaces.ILocalPortletAssignable"
+        class="base5.core.browser.manager.gwManageContextualPortlets"
+        template="templates/managesubhome.pt"
+        permission="cmf.ModifyPortalContent"
+    />
+
+    <browser:page
+        for="*"
+        name="manage-portlets-macros"
+        class="plone.app.portlets.browser.manage.ManageContextualPortlets"
+        template="templates/edit-manager-macros.pt"
+        permission="plone.app.portlets.ManageOwnPortlets"
+        layer="base5.core.interfaces.IBase5CoreLayer"
+        />
+
+    <!-- Modify template to make regular portlets work -->
+    <browser:page
+        for="plone.portlets.interfaces.ILocalPortletAssignable"
+        name="manage-portlets"
+        class="plone.app.portlets.browser.manage.ManageContextualPortlets"
+        template="templates/manage-contextual.pt"
+        permission="base.manage.homeportlets"
+        layer="base5.core.interfaces.IBase5CoreLayer"
+        />
+
+    <!-- Helper view to set spans to portlets managers for a given context -->
+    <browser:page
+        for="*"
+        name="set-portlethomemanager-span"
+        class="base5.core.browser.manager.setPortletHomeManagerSpan"
+        permission="plone.app.portlets.ManageOwnPortlets"
+        layer="base5.core.interfaces.IBase5CoreLayer"
+        />
+
+    <!-- ADAPTERS -->
+    <!-- make an adapter for our very own renderer -->
+    <adapter
+        factory="base5.core.browser.manager.GenwebPortletRenderer"
+        provides="plone.portlets.interfaces.IPortletManagerRenderer"
+    />
+
+    <adapter
+        factory="base5.core.browser.manager.gwContextualEditPortletManagerRenderer"
+        provides="plone.portlets.interfaces.IPortletManagerRenderer"
+    />
+
+    <adapter factory=".manager.SpanStorage" />
+
+    <browser:resource
+        name="gw-manage-portlets.js"
+        file="gw-manage-portlets.js"
+        />
+
 </configure>

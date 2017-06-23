@@ -1,8 +1,38 @@
 <configure
     xmlns="http://namespaces.zope.org/zope"
-    xmlns:genericsetup="http://namespaces.zope.org/genericsetup"
+    xmlns:zcml="http://namespaces.zope.org/zcml"
+    xmlns:five="http://namespaces.zope.org/five"
     xmlns:i18n="http://namespaces.zope.org/i18n"
+    xmlns:browser="http://namespaces.zope.org/browser"
+    xmlns:grok="http://namespaces.zope.org/grok"
+    xmlns:genericsetup="http://namespaces.zope.org/genericsetup"
     i18n_domain="base5.core">
+
+
+  <!-- Compat with Plone 5 -->
+  <include package="Products.CMFCore" file="permissions.zcml" />
+
+  <!-- Convenience permission identifying authenticated and member users -->
+  <permission
+      id="base.authenticated"
+      title="Base: Authenticated Users"
+      />
+
+  <permission
+      id="base.member"
+      title="Base: Member Users"
+      />
+
+  <permission
+      id="base.webmaster"
+      title="Base: Webmaster Users"
+      />
+
+   <permission
+      id="base.manage.homeportlets"
+      title="Base: Manage home portlets"
+      />
+
 
   <i18n:registerTranslations directory="locales" />
 
