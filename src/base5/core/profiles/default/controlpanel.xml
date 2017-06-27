@@ -1,0 +1,19 @@
+<?xml version="1.0"?>
+<object name="portal_controlpanel" meta_type="Plone Control Panel Tool">
+ <configlet title="Genweb UPC settings" action_id="genweb.upc"
+    appId="genweb.upc" category="Products"
+    condition_expr="python:True"
+    url_expr="string:${portal_url}/genweb-controlpanel"
+    icon_expr="string:$portal_url/++resource++cpgenweb.png"
+    visible="True">
+  <permission>Manage portal</permission>
+ </configlet>
+ <configlet title="Genweb Core settings" action_id="genweb.core"
+    appId="genweb.core" category="Products"
+    condition_expr="python:True"
+    url_expr="string:${portal_url}/genweb-core-controlpanel"
+    icon_expr="string:$portal_url/++resource++cpgenweb.png"
+    visible="True">
+  <permission>Manage portal</permission>
+ </configlet>
+</object>

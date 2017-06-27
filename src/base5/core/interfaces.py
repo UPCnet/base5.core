@@ -13,3 +13,9 @@ class IHomePage(Interface):
 
 class IHomePageView(Interface):
     """Marker interface for the Homepage View."""
+
+class IProtectedContent(Interface):
+    """Marker interface for preventing dumb users to delete system configuration
+       related content
+    """
+

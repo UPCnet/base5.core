@@ -37,6 +37,7 @@ from plone.uuid.interfaces import IMutableUUID
 from base5.core import HAS_PAM
 from base5.core import IAMULEARN
 from base5.core.directory import METADATA_USER_ATTRS
+from base5.core.controlpanel.interface import IGenwebControlPanelSettings
 
 import logging
 
@@ -48,6 +49,10 @@ if HAS_PAM:
     from plone.app.multilingual.interfaces import ITranslationManager
 
 
+def genweb_config():
+    """ Funcio que retorna les configuracions del controlpanel """
+    registry = queryUtility(IRegistry)
+    return registry.forInterface(IGenwebControlPanelSettings)
 
 def havePermissionAtRoot():
     """Funcio que retorna si es Editor a l'arrel"""

@@ -1,0 +1,38 @@
+<configure
+    xmlns="http://namespaces.zope.org/zope"
+    xmlns:five="http://namespaces.zope.org/five"
+    xmlns:i18n="http://namespaces.zope.org/i18n"
+    xmlns:browser="http://namespaces.zope.org/browser"
+    xmlns:genericsetup="http://namespaces.zope.org/genericsetup"
+    i18n_domain="base5.core">
+
+  <five:registerPackage package="." initialize=".initialize" />
+
+  <include package="collective.z3cform.datagridfield" />
+
+  <browser:resource
+      name="cpgenweb.png"
+      file="cpgenweb.png"
+      />
+
+  <browser:page
+    name="genweb-controlpanel"
+    for="Products.CMFPlone.interfaces.IPloneSiteRoot"
+    class=".controlpanel.GenwebControlPanel"
+    permission="cmf.ManagePortal"
+    />
+
+  <browser:page
+    name="genweb-core-controlpanel"
+    for="Products.CMFPlone.interfaces.IPloneSiteRoot"
+    class=".core.GenwebCoreControlPanel"
+    permission="cmf.ManagePortal"
+    />
+
+  <utility
+    name="genweb.controlpanel.core.user_extenders"
+    provides="zope.schema.interfaces.IVocabularyFactory"
+    component=".core.RegisteredExtendersVocabularyFactory"
+    />
+
+</configure>

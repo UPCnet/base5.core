@@ -6,17 +6,6 @@
 
   <!-- Set overrides folder for Just-a-Bunch-Of-Templates product -->
   <include package="z3c.jbot" file="meta.zcml" />
-  <browser:jbot
-      directory="overrides"
-      layer="base5.core.interfaces.IBase5CoreLayer"
-      />
-
-  <!-- Publish static files -->
-  <plone:static
-      name="base5.core"
-      type="plone"
-      directory="static"
-      />
 
    <include package ="plone.app.portlets" />
 
