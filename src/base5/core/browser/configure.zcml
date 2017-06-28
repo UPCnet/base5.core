@@ -10,13 +10,13 @@
    <include package ="plone.app.portlets" />
 
 <!-- add a management view for the portlet manager -->
-    <browser:page
+    <!-- <browser:page
         name="manage-homeportlets"
         for="plone.portlets.interfaces.ILocalPortletAssignable"
         class="base5.core.browser.manager.gwManageContextualPortlets"
         template="templates/managehomeportlets.pt"
         permission="base.manage.homeportlets"
-    />
+    /> -->
 
     <browser:page
         name="manage-subhome"
@@ -36,14 +36,14 @@
         />
 
     <!-- Modify template to make regular portlets work -->
-    <browser:page
+<!--     <browser:page
         for="plone.portlets.interfaces.ILocalPortletAssignable"
         name="manage-portlets"
         class="plone.app.portlets.browser.manage.ManageContextualPortlets"
         template="templates/manage-contextual.pt"
         permission="base.manage.homeportlets"
         layer="base5.core.interfaces.IBase5CoreLayer"
-        />
+        /> -->
 
     <!-- Helper view to set spans to portlets managers for a given context -->
     <browser:page

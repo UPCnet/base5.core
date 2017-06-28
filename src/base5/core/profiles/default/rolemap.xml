@@ -13,24 +13,7 @@
     <role name="WebMaster"/>
   </roles>
   <permissions>
-    <permission name="Base: Authenticated Users"
-                acquire="True">
-      <role name="Authenticated"/>
-    </permission>
-    <permission name="Base: Member Users"
-                acquire="True">
-      <role name="Member"/>
-    </permission>
-    <permission name="Base: Webmaster Users"
-                acquire="True">
-      <role name="WebMaster"/>
-      <role name="Manager"/>
-    </permission>
-    <permission name="Base: Manage home portlets"
-                acquire="True">
-      <role name="WebMaster"/>
-      <role name="Manager"/>
-    </permission>
+    
     <permission name="ATContentTypes Topic: Add ATBooleanCriterion"
                 acquire="True">
       <role name="Contributor"/>

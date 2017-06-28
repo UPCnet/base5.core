@@ -12,32 +12,29 @@
   <!-- Compat with Plone 5 -->
   <include package="Products.CMFCore" file="permissions.zcml" />
 
-  <configure zcml:condition="installed AccessControl.security">
 
-    <!-- Convenience permission identifying authenticated and member users -->
-    <permission
-        id="base.authenticated"
-        title="Base: Authenticated Users"
-        />
+  <!-- Convenience permission identifying authenticated and member users -->
+<!--   <permission
+      id="base.authenticated"
+      title="Base: Authenticated Users"
+      />
 
-    <permission
-        id="base.member"
-        title="Base: Member Users"
-        />
+  <permission
+      id="base.member"
+      title="Base: Member Users"
+      />
 
-    <permission
-        id="base.webmaster"
-        title="Base: Webmaster Users"
-        />
+  <permission
+      id="base.webmaster"
+      title="Base: Webmaster Users"
+      />
 
-     <permission
-        id="base.manage.homeportlets"
-        title="Base: Manage home portlets"
-        />
+   <permission
+      id="base.manage.homeportlets"
+      title="Base: Manage home portlets"
+      /> -->
 
-  </configure>
-
-
+  <grok:grok package="." />
   <i18n:registerTranslations directory="locales" />
 
   <includeDependencies package="." />

@@ -7,7 +7,7 @@ from souper.soup import Record
 from Products.CMFPlone.interfaces import IPloneSiteRoot
 from plone.registry.interfaces import IRegistry
 from zope.component import queryUtility
-from genweb.controlpanel.core import IGenwebCoreControlPanelSettings
+from base5.core.controlpanel.core import IGenwebCoreControlPanelSettings
 from zope.interface import alsoProvides
 import logging
 
