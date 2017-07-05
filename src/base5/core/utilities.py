@@ -19,7 +19,7 @@ class ElasticSearch(object):
         return self.connection
 
     def create_new_connection(self):
-        self.es_url = api.portal.get_registry_record('genweb.controlpanel.core.IGenwebCoreControlPanelSettings.elasticsearch')
+        self.es_url = api.portal.get_registry_record('base5.core.controlpanel.core.IGenwebCoreControlPanelSettings.elasticsearch')
         self._conn = Elasticsearch(self.es_url)
 
     @property
