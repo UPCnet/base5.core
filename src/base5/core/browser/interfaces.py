@@ -7,13 +7,16 @@ class IGenwebPortlets(Interface):
     A layer specific to this product. Is registered using browserlayer.xml
     """
 
+class IHomePage(Interface):
+    """ Marker interface for home page documents """
+
 class IHomepagePortletManager(IPortletManager, IColumn):
     """
     Superclass used by our adapter
-    The IColumn bit means that we can add all the portlets available to 
+    The IColumn bit means that we can add all the portlets available to
      the right-hand and left-hand column portlet managers
     """
-    
+
 class IPortletsHomepage(IHomepagePortletManager):
      """
      For the portlet manager above the content area.
