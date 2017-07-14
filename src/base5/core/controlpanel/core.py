@@ -47,7 +47,7 @@ class IGenwebCoreControlPanelSettings(Interface):
 
     user_properties_extender = schema.Choice(
         title=_(u'User properties extender'),
-        vocabulary=u'genweb.controlpanel.core.user_extenders',
+        vocabulary=u'base5.core.controlpanel.core.user_extenders',
         required=False,
         default=u''
     )

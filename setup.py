@@ -43,7 +43,8 @@ setup(
         'setuptools',
         'z3c.jbot',
         'pyquery',
-        'elasticsearch'
+        'elasticsearch',
+        'souper.plone',
     ],
     extras_require={
         'test': [

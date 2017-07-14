@@ -50,7 +50,7 @@ def getToolbars(self, config):
     config['theme_advanced_blockformats'] = 'p,div,h2,h3,h4'
 
     try:
-        custom_icons = api.portal.get_registry_record('genweb.controlpanel.core.IGenwebCoreControlPanelSettings.custom_editor_icons')
+        custom_icons = api.portal.get_registry_record('base5.core.controlpanel.core.IGenwebCoreControlPanelSettings.custom_editor_icons')
     except:
         custom_icons = []
 

@@ -30,7 +30,7 @@
     />
 
   <utility
-    name="genweb.controlpanel.core.user_extenders"
+    name="base5.core.controlpanel.core.user_extenders"
     provides="zope.schema.interfaces.IVocabularyFactory"
     component=".core.RegisteredExtendersVocabularyFactory"
     />
