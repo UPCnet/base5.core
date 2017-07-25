@@ -19,7 +19,7 @@ from Products.Five.browser import BrowserView
 from Products.Five.browser.pagetemplatefile import ViewPageTemplateFile
 
 from base5.core.browser.interfaces import IHomepagePortletManager
-from base5.core.interfaces import IHomePage, IHomePageView
+from base5.core.browser.interfaces import IHomePage, IHomePageView
 from base5.core.utils import pref_lang
 
 from plone.portlets.interfaces import IPortletManager

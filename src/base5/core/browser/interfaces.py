@@ -10,6 +10,9 @@ class IGenwebPortlets(Interface):
 class IHomePage(Interface):
     """ Marker interface for home page documents """
 
+class IHomePageView(Interface):
+    """Marker interface for the Homepage View."""
+
 class IHomepagePortletManager(IPortletManager, IColumn):
     """
     Superclass used by our adapter

@@ -8,7 +8,7 @@ from Products.CMFCore.utils import getToolByName
 from Products.PluggableAuthService.interfaces.plugins import IUserAdderPlugin
 from Products.PlonePAS.interfaces.group import IGroupManagement
 
-from base5.core.interfaces import IHomePage
+from base5.core.browser.interfaces import IHomePage
 
 import pkg_resources
 import logging

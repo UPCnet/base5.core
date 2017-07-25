@@ -41,6 +41,13 @@
 
   <include package=".browser" />
   <include package=".controlpanel" />
+  <include file="behaviors.zcml" />
+
+  <interface
+      interface=".interfaces.IBase5CoreLayer"
+      type="zope.publisher.interfaces.browser.IBrowserSkinType"
+      name="base5.core"
+      />
 
 
   <genericsetup:registerProfile
