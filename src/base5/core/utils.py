@@ -39,6 +39,7 @@ from base5.core import IAMULEARN
 from base5.core.directory import METADATA_USER_ATTRS
 from base5.core.controlpanel.interface import IGenwebControlPanelSettings
 
+
 import logging
 
 logger = logging.getLogger(__name__)
@@ -161,9 +162,12 @@ def get_all_user_properties(user):
 
     mapping = {}
     for attr in attributes:
-        value = user.getProperty(attr)
-        if isinstance(value, str) or isinstance(value, unicode):
-            mapping.update({attr: value})
+        # OJO revisar este if mas adelante, no estaba en plone4
+        if attr != 'username':
+            value = user.getProperty(attr)
+            if isinstance(value, str) or isinstance(value, unicode):
+                mapping.update({attr: value})
+
 
     return mapping
 

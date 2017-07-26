@@ -5,10 +5,17 @@ from zope.component.hooks import getSite
 
 from Products.CMFPlone.interfaces import IPloneSiteRoot
 from Products.CMFCore.utils import getToolByName
-from Products.PluggableAuthService.interfaces.plugins import IUserAdderPlugin
+from Products.PluggableAuthService.interfaces.plugins import IUserAdderPlugin, IPropertiesPlugin
 from Products.PlonePAS.interfaces.group import IGroupManagement
 
 from base5.core.browser.interfaces import IHomePage
+from base5.core.utils import add_user_to_catalog
+from base5.core.utils import reset_user_catalog
+from base5.core.utils import json_response
+
+
+from plone import api
+from souper.soup import get_soup
 
 import pkg_resources
 import logging
@@ -29,7 +36,6 @@ except pkg_resources.DistributionNotFound:
 else:
     HAS_DXCT = True
     from plone.dexterity.utils import createContentInContainer
-
 
 logger = logging.getLogger(__name__)
 
@@ -274,3 +280,89 @@ class setupLDAP(grok.View):
         plugin = portal.acl_users[ldap_name]
         plugin.ZCacheable_setManagerId('RAMCache')
         return 'Done.'
+
+
+class view_user_catalog(grok.View):
+    """ Rebuild the OMEGA13 repoze.catalog for user properties data """
+    grok.context(IPloneSiteRoot)
+    grok.name('view_user_catalog')
+    grok.require('cmf.ManagePortal')
+
+    @json_response
+    def render(self):
+        try:
+            from plone.protect.interfaces import IDisableCSRFProtection
+            alsoProvides(self.request, IDisableCSRFProtection)
+        except:
+            pass
+        portal = api.portal.get()
+        soup = get_soup('user_properties', portal)
+        records = [r for r in soup.data.items()]
+
+        result = {}
+        for record in records:
+            item = {}
+            for key in record[1].attrs:
+                item[key] = record[1].attrs[key]
+
+            result[record[1].attrs['id']] = item
+
+        return result
+
+
+class reset_user_catalog(grok.View):
+    """ Reset the OMEGA13 repoze.catalog for user properties data """
+
+    grok.context(IPloneSiteRoot)
+    grok.name('reset_user_catalog')
+    grok.require('cmf.ManagePortal')
+
+    def render(self):
+        try:
+            from plone.protect.interfaces import IDisableCSRFProtection
+            alsoProvides(self.request, IDisableCSRFProtection)
+        except:
+            pass
+
+        from base5.core.utils import reset_user_catalog
+        reset_user_catalog()
+        return 'Done.'
+
+
+class rebuild_user_catalog(grok.View):
+    """ Rebuild the OMEGA13 repoze.catalog for user properties data """
+    grok.context(IPloneSiteRoot)
+    grok.name('rebuild_user_catalog')
+    grok.require('cmf.ManagePortal')
+
+    def render(self):
+        try:
+            from plone.protect.interfaces import IDisableCSRFProtection
+            alsoProvides(self.request, IDisableCSRFProtection)
+        except:
+            pass
+        portal = api.portal.get()
+        plugins = portal.acl_users.plugins.listPlugins(IPropertiesPlugin)
+        # We use the most preferent plugin
+        pplugin = plugins[0][1]
+        all_user_properties = pplugin.enumerateUsers()
+
+        for user in all_user_properties:
+            user.update(dict(username=user['id']))
+            if 'title' in user:
+                user.update(dict(fullname=user['title']))
+            elif 'fullname' in user:
+                user.update(dict(fullname=user['fullname']))
+            elif 'sn' in user:
+                user.update(dict(fullname=user['sn']))
+            else:
+                user.update(dict(fullname=user['cn']))
+
+            user_obj = api.user.get(user['id'])
+
+            if user_obj:
+                add_user_to_catalog(user_obj, user)
+            else:
+                print('No user found in user repository (LDAP) {}'.format(user['id']))
+
+            print('Updated properties catalog for {}'.format(user['id']))

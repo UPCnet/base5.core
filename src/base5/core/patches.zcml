@@ -26,13 +26,6 @@
         replacement=".patches.testMemberData"
         />
 
-<!--     <monkey:patch
-        description="Bug when searching with no standard attributes on LDAPUserFolder"
-        class="Products.LDAPUserFolder.LDAPUserFolder.LDAPUserFolder"
-        original="searchUsers"
-        replacement=".patches.searchUsers"
-        /> -->
-
     <monkey:patch
         description="Force the creation of users to lowercase"
         class="plone.app.users.browser.register.BaseRegistrationForm"
@@ -40,12 +33,13 @@
         replacement=".patches.generate_user_id"
         />
 
+<!--     OJO Creo que se puede borrar ahora esta en /eggs/Products.CMFPlone-5.0.7-py2.7.egg/Products/CMFPlone/browser/search.py y ya filtra por *
     <monkey:patch
         description="Force the search of the site to be wild always"
         class="plone.app.search.browser.Search"
         original="filter_query"
         replacement=".patches.filter_query"
-        />
+        /> -->
 
 <!-- TOREMOVE as soon it got fixed -->
     <monkey:patch
@@ -68,15 +62,6 @@
         replacement=".patches.setMemberProperties"
         />
 
-    <!--  Commenting getMember By ID code
-    <monkey:patch
-        description="getMemberById SHOUT!"
-        class="Products.CMFCore.MembershipTool.MembershipTool"
-        original="getMemberById"
-        replacement=".patches.getMemberById"
-        />
-        -->
-
     <monkey:patch
         description="pas_member view override to user the user local catalog"
         class="Products.PlonePAS.browser.member.PASMemberView"
@@ -98,12 +83,12 @@
         replacement=".patches.SearchableText"
         />
 
-    <monkey:patch
+<!--     <monkey:patch
         description="Force to all dexterity types to hide the right portlet on the add form"
         module="plone.dexterity.browser.add.DefaultAddForm"
         original="update"
         replacement=".browser.dxforms.update"
-        />
+        /> -->
 
      <monkey:patch
         description="Force to the comments portlet to show comments in descending order from most newest to the most older"

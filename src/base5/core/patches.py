@@ -109,6 +109,7 @@ def generate_user_id(self, data):
 
     This will update the 'username' key of the data that is passed.
     """
+    import ipdb;ipdb.set_trace()
     if data.get('username'):
         default = data.get('username').lower()
     elif data.get('email'):
@@ -238,12 +239,11 @@ def get_macros(self, vdata):
 #         return 'saved'
 
 
-def setMemberProperties(self, mapping, force_local=0):
+def setMemberProperties(self, mapping, force_local=0, force_empty=False):
     """ PAS-specific method to set the properties of a
         member. Ignores 'force_local', which is not reliably present.
     """
     sheets = None
-
     # We could pay attention to force_local here...
     if not IPluggableAuthService.providedBy(self.acl_users):
         # Defer to base impl in absence of PAS, a PAS user, or
@@ -266,7 +266,7 @@ def setMemberProperties(self, mapping, force_local=0):
     # property routing?
     modified = False
     for k, v in mapping.items():
-        if v is None:
+        if v is None and not force_empty:
             continue
         for sheet in sheets:
             if not sheet.hasProperty(k):
