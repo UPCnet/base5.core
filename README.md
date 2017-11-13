@@ -1,1 +1,1 @@
-# base.plone5
+# base5.core
