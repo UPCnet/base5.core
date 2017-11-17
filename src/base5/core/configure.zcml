@@ -39,7 +39,6 @@
 
   <includeDependencies package="." />
 
-  <include package=".browser" />
   <include package=".controlpanel" />
   <include file="patches.zcml" />
   <include file="components.zcml" />
