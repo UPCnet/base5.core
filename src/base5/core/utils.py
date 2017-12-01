@@ -50,7 +50,7 @@ if HAS_PAM:
     from plone.app.multilingual.interfaces import ITranslationManager
 
 
-def genweb_config():
+def base_config():
     """ Funcio que retorna les configuracions del controlpanel """
     registry = queryUtility(IRegistry)
     return registry.forInterface(IGenwebControlPanelSettings)
