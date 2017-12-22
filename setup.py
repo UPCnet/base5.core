@@ -44,7 +44,14 @@ setup(
         'z3c.jbot',
         'pyquery',
         'elasticsearch',
-        'souper.plone'
+        'souper.plone',
+        'plone.tiles',
+        'plone.subrequest',
+        'plone.app.tiles',
+        'plone.app.standardtiles',
+        'plone.app.blocks',
+        'plone.app.drafts',
+        'plone.app.mosaic'
     ],
     extras_require={
         'test': [

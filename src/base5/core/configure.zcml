@@ -12,7 +12,6 @@
   <!-- Compat with Plone 5 -->
   <include package="Products.CMFCore" file="permissions.zcml" />
 
-
   <!-- Convenience permission identifying authenticated and member users -->
 <!--   <permission
       id="base.authenticated"
@@ -36,10 +35,9 @@
 
   <grok:grok package="." />
   <i18n:registerTranslations directory="locales" />
-
   <includeDependencies package="." />
-
   <include package=".controlpanel" />
+  <include package=".browser" />
   <include file="patches.zcml" />
   <include file="components.zcml" />
   <include file="behaviors.zcml" />
