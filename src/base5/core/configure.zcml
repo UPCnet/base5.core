@@ -8,30 +8,11 @@
     xmlns:genericsetup="http://namespaces.zope.org/genericsetup"
     i18n_domain="base5.core">
 
-
-  <!-- Compat with Plone 5 -->
-  <include package="Products.CMFCore" file="permissions.zcml" />
-
   <!-- Convenience permission identifying authenticated and member users -->
-<!--   <permission
-      id="base.authenticated"
-      title="Base: Authenticated Users"
-      />
+  <permission id="base.authenticated" title="Base: Authenticated Users" />
+  <permission id="base.member" title="Base: Member Users" />
+  <permission id="base.webmaster" title="Base: Webmaster Users" />
 
-  <permission
-      id="base.member"
-      title="Base: Member Users"
-      />
-
-  <permission
-      id="base.webmaster"
-      title="Base: Webmaster Users"
-      />
-
-   <permission
-      id="base.manage.homeportlets"
-      title="Base: Manage home portlets"
-      /> -->
 
   <grok:grok package="." />
   <i18n:registerTranslations directory="locales" />
@@ -47,6 +28,11 @@
       name="base5.core"
       />
 
+  <genericsetup:importStep
+      name="base5.core.setupstep"
+      title="base5.core special import handlers"
+      description=""
+      handler="base5.core.setuphandlers.setupVarious" />
 
   <genericsetup:registerProfile
       name="default"

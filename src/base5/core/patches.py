@@ -109,7 +109,6 @@ def generate_user_id(self, data):
 
     This will update the 'username' key of the data that is passed.
     """
-    import ipdb;ipdb.set_trace()
     if data.get('username'):
         default = data.get('username').lower()
     elif data.get('email'):
