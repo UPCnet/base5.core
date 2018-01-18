@@ -4,5 +4,15 @@
     xmlns:plone="http://namespaces.plone.org/plone"
     i18n_domain="base5.core">
 
+    <browser:viewlet
+      name="contentleadimage"
+      for="plone.app.contenttypes.behaviors.leadimage.ILeadImage"
+      view="plone.app.layout.globals.interfaces.IViewView"
+      class="plone.app.contenttypes.behaviors.viewlets.LeadImageViewlet"
+      manager="plone.app.layout.viewlets.interfaces.IBelowContentTitle"
+      template="viewlets_templates/leadimage.pt"
+      layer="base5.core.interfaces.IBase5CoreLayer"
+      permission="zope2.View"
+      />
 
 </configure>
