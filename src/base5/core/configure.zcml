@@ -57,4 +57,12 @@
       factory=".setuphandlers.HiddenProfiles"
       name="base5.core-hiddenprofiles" />
 
+  <adapter
+       for="Products.PlonePAS.interfaces.membership.IMembershipTool
+            zope.interface.Interface"
+       provides="base5.core.adapters.portrait.IPortraitUploadAdapter"
+       factory="base5.core.adapters.portrait.PortraitUploadAdapter"
+       />
+
+
 </configure>

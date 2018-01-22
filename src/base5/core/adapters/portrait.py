@@ -4,7 +4,8 @@ from Products.CMFCore.utils import getToolByName
 from Products.PlonePAS.interfaces.membership import IMembershipTool
 from Products.PlonePAS.utils import scale_image
 from zope.interface import Interface
-
+from zope.interface import implements
+from zope.component import adapts
 
 class IPortraitUploadAdapter(Interface):
     """ The marker interface for the portrait upload adapter used for implement
@@ -13,10 +14,11 @@ class IPortraitUploadAdapter(Interface):
     """
 
 
-@grok.implementer(IPortraitUploadAdapter)
-@grok.adapter(IMembershipTool, Interface)
 class PortraitUploadAdapter(object):
     """ Default adapter for portrait custom actions """
+    implements(IPortraitUploadAdapter)
+    adapts(IMembershipTool, Interface)
+
     def __init__(self, context, request):
         self.context = context
         self.request = request
