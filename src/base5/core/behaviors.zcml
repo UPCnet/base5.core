@@ -3,7 +3,7 @@
     xmlns:browser="http://namespaces.zope.org/browser"
     xmlns:plone="http://namespaces.plone.org/plone"
     xmlns:grok="http://namespaces.zope.org/grok"
-    i18n_domain="base5.core">
+    i18n_domain="base">
 
   <plone:behavior
       title="Optional open link in a new window"

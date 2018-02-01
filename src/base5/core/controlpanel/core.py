@@ -133,7 +133,7 @@ class GenwebCoreControlPanelSettingsForm(controlpanel.RegistryEditForm):
     id = "GenwebCoreControlPanelSettingsForm"
     label = _(u"Genweb Core settings")
     description = _(u"help_genweb_core_settings_editform",
-                    default=u"Configuració de Genweb Core")
+                    default=u"Configuracio de Genweb Core")
 
     def updateFields(self):
         super(GenwebCoreControlPanelSettingsForm, self).updateFields()

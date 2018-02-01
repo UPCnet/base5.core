@@ -1,0 +1,564 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: GenWebUPC\n"
+"POT-Creation-Date: 2018-02-01 08:01+0000\n"
+"PO-Revision-Date: 2018-02-01 10:58+0100\n"
+"Last-Translator: \n"
+"Language-Team: Plone Team@UPCnet <plone.team@upcnet.es>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=1; plural=0;\n"
+"Language-Code: een\n"
+"Language-Name: English\n"
+"Preferred-Encodings: utf-8 latin1\n"
+"Domain: base\n"
+"Language: en\n"
+"X-Generator: Poedit 1.5.4\n"
+
+#: ../behaviors.zcml:14
+msgid "Add field to mark a link to open in a new window when clicked."
+msgstr "Add field to mark a link to open in a new window when clicked."
+
+#: ../controlpanel/core.py:57
+msgid ""
+"Cada línia és una fila d'icones. Si es deixa en blanc s'agafen els valors "
+"per defecte. Han d'omplir-se fins a 4 files obligatòriament."
+msgstr ""
+"Each line is a row of icons. If left blank the default values are taken. "
+"Must fill up to 4 rows obligatory."
+
+#: ../controlpanel/controlpanel.py:79 ../controlpanel/core.py:159
+msgid "Cancel"
+msgstr "Cancel"
+
+#: ../controlpanel/core.py:156
+msgid "Changes saved"
+msgstr "Changes saved"
+
+#: ../controlpanel/interface.py:205
+msgid "Contact emails"
+msgstr "Attendees"
+
+#: ../controlpanel/interface.py:36
+msgid "Contact information"
+msgstr "Contact information"
+
+#: ../controlpanel/interface.py:134
+msgid "Contingut de la etiqueta meta \"author\""
+msgstr "Meta tag content \"author \""
+
+#: ../controlpanel/interface.py:54
+msgid "Custom Link"
+msgstr "Send invitation"
+
+#: ../controlpanel/interface.py:20
+msgid "E-mail"
+msgstr "E-mail"
+
+#: ../controlpanel/controlpanel.py:81 ../controlpanel/core.py:161
+msgid "Edit cancelled"
+msgstr "Edit cancelled"
+
+#: ../controlpanel/interface.py:30
+msgid "General"
+msgstr "General"
+
+#: ../controlpanel/core.py:134
+msgid "Genweb Core settings"
+msgstr "Genweb UPC settings"
+
+#: ../controlpanel/controlpanel.py:26
+msgid "Genweb UPC settings"
+msgstr "Genweb UPC settings"
+
+#: ../configure.zcml:44
+msgid "Installs the base5.core add-on."
+msgstr "Installs the base5.core add-on."
+
+#: ../controlpanel/interface.py:14
+msgid "Language"
+msgstr "Language"
+
+#: ../controlpanel/core.py:56
+msgid "Llista personalitzada d'icones per l'editor TinyMCE"
+msgstr "Custom icon list for the TinyMCE editor"
+
+#: ../controlpanel/interface.py:50
+msgid "Master"
+msgstr "Master"
+
+#: ../controlpanel/interface.py:133
+msgid "Meta author tag content"
+msgstr "Meta author tag content"
+
+#: ../controlpanel/interface.py:18
+msgid "Name"
+msgstr "Contact Name"
+
+#: ../behaviors.zcml:14
+msgid "Optional open link in a new window"
+msgstr "Optional open link in a new window"
+
+#: ../controlpanel/controlpanel.py:65 ../controlpanel/core.py:144
+msgid "Save"
+msgstr "Save"
+
+#: ../controlpanel/interface.py:42
+msgid "Specific"
+msgstr "Specific"
+
+#: ../adapters/flash.py:22
+msgid "Tells if an object is marked as flash"
+msgstr "Tells if an object is marked as flash"
+
+#: ../adapters/important.py:22
+msgid "Tells if an object is marked as important"
+msgstr "Tells if an object is marked as important"
+
+#: ../adapters/outoflist.py:22
+msgid "Tells if an object is marked as outoflist"
+msgstr "Tells if an object is marked as outoflist"
+
+#: ../configure.zcml:53
+msgid "Uninstalls the base5.core add-on."
+msgstr "Uninstalls the base5.core add-on."
+
+#: ../controlpanel/core.py:49
+msgid "User properties extender"
+msgstr "User properties extender"
+
+#. Default: "alt_base_dn"
+#: ../controlpanel/core.py:100
+msgid "alt_base_dn"
+msgstr "LDAP base dn"
+
+#. Default: "LDAP base dn"
+#: ../controlpanel/core.py:102
+msgid "alt_base_dn_help"
+msgstr "LDAP base dn"
+
+#. Default: "alt_bind_dn"
+#: ../controlpanel/core.py:82
+msgid "alt_bind_dn"
+msgstr "LDAP bind dn"
+
+#. Default: "LDAP bind dn"
+#: ../controlpanel/core.py:84
+msgid "alt_bind_dn_help"
+msgstr "LDAP bind dn"
+
+#. Default: "alt_bindpasswd"
+#: ../controlpanel/core.py:91
+msgid "alt_bindpasswd"
+msgstr "LDAP bind password"
+
+#. Default: "LDAP bind password"
+#: ../controlpanel/core.py:93
+msgid "alt_bindpasswd_help"
+msgstr "LDAP bind password"
+
+#. Default: "alt_ldap_uri"
+#: ../controlpanel/core.py:73
+msgid "alt_ldap_uri"
+msgstr "LDAP uri"
+
+#. Default: "URL del servidor ldap per aquest site"
+#: ../controlpanel/core.py:75
+msgid "alt_ldap_uri_help"
+msgstr "URL del servidor LDAP per aquest lloc"
+
+#. Default: "Amaga de les eines l'enllac d'identificacio"
+#: ../controlpanel/interface.py:261
+msgid "amaga_identificacio"
+msgstr "Hide the identification link tools"
+
+#: ../configure.zcml:44
+msgid "base5.core"
+msgstr "base5.core"
+
+#: ../configure.zcml:53
+msgid "base5.core (uninstall)"
+msgstr "base5.core (uninstall)"
+
+#. Default: "Publica l'enllac customitzat"
+#: ../controlpanel/interface.py:345
+msgid "cl_enable"
+msgstr "Publish customized link"
+
+#. Default: "Obre en una nova finestra"
+#: ../controlpanel/interface.py:336
+msgid "cl_oinw"
+msgstr "25/5000Open in a new window"
+
+#. Default: "Link title [CA]"
+#: ../controlpanel/interface.py:312
+msgid "cl_title_ca"
+msgstr "Web title with HTML tags (bolds) [CA]"
+
+#. Default: "Link title [EN]"
+#: ../controlpanel/interface.py:396
+msgid "cl_title_en"
+msgstr "Web title with HTML tags (bolds) [EN]"
+
+#. Default: "Link title [ES]"
+#: ../controlpanel/interface.py:354
+msgid "cl_title_es"
+msgstr "Web title with HTML tags (bolds) [ES]"
+
+#. Default: "Pagina de contacte personalitzada"
+#: ../controlpanel/interface.py:151
+msgid "contacte_BBBDD_or_page"
+msgstr "Alternative contact page"
+
+#. Default: "Adreca de contacte al peu"
+#: ../controlpanel/interface.py:160
+msgid "contacte_al_peu"
+msgstr "Contact address at the bottom of the page"
+
+#. Default: "ID contacte de la unitat"
+#: ../controlpanel/interface.py:142
+msgid "contacte_id"
+msgstr "The unit’s contact ID"
+
+#. Default: "Contacte sense UPCmaps"
+#: ../controlpanel/interface.py:187
+msgid "contacte_no_upcmaps"
+msgstr "Disable UPCmaps"
+
+#. Default: "Create packet UPC at root"
+#: ../controlpanel/interface.py:301
+msgid "create_packet"
+msgstr "Create packet UPC at root"
+
+#. Default: "Directori UPC filtrat a les eines"
+#: ../controlpanel/interface.py:178
+msgid "directori_filtrat"
+msgstr "UPC Directory filtered into tools"
+
+#. Default: "Directori UPC a les eines"
+#: ../controlpanel/interface.py:169
+msgid "directori_upc"
+msgstr "UPC directory in the toolbar"
+
+#. Default: "ElasticSearch"
+#: ../controlpanel/core.py:64
+msgid "elasticsearch"
+msgstr "ElasticSearch"
+
+#. Default: "URL del servidor d'ElasticSearch per aquest site"
+#: ../controlpanel/core.py:66
+msgid "elasticsearch_help"
+msgstr "ElasticSearch server URL for this site"
+
+#. Default: "Color especific 1"
+#: ../controlpanel/interface.py:216
+msgid "especific1"
+msgstr "Specific color 1"
+
+#. Default: "Color especific 2"
+#: ../controlpanel/interface.py:225
+msgid "especific2"
+msgstr "Specific color 2"
+
+#. Default: "groups_query"
+#: ../controlpanel/core.py:109
+msgid "groups_query"
+msgstr "LDAP query for groups"
+
+#. Default: "LDAP groups query. Ex: (&(objectClass=groupOfNames))"
+#: ../controlpanel/core.py:111
+msgid "groups_query_help"
+msgstr ""
+"LDAP query for groups. Ex: (|(objectClass=groupOfNames)"
+"(objectClass=groupOfUniqueNames))"
+
+#. Default: "Amaga de les eines l'enllac d'identificacio ..."
+#: ../controlpanel/interface.py:263
+msgid "help_amaga_identificacio"
+msgstr "Hide tools with identification link ..."
+
+#. Default: "Selecciona per publicar l'enllac"
+#: ../controlpanel/interface.py:347
+msgid "help_cl_enable"
+msgstr "Select to publish the link"
+
+#. Default: "URL de l'enllac a la imatge que es mostrara al menu superior dret"
+#: ../controlpanel/interface.py:330
+msgid "help_cl_img"
+msgstr ""
+"URL of the link to the image that will be displayed in the upper right menu"
+
+#. Default: "Selecciona per obrir en una nova finestra"
+#: ../controlpanel/interface.py:338
+msgid "help_cl_oinw"
+msgstr "Select to open in a new window"
+
+#. Default: "Literal de l'enllac que es mostrara al menu superior dret"
+#: ../controlpanel/interface.py:314
+msgid "help_cl_title"
+msgstr "Literal link that will be displayed in the upper right menu"
+
+#. Default: "URL de l'enllac que es mostrara al menu superior dret"
+#: ../controlpanel/interface.py:322
+msgid "help_cl_url"
+msgstr "URL of the link that will be displayed in the upper right menu"
+
+#. Default: "Per defecte, la informacio de contacte prove de la base de dades de SCP, sota peticio."
+#: ../controlpanel/interface.py:153
+msgid "help_contacte_BBBDD_or_page"
+msgstr ""
+"By default, the contact information proves from the SCP database, upon "
+"request."
+
+#. Default: "La informacio provinent de la base de dades de SCP es visualitzen al peu de la pagina."
+#: ../controlpanel/interface.py:162
+msgid "help_contacte_al_peu"
+msgstr ""
+"The information from the SCP database is displayed at the bottom of the page."
+
+#. Default: "Afegiu el id de contacte de la base de dades de masters."
+#: ../controlpanel/interface.py:144
+msgid "help_contacte_id"
+msgstr "Add the contact id of the master's database."
+
+#. Default: "Es pot seleccionar a qui s'envia el missatge de contacte."
+#: ../controlpanel/interface.py:198
+msgid "help_contacte_multi_email"
+msgstr "You can select the contact who receives the messages."
+
+#. Default: "Es mostra la informacio d'UPCmaps al contacte."
+#: ../controlpanel/interface.py:189
+msgid "help_contacte_no_upcmaps"
+msgstr "UPCmaps information will be hidden with the contact details."
+
+#. Default: "help_create_packet"
+#: ../controlpanel/interface.py:303
+msgid "help_create_packet"
+msgstr "Create a UPC package at the root"
+
+#. Default: "S'obrira el Directori UPC, carregant les dades de la unitat."
+#: ../controlpanel/interface.py:180
+msgid "help_directori_filtrat"
+msgstr "The UPC directory will open and show the unit’s details."
+
+#. Default: "Es mostrara a la part superior l'enllac al Directori UPC."
+#: ../controlpanel/interface.py:171
+msgid "help_directori_upc"
+msgstr "The link to the UPC directory will be shown at the top."
+
+#: ../controlpanel/interface.py:208
+msgid "help_email_table"
+msgstr "Add name and email by language"
+
+#. Default: "Add name and email by language"
+#: ../controlpanel/interface.py:206
+msgid "help_emails_table"
+msgstr "Add name and email by language"
+
+#. Default: "Afegiu el color especific 1. es aquell que..."
+#: ../controlpanel/interface.py:218
+msgid "help_especific1"
+msgstr "Add the specific color 1"
+
+#. Default: "Afegiu el color especific 2. es aquell que..."
+#: ../controlpanel/interface.py:227
+msgid "help_especific2"
+msgstr "Add the specific color 2"
+
+#. Default: "Configuracio de Genweb Core"
+#: ../controlpanel/core.py:135
+msgid "help_genweb_core_settings_editform"
+msgstr "Genweb Core configuration"
+
+#. Default: "Configuracio de Genweb UPC ..."
+#: ../controlpanel/controlpanel.py:27
+msgid "help_genweb_settings_editform"
+msgstr "Settings Genweb UPC ..."
+
+#. Default: "Afegiu el titol del Genweb. Podeu incloure tags HTML"
+#: ../controlpanel/interface.py:64
+msgid "help_html_title_ca"
+msgstr "Add title of Genweb. You can include tags HTML"
+
+#. Default: "Afegiu el titol del Genweb. Podeu incloure tags HTML."
+#: ../controlpanel/interface.py:82
+msgid "help_html_title_en"
+msgstr "Add title of Genweb. You can include tags HTML"
+
+#. Default: "Afegiu el titol del Genweb. Podeu incloure tags HTML"
+#: ../controlpanel/interface.py:73
+msgid "help_html_title_es"
+msgstr "Add title of Genweb. You can include tags HTML"
+
+#. Default: "Afegiu el id de l'estudi de la base de dades de masters."
+#: ../controlpanel/interface.py:293
+msgid "help_idestudi_master"
+msgstr "Add the study ID of the master database"
+
+#. Default: "Aquests seran els idiomes publicats a la web, els idiomes no especificats no seran publics pero seran visibles pels gestors (editors)."
+#: ../controlpanel/interface.py:272
+msgid "help_idiomes_publicats"
+msgstr ""
+"These languages will be published on the website, languages not specified "
+"not be public but will be visible to managers (editors)."
+
+#. Default: "help_languages_link_to_root"
+#: ../controlpanel/interface.py:282
+msgid "help_languages_link_to_root"
+msgstr ""
+"Selecting this option makes that all the clicks on the languages combo "
+"always redirects to the site root."
+
+#: ../behaviors/openlinkin.py:22
+msgid "help_open_link_in_new_window"
+msgstr "You must include http:// at the beginning to make an external link"
+
+#. Default: "Afegiu el text alternatiu (alt) del logo dret de la capcalera."
+#: ../controlpanel/interface.py:127
+msgid "help_right_logo_alt"
+msgstr "Add alternative text (alt) to the right logo of the header"
+
+#. Default: "Mostra o no el logo dret de la capcalera."
+#: ../controlpanel/interface.py:118
+msgid "help_right_logo_enabled"
+msgstr "Show or not the right header logo"
+
+#. Default: "Es el literal que apareix al peu de pagina o el text alternatiu del logotip (centres docents)."
+#: ../controlpanel/interface.py:91
+msgid "help_signatura_unitat_ca"
+msgstr ""
+"It is the literal that appears at the bottom of the page or in the "
+"alternative text of the logo (educational centers)."
+
+#. Default: "Es el literal que apareix al peu de pagina o el text alternatiu del logotip (centres docents)."
+#: ../controlpanel/interface.py:109
+msgid "help_signatura_unitat_en"
+msgstr ""
+"It is the literal that appears at the bottom of the page or in the "
+"alternative text of the logo (educational centers)."
+
+#. Default: "Es el literal que apareix al peu de pagina o el text alternatiu del logotip (centres docents)."
+#: ../controlpanel/interface.py:100
+msgid "help_signatura_unitat_es"
+msgstr ""
+"It is the literal that appears at the bottom of the page or in the "
+"alternative text of the logo (educational centers)."
+
+#. Default: "Treu les icones per compartir en xarxes socials ..."
+#: ../controlpanel/interface.py:254
+msgid "help_treu_icones_xarxes_socials"
+msgstr "Hide icons to share in social networks ..."
+
+#. Default: "Treiem la imatge de la capcalera per ..."
+#: ../controlpanel/interface.py:236
+msgid "help_treu_imatge_capsalera"
+msgstr "Hide the header image by ..."
+
+#. Default: "Treu el menu horitzontal ..."
+#: ../controlpanel/interface.py:245
+msgid "help_treu_menu_horitzontal"
+msgstr "Hide horizontal menu ..."
+
+#. Default: "Titol del web amb HTML tags (negretes) [CA]"
+#: ../controlpanel/interface.py:62
+msgid "html_title_ca"
+msgstr "Web title with HTML tags (bolds) [CA]"
+
+#. Default: "Titol del web amb HTML tags (negretes) [EN]"
+#: ../controlpanel/interface.py:80
+msgid "html_title_en"
+msgstr "Web title with HTML tags (bolds) [EN]"
+
+#. Default: "Titol del web amb HTML tags (negretes) [ES]"
+#: ../controlpanel/interface.py:71
+msgid "html_title_es"
+msgstr "Web title with HTML tags (bolds) [ES]"
+
+#. Default: "id_estudi"
+#: ../controlpanel/interface.py:291
+msgid "idestudi_master"
+msgstr "id_study"
+
+#. Default: "Idiomes publicats al web"
+#: ../controlpanel/interface.py:270
+msgid "idiomes_publicats"
+msgstr "Languages activated on the website"
+
+#. Default: "Enllac per a la icona del menu superior"
+#: ../controlpanel/interface.py:328
+msgid "img_cl"
+msgstr "Link to the top menu icon"
+
+#. Default: "languages_link_to_root"
+#: ../controlpanel/interface.py:280
+msgid "languages_link_to_root"
+msgstr ""
+"Redirect to site root when the user clicks on the languages availables on "
+"the site"
+
+#. Default: "Seleccionar l'adreca d'enviament"
+#: ../controlpanel/interface.py:196
+msgid "multi_email"
+msgstr "Select shipping address"
+
+#: ../behaviors/openlinkin.py:21
+msgid "open_link_in_new_window"
+msgstr "Open in a new window?"
+
+#. Default: "Text alternatiu del logo dret"
+#: ../controlpanel/interface.py:125
+msgid "right_logo_alt"
+msgstr "Alternative text to right logo"
+
+#. Default: "Mostrar logo dret"
+#: ../controlpanel/interface.py:116
+msgid "right_logo_enabled"
+msgstr "Show right logo"
+
+#. Default: "Signatura de la unitat [CA]"
+#: ../controlpanel/interface.py:89
+msgid "signatura_unitat_ca"
+msgstr "Signature unit [CA]"
+
+#. Default: "Signatura de la unitat [EN]"
+#: ../controlpanel/interface.py:107
+msgid "signatura_unitat_en"
+msgstr "Signature unit [EN]"
+
+#. Default: "Signatura de la unitat [ES]"
+#: ../controlpanel/interface.py:98
+msgid "signatura_unitat_es"
+msgstr "Signature unit [ES]"
+
+#. Default: "Treu les icones per compartir en xarxes socials"
+#: ../controlpanel/interface.py:252
+msgid "treu_icones_xarxes_socials"
+msgstr "Hide icons to share in social networks"
+
+#. Default: "Treu la imatge de la capcalera"
+#: ../controlpanel/interface.py:234
+msgid "treu_imatge_capsalera"
+msgstr "Hide the header image"
+
+#. Default: "Treu el menu horitzontal"
+#: ../controlpanel/interface.py:243
+msgid "treu_menu_horitzontal"
+msgstr "Hide horizontal menu"
+
+#. Default: "Enllac per al menu superior"
+#: ../controlpanel/interface.py:320
+msgid "url_cl"
+msgstr "Link to the top menu"
+
+#. Default: "user_groups_query"
+#: ../controlpanel/core.py:118
+msgid "user_groups_query"
+msgstr "LDAP query for group users"
+
+#. Default: "LDAP user groups query. Ex: (&(objectClass=groupOfNames)(member=%s))"
+#: ../controlpanel/core.py:120
+msgid "user_groups_query_help"
+msgstr ""
+"LDAP query for group users. Ex:(&(objectClass=groupOfUniqueNames)"
+"(uniqueMember=%s))"

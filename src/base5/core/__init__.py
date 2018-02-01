@@ -3,7 +3,7 @@
 
 from zope.i18nmessageid import MessageFactory
 
-_ = MessageFactory('base5.core')
+_ = MessageFactory('base')
 
 import pkg_resources
 
@@ -35,4 +35,3 @@ except pkg_resources.DistributionNotFound:
     IAMULEARN = False
 else:
     IAMULEARN = True
-

@@ -25,7 +25,7 @@ class GenwebControlPanelSettingsForm(controlpanel.RegistryEditForm):
     id = "GenwebControlPanelSettingsForm"
     label = _(u"Genweb UPC settings")
     description = _(u"help_genweb_settings_editform",
-                    default=u"Configuració de Genweb UPC ...")
+                    default=u"Configuracio de Genweb UPC ...")
 
     def updateFields(self):
         super(GenwebControlPanelSettingsForm, self).updateFields()
