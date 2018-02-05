@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: GenWebUPC\n"
-"POT-Creation-Date: 2018-02-01 08:01+0000\n"
+"POT-Creation-Date: 2018-02-05 10:03+0000\n"
 "PO-Revision-Date: 2018-02-01 10:58+0100\n"
 "Last-Translator: \n"
 "Language-Team: Plone Team@UPCnet <plone.team@upcnet.es>\n"
@@ -21,14 +21,11 @@ msgid "Add field to mark a link to open in a new window when clicked."
 msgstr "Add field to mark a link to open in a new window when clicked."
 
 #: ../controlpanel/core.py:57
-msgid ""
-"Cada línia és una fila d'icones. Si es deixa en blanc s'agafen els valors "
-"per defecte. Han d'omplir-se fins a 4 files obligatòriament."
-msgstr ""
-"Each line is a row of icons. If left blank the default values are taken. "
-"Must fill up to 4 rows obligatory."
+msgid "Cada línia és una fila d'icones. Si es deixa en blanc s'agafen els valors per defecte. Han d'omplir-se fins a 4 files obligatòriament."
+msgstr "Each line is a row of icons. If left blank the default values are taken. Must fill up to 4 rows obligatory."
 
-#: ../controlpanel/controlpanel.py:79 ../controlpanel/core.py:159
+#: ../controlpanel/controlpanel.py:79
+#: ../controlpanel/core.py:159
 msgid "Cancel"
 msgstr "Cancel"
 
@@ -56,7 +53,8 @@ msgstr "Send invitation"
 msgid "E-mail"
 msgstr "E-mail"
 
-#: ../controlpanel/controlpanel.py:81 ../controlpanel/core.py:161
+#: ../controlpanel/controlpanel.py:81
+#: ../controlpanel/core.py:161
 msgid "Edit cancelled"
 msgstr "Edit cancelled"
 
@@ -100,7 +98,8 @@ msgstr "Contact Name"
 msgid "Optional open link in a new window"
 msgstr "Optional open link in a new window"
 
-#: ../controlpanel/controlpanel.py:65 ../controlpanel/core.py:144
+#: ../controlpanel/controlpanel.py:65
+#: ../controlpanel/core.py:144
 msgid "Save"
 msgstr "Save"
 
@@ -269,9 +268,7 @@ msgstr "LDAP query for groups"
 #. Default: "LDAP groups query. Ex: (&(objectClass=groupOfNames))"
 #: ../controlpanel/core.py:111
 msgid "groups_query_help"
-msgstr ""
-"LDAP query for groups. Ex: (|(objectClass=groupOfNames)"
-"(objectClass=groupOfUniqueNames))"
+msgstr "LDAP query for groups. Ex: (|(objectClass=groupOfNames)(objectClass=groupOfUniqueNames))"
 
 #. Default: "Amaga de les eines l'enllac d'identificacio ..."
 #: ../controlpanel/interface.py:263
@@ -286,8 +283,7 @@ msgstr "Select to publish the link"
 #. Default: "URL de l'enllac a la imatge que es mostrara al menu superior dret"
 #: ../controlpanel/interface.py:330
 msgid "help_cl_img"
-msgstr ""
-"URL of the link to the image that will be displayed in the upper right menu"
+msgstr "URL of the link to the image that will be displayed in the upper right menu"
 
 #. Default: "Selecciona per obrir en una nova finestra"
 #: ../controlpanel/interface.py:338
@@ -307,15 +303,12 @@ msgstr "URL of the link that will be displayed in the upper right menu"
 #. Default: "Per defecte, la informacio de contacte prove de la base de dades de SCP, sota peticio."
 #: ../controlpanel/interface.py:153
 msgid "help_contacte_BBBDD_or_page"
-msgstr ""
-"By default, the contact information proves from the SCP database, upon "
-"request."
+msgstr "By default, the contact information proves from the SCP database, upon request."
 
 #. Default: "La informacio provinent de la base de dades de SCP es visualitzen al peu de la pagina."
 #: ../controlpanel/interface.py:162
 msgid "help_contacte_al_peu"
-msgstr ""
-"The information from the SCP database is displayed at the bottom of the page."
+msgstr "The information from the SCP database is displayed at the bottom of the page."
 
 #. Default: "Afegiu el id de contacte de la base de dades de masters."
 #: ../controlpanel/interface.py:144
@@ -399,16 +392,12 @@ msgstr "Add the study ID of the master database"
 #. Default: "Aquests seran els idiomes publicats a la web, els idiomes no especificats no seran publics pero seran visibles pels gestors (editors)."
 #: ../controlpanel/interface.py:272
 msgid "help_idiomes_publicats"
-msgstr ""
-"These languages will be published on the website, languages not specified "
-"not be public but will be visible to managers (editors)."
+msgstr "These languages will be published on the website, languages not specified not be public but will be visible to managers (editors)."
 
 #. Default: "help_languages_link_to_root"
 #: ../controlpanel/interface.py:282
 msgid "help_languages_link_to_root"
-msgstr ""
-"Selecting this option makes that all the clicks on the languages combo "
-"always redirects to the site root."
+msgstr "Selecting this option makes that all the clicks on the languages combo always redirects to the site root."
 
 #: ../behaviors/openlinkin.py:22
 msgid "help_open_link_in_new_window"
@@ -427,23 +416,17 @@ msgstr "Show or not the right header logo"
 #. Default: "Es el literal que apareix al peu de pagina o el text alternatiu del logotip (centres docents)."
 #: ../controlpanel/interface.py:91
 msgid "help_signatura_unitat_ca"
-msgstr ""
-"It is the literal that appears at the bottom of the page or in the "
-"alternative text of the logo (educational centers)."
+msgstr "It is the literal that appears at the bottom of the page or in the alternative text of the logo (educational centers)."
 
 #. Default: "Es el literal que apareix al peu de pagina o el text alternatiu del logotip (centres docents)."
 #: ../controlpanel/interface.py:109
 msgid "help_signatura_unitat_en"
-msgstr ""
-"It is the literal that appears at the bottom of the page or in the "
-"alternative text of the logo (educational centers)."
+msgstr "It is the literal that appears at the bottom of the page or in the alternative text of the logo (educational centers)."
 
 #. Default: "Es el literal que apareix al peu de pagina o el text alternatiu del logotip (centres docents)."
 #: ../controlpanel/interface.py:100
 msgid "help_signatura_unitat_es"
-msgstr ""
-"It is the literal that appears at the bottom of the page or in the "
-"alternative text of the logo (educational centers)."
+msgstr "It is the literal that appears at the bottom of the page or in the alternative text of the logo (educational centers)."
 
 #. Default: "Treu les icones per compartir en xarxes socials ..."
 #: ../controlpanel/interface.py:254
@@ -493,9 +476,7 @@ msgstr "Link to the top menu icon"
 #. Default: "languages_link_to_root"
 #: ../controlpanel/interface.py:280
 msgid "languages_link_to_root"
-msgstr ""
-"Redirect to site root when the user clicks on the languages availables on "
-"the site"
+msgstr "Redirect to site root when the user clicks on the languages availables on the site"
 
 #. Default: "Seleccionar l'adreca d'enviament"
 #: ../controlpanel/interface.py:196
@@ -559,6 +540,4 @@ msgstr "LDAP query for group users"
 #. Default: "LDAP user groups query. Ex: (&(objectClass=groupOfNames)(member=%s))"
 #: ../controlpanel/core.py:120
 msgid "user_groups_query_help"
-msgstr ""
-"LDAP query for group users. Ex:(&(objectClass=groupOfUniqueNames)"
-"(uniqueMember=%s))"
+msgstr "LDAP query for group users. Ex:(&(objectClass=groupOfUniqueNames)(uniqueMember=%s))"

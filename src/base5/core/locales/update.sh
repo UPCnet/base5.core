@@ -10,3 +10,10 @@ domain=base
 
 i18ndude rebuild-pot --pot $domain.pot --create $domain ../
 i18ndude sync --pot $domain.pot */LC_MESSAGES/$domain.po
+
+
+domainPortlets=base5.portlets
+
+i18ndude rebuild-pot --pot $domainPortlets.pot --create $domainPortlets \
+../../../../../base5.portlets/base5/portlets/
+i18ndude sync --pot $domainPortlets.pot */LC_MESSAGES/$domainPortlets.po
