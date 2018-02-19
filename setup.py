@@ -51,7 +51,8 @@ setup(
         'plone.app.standardtiles',
         'plone.app.blocks',
         'plone.app.drafts',
-        'plone.app.mosaic'
+        'plone.app.mosaic',
+        'collective.dexteritytextindexer'
     ],
     extras_require={
         'test': [

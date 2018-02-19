@@ -13,4 +13,14 @@
       for="plone.dexterity.interfaces.IDexterityContent"
       />
 
+  <plone:behavior
+    name="base5.richtext"
+    title="Searchable RichText"
+    description="Adds searchable richtext behavior"
+    provides=".behaviors.richtext.IRichTextCustom"
+    factory=".behaviors.richtext.RichTextCustom"
+    for="plone.dexterity.interfaces.IDexterityContent"
+    marker=".behaviors.richtext.IRichTextCustom"
+    />
+
 </configure>
