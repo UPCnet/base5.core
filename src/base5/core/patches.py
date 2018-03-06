@@ -703,7 +703,7 @@ def deletePersonalPortrait(self, id=None):
         raise Unauthorized
 
     # The plugable actions for how to handle the portrait.
-    portrait_url = portal_url()+'/defaultUser.png'
+    portrait_url = portal_url()+'/++theme++ulearn5/assets/images/defaultUser.png'
     imgData = requests.get(portrait_url).content
     image = StringIO(imgData)
     image.filename = 'defaultUser'
