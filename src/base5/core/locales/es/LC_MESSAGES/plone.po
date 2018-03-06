@@ -24,6 +24,9 @@ msgstr "Añade un comentario"
 msgid "comment_description_plain_text"
 msgstr "Puede agregar un comentario rellenando el siguiente formulario."
 
+msgid "label_login_to_add_comments"
+msgstr "Inicia sesión para agregar comentarios"
+
 
 ### plone.app.locales - Add/Edit type tabs and contents ###
 
