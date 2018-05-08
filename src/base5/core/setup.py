@@ -1,10 +1,13 @@
 import os
+import transaction
 from five import grok
 from zope.interface import Interface
 from zope.interface import alsoProvides
+from zope.component import getUtility
 from zope.component.hooks import getSite
+from plone.registry.interfaces import IRegistry
 
-from Products.CMFPlone.interfaces import IPloneSiteRoot
+from Products.CMFPlone.interfaces import IPloneSiteRoot, ITinyMCESchema
 from Products.CMFCore.utils import getToolByName
 from Products.PluggableAuthService.interfaces.plugins import IUserAdderPlugin, IPropertiesPlugin
 from Products.PlonePAS.interfaces.group import IGroupManagement
@@ -40,6 +43,48 @@ logger = logging.getLogger(__name__)
 
 LDAP_PASSWORD = os.environ.get('ldapbindpasswd', '')
 
+
+class setupTinyMCEConfigPlone5(grok.View):
+    """ Setup view for tinymce config """
+    grok.name('setuptinymce')
+    grok.context(Interface)
+    grok.require('cmf.ManagePortal')
+
+    def render(self):
+        try:
+            from plone.protect.interfaces import IDisableCSRFProtection
+            alsoProvides(self.request, IDisableCSRFProtection)
+        except:
+            pass
+        settings = getUtility(IRegistry).forInterface(
+            ITinyMCESchema,
+            prefix="plone",
+            check=False
+            )
+        settings.resizing = True
+        settings.autoresize = True
+        settings.editor_width = u'100%'
+        settings.editor_height = u'250'
+        settings.formats = u'{"clearfix": {"classes": "clearfix", "block": "div"}, "discreet": {"inline": "span", "classes": "discreet"}, "alerta": {"inline": "span", "classes": "bg-warning", "styles": {"padding": "15px"}}, "banner-minimal": {"inline": "a", "classes": "link-banner-minimal"}, "banner": {"inline": "a", "classes": "link-banner"}, "exit": {"inline": "span", "classes": "bg-success", "styles": {"padding": "15px"}}, "perill": {"inline": "span", "classes": "bg-danger", "styles": {"padding": "15px"}}, "small": {"inline": "small"}, "destacat": {"inline": "p", "classes": "lead"}, "marcat": {"inline": "mark"}, "preformat": {"inline": "pre", "styles": {"outline-style": "none"}}}'
+        settings.plugins.append('anchor')
+        settings.plugins.append('autosave')
+        settings.plugins.append('charmap')
+        settings.plugins.append('colorpicker')
+        settings.plugins.append('contextmenu')
+        settings.plugins.append('directionality')
+        settings.plugins.append('emoticons')
+        settings.plugins.append('fullpage')
+        settings.plugins.append('insertdatetime')
+        settings.plugins.append('layer')
+        settings.plugins.append('textcolor')
+        settings.plugins.append('textpattern')
+        settings.plugins.append('visualblocks')
+        settings.toolbar = u'undo redo | styleselect formatselect | fullscreen | code | save | preview | template | cut copy  paste  pastetext | searchreplace  textpattern selectallltr |  removeformat | anchor |  inserttable tableprops deletetable cell row column | rtl |  bold italic underline strikethrough superscript subscript | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent | unlink plonelink ploneimage | forecolor backcolor |'
+        settings.custom_plugins.append('template|+plone+static/components/tinymce-builded/js/tinymce/plugins/template')
+        settings.other_settings = u'{"forced_root_block": false, "cleanup": false, "valid_elements": "*[*]", "valid_children": "+a[img|div|h2|p]"}'
+        transaction.commit()
+
+        return "TinyMCE configuration applied."
 
 class setupDX(grok.View):
     """ Setup View that fixes p.a.ct front-page
