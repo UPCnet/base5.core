@@ -1,38 +1,23 @@
 from plone import api
 from Products.CMFCore.utils import getToolByName
 import json
-import urllib2
-import requests
 import unicodedata
 
-from five import grok
-from plone import api
 from AccessControl import getSecurityManager
-from zope.component import getMultiAdapter, queryUtility
+from zope.component import queryUtility
 from zope.i18nmessageid import MessageFactory
 from zope.component.hooks import getSite
 from zope.component import getUtility
 
-from plone.memoize import ram
 from plone.registry.interfaces import IRegistry
 
-from Products.CMFCore.utils import getToolByName
-from Products.Five.browser import BrowserView
-from Products.ATContentTypes.interface.folder import IATFolder
-from Products.CMFPlone.interfaces.siteroot import IPloneSiteRoot
 from Products.PlonePAS.tools.memberdata import MemberData
 from Products.PlonePAS.plugins.ufactory import PloneUser
 from souper.interfaces import ICatalogFactory
 from repoze.catalog.query import Eq
 from souper.soup import get_soup
 from souper.soup import Record
-from zope.interface import implementer
-from zope.component import provideUtility
 from zope.component import getUtilitiesFor
-from repoze.catalog.catalog import Catalog
-from repoze.catalog.indexes.field import CatalogFieldIndex
-from souper.soup import NodeAttributeIndexer
-from plone.uuid.interfaces import IMutableUUID
 
 from base5.core import HAS_PAM
 from base5.core import IAMULEARN
