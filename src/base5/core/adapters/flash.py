@@ -11,7 +11,7 @@ from plone.dexterity.interfaces import IDexterityContent
 
 from base5.core import _
 
-FLASH_KEY = 'genweb.core.flash'
+FLASH_KEY = 'base5.core.flash'
 
 
 class IFlash(Interface):

@@ -52,7 +52,8 @@ setup(
         'plone.app.blocks',
         'plone.app.drafts',
         'plone.app.mosaic',
-        'collective.dexteritytextindexer'
+        'collective.dexteritytextindexer',
+        'Products.PloneLDAP'
     ],
     extras_require={
         'test': [

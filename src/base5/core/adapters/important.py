@@ -11,7 +11,7 @@ from plone.dexterity.interfaces import IDexterityContent
 
 from base5.core import _
 
-IMPORTANT_KEY = 'genweb.core.important'
+IMPORTANT_KEY = 'base5.core.important'
 
 
 class IImportant(Interface):

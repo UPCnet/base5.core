@@ -26,106 +26,6 @@
       <role name="WebMaster"/>
       <role name="Manager"/>
     </permission>
-    <permission name="ATContentTypes Topic: Add ATBooleanCriterion"
-                acquire="True">
-      <role name="Contributor"/>
-    </permission>
-    <permission name="ATContentTypes Topic: Add ATCurrentAuthorCriterion"
-                acquire="True">
-      <role name="Contributor"/>
-    </permission>
-    <permission name="ATContentTypes Topic: Add ATDateCriteria"
-                acquire="True">
-      <role name="Contributor"/>
-    </permission>
-    <permission name="ATContentTypes Topic: Add ATDateRangeCriterion"
-                acquire="True">
-      <role name="Contributor"/>
-    </permission>
-    <permission name="ATContentTypes Topic: Add ATListCriterion"
-                acquire="True">
-      <role name="Contributor"/>
-    </permission>
-    <permission name="ATContentTypes Topic: Add ATPathCriterion"
-                acquire="True">
-      <role name="Contributor"/>
-    </permission>
-    <permission name="ATContentTypes Topic: Add ATPortalTypeCriterion"
-                acquire="True">
-      <role name="Contributor"/>
-    </permission>
-    <permission name="ATContentTypes Topic: Add ATReferenceCriterion"
-                acquire="True">
-      <role name="Contributor"/>
-    </permission>
-    <permission name="ATContentTypes Topic: Add ATRelativePathCriterion"
-                acquire="True">
-      <role name="Contributor"/>
-    </permission>
-    <permission name="ATContentTypes Topic: Add ATSelectionCriterion"
-                acquire="True">
-      <role name="Contributor"/>
-    </permission>
-    <permission name="ATContentTypes Topic: Add ATSimpleIntCriterion"
-                acquire="True">
-      <role name="Contributor"/>
-    </permission>
-    <permission name="ATContentTypes Topic: Add ATSimpleStringCriterion"
-                acquire="True">
-      <role name="Contributor"/>
-    </permission>
-    <permission name="ATContentTypes Topic: Add ATSortCriterion"
-                acquire="True">
-      <role name="Contributor"/>
-    </permission>
-    <permission name="ATContentTypes: Add Document"
-                acquire="True">
-      <role name="Contributor"/>
-      <role name="Manager"/>
-      <role name="Owner"/>
-    </permission>
-    <permission name="ATContentTypes: Add Event"
-                acquire="True">
-      <role name="Contributor"/>
-      <role name="Manager"/>
-      <role name="Owner"/>
-    </permission>
-    <permission name="ATContentTypes: Add File"
-                acquire="True">
-      <role name="Contributor"/>
-      <role name="Manager"/>
-      <role name="Owner"/>
-    </permission>
-    <permission name="ATContentTypes: Add Folder"
-                acquire="True">
-      <role name="Contributor"/>
-      <role name="Manager"/>
-      <role name="Owner"/>
-    </permission>
-    <permission name="ATContentTypes: Add Image"
-                acquire="True">
-      <role name="Contributor"/>
-      <role name="Manager"/>
-      <role name="Owner"/>
-    </permission>
-    <permission name="ATContentTypes: Add Large Plone Folder"
-                acquire="True">
-      <role name="Contributor"/>
-      <role name="Manager"/>
-      <role name="Owner"/>
-    </permission>
-    <permission name="ATContentTypes: Add Link"
-                acquire="True">
-      <role name="Contributor"/>
-      <role name="Manager"/>
-      <role name="Owner"/>
-    </permission>
-    <permission name="ATContentTypes: Add News Item"
-                acquire="True">
-      <role name="Contributor"/>
-      <role name="Manager"/>
-      <role name="Owner"/>
-    </permission>
     <permission name="Access contents information"
                 acquire="True">
       <role name="Contributor"/>
@@ -152,9 +52,6 @@
     <permission name="Add portal member" acquire="False">
       <role name="Manager"/>
       <role name="Owner"/>
-    </permission>
-    <permission name="Add portal topics" acquire="True">
-      <role name="Contributor"/>
     </permission>
     <permission name="Allow sendto" acquire="True">
       <role name="Authenticated"/>
@@ -198,12 +95,6 @@
       <role name="Manager"/>
       <role name="Owner"/>
       <role name="Reviewer"/>
-    </permission>
-    <permission name="Change portal topics" acquire="True">
-      <role name="Editor"/>
-      <role name="Manager"/>
-      <role name="Owner"/>
-      <role name="WebMaster"/>
     </permission>
     <permission name="Content rules: Manage rules"
                 acquire="False">
@@ -325,24 +216,6 @@
                 acquire="True">
       <role name="Manager"/>
       <role name="Owner"/>
-    </permission>
-    <permission name="iterate : Check in content"
-                acquire="True">
-      <role name="Editor"/>
-      <role name="Manager"/>
-      <role name="Owner"/>
-    </permission>
-    <permission name="iterate : Check out content"
-                acquire="True">
-      <role name="Editor"/>
-      <role name="Manager"/>
-      <role name="Owner"/>
-    </permission>
-    <permission name="plone.app.blob: Add Blob"
-                acquire="False">
-      <role name="Contributor"/>
-      <role name="Manager"/>
-      <role name="WebMaster"/>
     </permission>
     <permission name="plone.portlet.collection: Add collection portlet"
                 acquire="False">

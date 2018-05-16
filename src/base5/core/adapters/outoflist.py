@@ -11,7 +11,7 @@ from plone.dexterity.interfaces import IDexterityContent
 
 from base5.core import _
 
-OUTOFLIST_KEY = 'genweb.core.outoflist'
+OUTOFLIST_KEY = 'base5.core.outoflist'
 
 
 class IOutOfList(Interface):
