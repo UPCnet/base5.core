@@ -2,11 +2,11 @@ Changelog
 =========
 
 
-0.2 (unreleased)
+0.2 (2018-05-31)
 ----------------
 
-- Nothing changed yet.
-
+* Delete user catalog [Pilar Marinas]
+* Vista setupldapexterns: Enlazar al controlpanel correcto [iago.lopez]
 
 0.1 (2018-05-22)
 ----------------
