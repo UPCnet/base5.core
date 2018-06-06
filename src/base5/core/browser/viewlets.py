@@ -47,7 +47,8 @@ class baseResourcesViewlet(grok.Viewlet):
         if self.is_devel_mode():
             return self.get_development_resources()
         else:
-            return self.get_production_resources()
+            # Disable angular loaded two times in production
+            return None
 
     @forever.memoize
     def get_development_resources(self):
