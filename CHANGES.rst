@@ -2,11 +2,11 @@ Changelog
 =========
 
 
-0.3 (unreleased)
+0.3 (2018-06-07)
 ----------------
 
-- Nothing changed yet.
-
+* SOLVED: Angular loaded 2 times in production mode, disabled [Roberto Diaz]
+* Add coding [alberto.duran]
 
 0.2 (2018-05-31)
 ----------------
