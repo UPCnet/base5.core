@@ -66,8 +66,8 @@ class setupTinyMCEConfigPlone5(grok.View):
         settings.autoresize = True
         settings.editor_width = u'100%'
         settings.editor_height = u'250'
+        settings.header_styles = [u'Header 2|h2', u'Header 3|h3', u'Header 4|h4']
         settings.formats = u'{"clearfix": {"classes": "clearfix", "block": "div"}, "discreet": {"inline": "span", "classes": "discreet"}, "alerta": {"inline": "span", "classes": "bg-warning", "styles": {"padding": "15px"}}, "banner-minimal": {"inline": "a", "classes": "link-banner-minimal"}, "banner": {"inline": "a", "classes": "link-banner"}, "exit": {"inline": "span", "classes": "bg-success", "styles": {"padding": "15px"}}, "perill": {"inline": "span", "classes": "bg-danger", "styles": {"padding": "15px"}}, "small": {"inline": "small"}, "destacat": {"inline": "p", "classes": "lead"}, "marcat": {"inline": "mark"}, "preformat": {"inline": "pre", "styles": {"outline-style": "none"}}}'
-        settings.plugins.append('anchor')
         settings.plugins.append('autosave')
         settings.plugins.append('charmap')
         settings.plugins.append('colorpicker')
@@ -76,7 +76,6 @@ class setupTinyMCEConfigPlone5(grok.View):
         settings.plugins.append('emoticons')
         settings.plugins.append('fullpage')
         settings.plugins.append('insertdatetime')
-        settings.plugins.append('layer')
         settings.plugins.append('textcolor')
         settings.plugins.append('textpattern')
         settings.plugins.append('visualblocks')
@@ -85,7 +84,11 @@ class setupTinyMCEConfigPlone5(grok.View):
         settings.other_settings = u'{"forced_root_block": false, "cleanup": false, "valid_elements": "*[*]", "valid_children": "+a[img|div|h2|p]"}'
         transaction.commit()
 
-        return "TinyMCE configuration applied."
+        from Products.CMFPlone.interfaces import IMarkupSchema
+        markup_settings = getUtility(IRegistry).forInterface(IMarkupSchema, prefix='plone')
+        markup_settings.allowed_types = ('text/html', 'text/x-web-markdown', 'text/x-web-textile')
+
+        return "TinyMCE configuration and markdown applied"
 
 class setupDX(grok.View):
     """ Setup View that fixes p.a.ct front-page
