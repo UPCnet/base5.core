@@ -455,8 +455,11 @@ class DeleteUserPropertiesCatalog(grok.View):
     grok.require('cmf.ManagePortal')
 
     def render(self):
-        if CSRF:
+        try:
+            from plone.protect.interfaces import IDisableCSRFProtection
             alsoProvides(self.request, IDisableCSRFProtection)
+        except:
+            pass
 
         portal = api.portal.get()
         plugins = portal.acl_users.plugins.listPlugins(IPropertiesPlugin)
