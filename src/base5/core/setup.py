@@ -118,10 +118,11 @@ class setupLDAPUPC(grok.View):
 
                 plugin = portal.acl_users['ldapUPC']
 
-                plugin.manage_activateInterfaces(['IGroupEnumerationPlugin',
-                                                  'IGroupsPlugin',
+                plugin.manage_activateInterfaces(['IAuthenticationPlugin',
+                                                  'IGroupEnumerationPlugin',
                                                   'IGroupIntrospection',
-                                                  'IAuthenticationPlugin',
+                                                  'IGroupsPlugin',
+                                                  'IRolesPlugin',
                                                   'IUserEnumerationPlugin'])
 
                 plugin.ZCacheable_setManagerId('RAMCache')
