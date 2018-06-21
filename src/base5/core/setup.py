@@ -162,7 +162,9 @@ class setupLDAPExterns(grok.View):
             pass
         portal = getSite()
 
-        if 'branch' in self.request.form and self.request.form['branch'] != '':
+        if 'branch' not in self.request.form:
+            raise ValueError("Mandatory parameter 'branch' was not specified")
+        else:
             branch = self.request.form['branch']
 
             users_base='ou=users,ou='+ branch +',dc=upcnet,dc=es'
