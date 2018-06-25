@@ -1,11 +1,12 @@
 from five import grok
 from zope.interface import implementer
-from zope.component import provideUtility
 from repoze.catalog.catalog import Catalog
 from repoze.catalog.indexes.field import CatalogFieldIndex
 from repoze.catalog.indexes.text import CatalogTextIndex
 from souper.interfaces import ICatalogFactory
 from souper.soup import NodeAttributeIndexer
+
+from base5.core import _
 
 
 @implementer(ICatalogFactory)
@@ -38,7 +39,7 @@ class UserPropertiesSoupCatalogFactory(object):
         The directory_icons is the dict containing the correspondency with the
         field names and the icon.
     """
-    properties = ['username', 'fullname', 'email', 'location', 'ubicacio', 'telefon', 'twitter_username']
+    properties = [_(u'username'), _(u'fullname'), _(u'email'), _(u'description'), _(u'location'), _(u'ubicacio'), _(u'telefon'), _(u'twitter_username'), _(u'home_page')]
     profile_properties = ['email', 'description', 'location', 'ubicacio', 'telefon', 'twitter_username', 'home_page']
     directory_properties = ['email', 'telefon', 'location', 'ubicacio']
     directory_icons = {'email': 'fa fa-envelope', 'telefon': 'fa fa-mobile', 'location': 'fa fa-building-o', 'ubicacio': 'fa fa-user'}
@@ -67,6 +68,8 @@ class UserPropertiesSoupCatalogFactory(object):
         twitter_username = NodeAttributeIndexer('twitter_username')
         catalog['twitter_username'] = CatalogTextIndex(twitter_username)
         return catalog
+
+
 grok.global_utility(UserPropertiesSoupCatalogFactory, name='user_properties')
 
 
@@ -89,4 +92,6 @@ class GroupsSoupCatalogFactory(object):
         idsearchableindexer = NodeAttributeIndexer('searchable_id')
         catalog['searchable_id'] = CatalogTextIndex(idsearchableindexer)
         return catalog
+
+
 grok.global_utility(GroupsSoupCatalogFactory, name='ldap_groups')

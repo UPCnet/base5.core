@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: GenWebUPC\n"
-"POT-Creation-Date: 2018-02-05 10:03+0000\n"
+"POT-Creation-Date: 2018-06-25 07:02+0000\n"
 "PO-Revision-Date: 2018-02-05 10:50+0100\n"
 "Last-Translator: \n"
 "Language-Team: Plone Team@UPCnet <plone.team@upcnet.es>\n"
