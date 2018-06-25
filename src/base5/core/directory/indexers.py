@@ -33,6 +33,10 @@ class UserPropertiesSoupCatalogFactory(object):
         The profile_properties is the list of the user properties displayed on
         the profile page, ordered.
 
+        The public_properties is the list of the profile_properties searchable,
+        those that have not been added will be private. If you do not add
+        public_properties all the fields will be public.
+
         The directory_properties is the list of the user properties directory
         properties for display on the directory views, ordered.
 
