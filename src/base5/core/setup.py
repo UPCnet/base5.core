@@ -339,7 +339,8 @@ class view_user_catalog(grok.View):
 
 
 class reset_user_catalog(grok.View):
-    """ Reset the OMEGA13 repoze.catalog for user properties data """
+    """ Reset the OMEGA13 repoze.catalog for user properties data.
+    Add the force parameter to call correctly."""
 
     grok.context(IPloneSiteRoot)
     grok.name('reset_user_catalog')
@@ -353,8 +354,12 @@ class reset_user_catalog(grok.View):
             pass
 
         from base5.core.utils import reset_user_catalog
-        reset_user_catalog()
-        return 'Done.'
+        if 'force' in self.request.form:
+            reset_user_catalog()
+            return 'Done.'
+        else:
+            return 'Error, you have to add the force parameter'
+
 
 
 class rebuild_user_catalog(grok.View):
