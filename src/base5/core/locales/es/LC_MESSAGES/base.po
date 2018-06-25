@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: GenWebUPC\n"
-"POT-Creation-Date: 2018-06-25 07:02+0000\n"
+"POT-Creation-Date: 2018-06-25 09:37+0000\n"
 "PO-Revision-Date: 2018-02-01 09:54+0100\n"
 "Last-Translator: \n"
 "Language-Team: Plone Team@UPCnet <plone.team@upcnet.es>\n"
@@ -22,7 +22,7 @@ msgstr "Añade un campo para marcar un enlace para abrirlo en una nueva ventana 
 
 #: ../behaviors.zcml:24
 msgid "Adds searchable richtext behavior"
-msgstr ""
+msgstr "Agrega el texto enriquecido como buscable"
 
 #: ../controlpanel/core.py:57
 msgid "Cada línia és una fila d'icones. Si es deixa en blanc s'agafen els valors per defecte. Han d'omplir-se fins a 4 files obligatòriament."
@@ -76,35 +76,35 @@ msgstr "Instala el complemento base5.core."
 
 #: ../browser/views.py:111
 msgid "L'element es mostra a la App"
-msgstr ""
+msgstr "El elemento se muestra en la App"
 
 #: ../browser/views.py:108
 msgid "L'element no es mostra a la App"
-msgstr ""
+msgstr "El elemento no se muestra en la App"
 
 #: ../browser/views.py:68
 msgid "L'element s'ha desmarcat com flash"
-msgstr ""
+msgstr "El elemento se ha desmarcado como flash"
 
 #: ../browser/views.py:48
 msgid "L'element s'ha desmarcat com important"
-msgstr ""
+msgstr "El elemento se ha desmarcado como importante"
 
 #: ../browser/views.py:88
 msgid "L'element s'ha desmarcat de la blacklist"
-msgstr ""
+msgstr "El elemento se ha desmarcado como blacklist"
 
 #: ../browser/views.py:91
 msgid "L'element s'ha marcat com a blacklist"
-msgstr ""
+msgstr "El elemento ha desmarcado como blacklist"
 
 #: ../browser/views.py:71
 msgid "L'element s'ha marcat com flash"
-msgstr ""
+msgstr "El elemento ha desmarcado como flash"
 
 #: ../browser/views.py:51
 msgid "L'element s'ha marcat com important"
-msgstr ""
+msgstr "El elemento ha desmarcado como importante"
 
 #: ../controlpanel/interface.py:14
 msgid "Language"
@@ -137,7 +137,7 @@ msgstr "Guardar"
 
 #: ../behaviors.zcml:24
 msgid "Searchable RichText"
-msgstr ""
+msgstr "Texto enriquecido buscable"
 
 #: ../controlpanel/interface.py:42
 msgid "Specific"
@@ -157,11 +157,11 @@ msgstr "Determina si un elemento es marcado como outflist"
 
 #: ../adapters/showinapp.py:22
 msgid "Tells if an object is shown in App"
-msgstr ""
+msgstr "Indica si un objeto se muestra en la aplicación"
 
 #: ../behaviors/richtext.py:20
 msgid "Text"
-msgstr ""
+msgstr "Texto"
 
 #: ../configure.zcml:53
 msgid "Uninstalls the base5.core add-on."

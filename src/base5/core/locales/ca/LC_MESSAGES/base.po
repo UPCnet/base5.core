@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: GenWebUPC\n"
-"POT-Creation-Date: 2018-06-25 07:02+0000\n"
+"POT-Creation-Date: 2018-06-25 09:37+0000\n"
 "PO-Revision-Date: 2018-02-01 08:59+0100\n"
 "Last-Translator: \n"
 "Language-Team: Plone Team@UPCnet <plone.team@upcnet.es>\n"
@@ -22,7 +22,7 @@ msgstr "Afegeix un camp per marcar un enllaç per obrir-lo en una finestra nova 
 
 #: ../behaviors.zcml:24
 msgid "Adds searchable richtext behavior"
-msgstr ""
+msgstr "Afegeix el text enriquit com a acercable"
 
 #: ../controlpanel/core.py:57
 msgid "Cada línia és una fila d'icones. Si es deixa en blanc s'agafen els valors per defecte. Han d'omplir-se fins a 4 files obligatòriament."
@@ -80,31 +80,31 @@ msgstr ""
 
 #: ../browser/views.py:108
 msgid "L'element no es mostra a la App"
-msgstr ""
+msgstr "L'element no es mostra a la App"
 
 #: ../browser/views.py:68
 msgid "L'element s'ha desmarcat com flash"
-msgstr ""
+msgstr "L'element s'ha desmarcat com flash"
 
 #: ../browser/views.py:48
 msgid "L'element s'ha desmarcat com important"
-msgstr ""
+msgstr "L'element s'ha desmarcat com important"
 
 #: ../browser/views.py:88
 msgid "L'element s'ha desmarcat de la blacklist"
-msgstr ""
+msgstr "L'element s'ha desmarcat de la blacklist"
 
 #: ../browser/views.py:91
 msgid "L'element s'ha marcat com a blacklist"
-msgstr ""
+msgstr "L'element s'ha marcat com a blacklist"
 
 #: ../browser/views.py:71
 msgid "L'element s'ha marcat com flash"
-msgstr ""
+msgstr "L'element s'ha marcat com flash"
 
 #: ../browser/views.py:51
 msgid "L'element s'ha marcat com important"
-msgstr ""
+msgstr "L'element s'ha marcat com important"
 
 #: ../controlpanel/interface.py:14
 msgid "Language"
@@ -137,7 +137,7 @@ msgstr "Desa"
 
 #: ../behaviors.zcml:24
 msgid "Searchable RichText"
-msgstr ""
+msgstr "Text enriquit cercabe"
 
 #: ../controlpanel/interface.py:42
 msgid "Specific"
@@ -161,7 +161,7 @@ msgstr ""
 
 #: ../behaviors/richtext.py:20
 msgid "Text"
-msgstr ""
+msgstr "Text"
 
 #: ../configure.zcml:53
 msgid "Uninstalls the base5.core add-on."
