@@ -4,7 +4,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
-"POT-Creation-Date: 2018-02-05 10:03+0000\n"
+"POT-Creation-Date: 2018-06-25 08:42+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI +ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -21,6 +21,10 @@ msgstr ""
 msgid "Add field to mark a link to open in a new window when clicked."
 msgstr ""
 
+#: ../behaviors.zcml:24
+msgid "Adds searchable richtext behavior"
+msgstr ""
+
 #: ../controlpanel/core.py:57
 msgid "Cada línia és una fila d'icones. Si es deixa en blanc s'agafen els valors per defecte. Han d'omplir-se fins a 4 files obligatòriament."
 msgstr ""
@@ -32,10 +36,6 @@ msgstr ""
 
 #: ../controlpanel/core.py:156
 msgid "Changes saved"
-msgstr ""
-
-#: ../controlpanel/interface.py:205
-msgid "Contact emails"
 msgstr ""
 
 #: ../controlpanel/interface.py:36
@@ -75,6 +75,38 @@ msgstr ""
 msgid "Installs the base5.core add-on."
 msgstr ""
 
+#: ../browser/views.py:111
+msgid "L'element es mostra a la App"
+msgstr ""
+
+#: ../browser/views.py:108
+msgid "L'element no es mostra a la App"
+msgstr ""
+
+#: ../browser/views.py:68
+msgid "L'element s'ha desmarcat com flash"
+msgstr ""
+
+#: ../browser/views.py:48
+msgid "L'element s'ha desmarcat com important"
+msgstr ""
+
+#: ../browser/views.py:88
+msgid "L'element s'ha desmarcat de la blacklist"
+msgstr ""
+
+#: ../browser/views.py:91
+msgid "L'element s'ha marcat com a blacklist"
+msgstr ""
+
+#: ../browser/views.py:71
+msgid "L'element s'ha marcat com flash"
+msgstr ""
+
+#: ../browser/views.py:51
+msgid "L'element s'ha marcat com important"
+msgstr ""
+
 #: ../controlpanel/interface.py:14
 msgid "Language"
 msgstr ""
@@ -104,6 +136,10 @@ msgstr ""
 msgid "Save"
 msgstr ""
 
+#: ../behaviors.zcml:24
+msgid "Searchable RichText"
+msgstr ""
+
 #: ../controlpanel/interface.py:42
 msgid "Specific"
 msgstr ""
@@ -118,6 +154,14 @@ msgstr ""
 
 #: ../adapters/outoflist.py:22
 msgid "Tells if an object is marked as outoflist"
+msgstr ""
+
+#: ../adapters/showinapp.py:22
+msgid "Tells if an object is shown in App"
+msgstr ""
+
+#: ../behaviors/richtext.py:20
+msgid "Text"
 msgstr ""
 
 #: ../configure.zcml:53
@@ -169,7 +213,7 @@ msgid "alt_ldap_uri_help"
 msgstr ""
 
 #. Default: "Amaga de les eines l'enllac d'identificacio"
-#: ../controlpanel/interface.py:261
+#: ../controlpanel/interface.py:252
 msgid "amaga_identificacio"
 msgstr ""
 
@@ -182,27 +226,27 @@ msgid "base5.core (uninstall)"
 msgstr ""
 
 #. Default: "Publica l'enllac customitzat"
-#: ../controlpanel/interface.py:345
+#: ../controlpanel/interface.py:336
 msgid "cl_enable"
 msgstr ""
 
 #. Default: "Obre en una nova finestra"
-#: ../controlpanel/interface.py:336
+#: ../controlpanel/interface.py:327
 msgid "cl_oinw"
 msgstr ""
 
 #. Default: "Link title [CA]"
-#: ../controlpanel/interface.py:312
+#: ../controlpanel/interface.py:303
 msgid "cl_title_ca"
 msgstr ""
 
 #. Default: "Link title [EN]"
-#: ../controlpanel/interface.py:396
+#: ../controlpanel/interface.py:387
 msgid "cl_title_en"
 msgstr ""
 
 #. Default: "Link title [ES]"
-#: ../controlpanel/interface.py:354
+#: ../controlpanel/interface.py:345
 msgid "cl_title_es"
 msgstr ""
 
@@ -227,7 +271,7 @@ msgid "contacte_no_upcmaps"
 msgstr ""
 
 #. Default: "Create packet UPC at root"
-#: ../controlpanel/interface.py:301
+#: ../controlpanel/interface.py:292
 msgid "create_packet"
 msgstr ""
 
@@ -252,12 +296,12 @@ msgid "elasticsearch_help"
 msgstr ""
 
 #. Default: "Color especific 1"
-#: ../controlpanel/interface.py:216
+#: ../controlpanel/interface.py:207
 msgid "especific1"
 msgstr ""
 
 #. Default: "Color especific 2"
-#: ../controlpanel/interface.py:225
+#: ../controlpanel/interface.py:216
 msgid "especific2"
 msgstr ""
 
@@ -272,32 +316,32 @@ msgid "groups_query_help"
 msgstr ""
 
 #. Default: "Amaga de les eines l'enllac d'identificacio ..."
-#: ../controlpanel/interface.py:263
+#: ../controlpanel/interface.py:254
 msgid "help_amaga_identificacio"
 msgstr ""
 
 #. Default: "Selecciona per publicar l'enllac"
-#: ../controlpanel/interface.py:347
+#: ../controlpanel/interface.py:338
 msgid "help_cl_enable"
 msgstr ""
 
 #. Default: "URL de l'enllac a la imatge que es mostrara al menu superior dret"
-#: ../controlpanel/interface.py:330
+#: ../controlpanel/interface.py:321
 msgid "help_cl_img"
 msgstr ""
 
 #. Default: "Selecciona per obrir en una nova finestra"
-#: ../controlpanel/interface.py:338
+#: ../controlpanel/interface.py:329
 msgid "help_cl_oinw"
 msgstr ""
 
 #. Default: "Literal de l'enllac que es mostrara al menu superior dret"
-#: ../controlpanel/interface.py:314
+#: ../controlpanel/interface.py:305
 msgid "help_cl_title"
 msgstr ""
 
 #. Default: "URL de l'enllac que es mostrara al menu superior dret"
-#: ../controlpanel/interface.py:322
+#: ../controlpanel/interface.py:313
 msgid "help_cl_url"
 msgstr ""
 
@@ -327,7 +371,7 @@ msgid "help_contacte_no_upcmaps"
 msgstr ""
 
 #. Default: "help_create_packet"
-#: ../controlpanel/interface.py:303
+#: ../controlpanel/interface.py:294
 msgid "help_create_packet"
 msgstr ""
 
@@ -341,22 +385,13 @@ msgstr ""
 msgid "help_directori_upc"
 msgstr ""
 
-#: ../controlpanel/interface.py:208
-msgid "help_email_table"
-msgstr ""
-
-#. Default: "Add name and email by language"
-#: ../controlpanel/interface.py:206
-msgid "help_emails_table"
-msgstr ""
-
 #. Default: "Afegiu el color especific 1. es aquell que..."
-#: ../controlpanel/interface.py:218
+#: ../controlpanel/interface.py:209
 msgid "help_especific1"
 msgstr ""
 
 #. Default: "Afegiu el color especific 2. es aquell que..."
-#: ../controlpanel/interface.py:227
+#: ../controlpanel/interface.py:218
 msgid "help_especific2"
 msgstr ""
 
@@ -386,17 +421,17 @@ msgid "help_html_title_es"
 msgstr ""
 
 #. Default: "Afegiu el id de l'estudi de la base de dades de masters."
-#: ../controlpanel/interface.py:293
+#: ../controlpanel/interface.py:284
 msgid "help_idestudi_master"
 msgstr ""
 
 #. Default: "Aquests seran els idiomes publicats a la web, els idiomes no especificats no seran publics pero seran visibles pels gestors (editors)."
-#: ../controlpanel/interface.py:272
+#: ../controlpanel/interface.py:263
 msgid "help_idiomes_publicats"
 msgstr ""
 
 #. Default: "help_languages_link_to_root"
-#: ../controlpanel/interface.py:282
+#: ../controlpanel/interface.py:273
 msgid "help_languages_link_to_root"
 msgstr ""
 
@@ -430,17 +465,17 @@ msgid "help_signatura_unitat_es"
 msgstr ""
 
 #. Default: "Treu les icones per compartir en xarxes socials ..."
-#: ../controlpanel/interface.py:254
+#: ../controlpanel/interface.py:245
 msgid "help_treu_icones_xarxes_socials"
 msgstr ""
 
 #. Default: "Treiem la imatge de la capcalera per ..."
-#: ../controlpanel/interface.py:236
+#: ../controlpanel/interface.py:227
 msgid "help_treu_imatge_capsalera"
 msgstr ""
 
 #. Default: "Treu el menu horitzontal ..."
-#: ../controlpanel/interface.py:245
+#: ../controlpanel/interface.py:236
 msgid "help_treu_menu_horitzontal"
 msgstr ""
 
@@ -460,22 +495,22 @@ msgid "html_title_es"
 msgstr ""
 
 #. Default: "id_estudi"
-#: ../controlpanel/interface.py:291
+#: ../controlpanel/interface.py:282
 msgid "idestudi_master"
 msgstr ""
 
 #. Default: "Idiomes publicats al web"
-#: ../controlpanel/interface.py:270
+#: ../controlpanel/interface.py:261
 msgid "idiomes_publicats"
 msgstr ""
 
 #. Default: "Enllac per a la icona del menu superior"
-#: ../controlpanel/interface.py:328
+#: ../controlpanel/interface.py:319
 msgid "img_cl"
 msgstr ""
 
 #. Default: "languages_link_to_root"
-#: ../controlpanel/interface.py:280
+#: ../controlpanel/interface.py:271
 msgid "languages_link_to_root"
 msgstr ""
 
@@ -514,22 +549,22 @@ msgid "signatura_unitat_es"
 msgstr ""
 
 #. Default: "Treu les icones per compartir en xarxes socials"
-#: ../controlpanel/interface.py:252
+#: ../controlpanel/interface.py:243
 msgid "treu_icones_xarxes_socials"
 msgstr ""
 
 #. Default: "Treu la imatge de la capcalera"
-#: ../controlpanel/interface.py:234
+#: ../controlpanel/interface.py:225
 msgid "treu_imatge_capsalera"
 msgstr ""
 
 #. Default: "Treu el menu horitzontal"
-#: ../controlpanel/interface.py:243
+#: ../controlpanel/interface.py:234
 msgid "treu_menu_horitzontal"
 msgstr ""
 
 #. Default: "Enllac per al menu superior"
-#: ../controlpanel/interface.py:320
+#: ../controlpanel/interface.py:311
 msgid "url_cl"
 msgstr ""
 
