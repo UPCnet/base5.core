@@ -1,35 +1,27 @@
 # -*- coding: utf-8 -*-
-from five import grok
-from plone import api
-from itertools import chain
-from zExceptions import NotFound
-
 from Acquisition import aq_inner
-
-from zope.interface import Interface
-from zope.component import queryUtility
-from zope.component import getMultiAdapter
-from zope.component.hooks import getSite
-
+from base5.core import _
+from base5.core.adapters import IFlash
+from base5.core.adapters import IImportant
+from base5.core.adapters import IOutOfList
+from base5.core.adapters import IShowInApp
+from base5.core.interfaces import IBase5CoreLayer
+from five import grok
+from itertools import chain
+from plone import api
 from plone.app.contenttypes.interfaces import IDocument
 from plone.dexterity.interfaces import IDexterityContent
 from plone.registry.interfaces import IRegistry
-
-from Products.statusmessages.interfaces import IStatusMessage
 from Products.CMFPlone.interfaces import IPloneSiteRoot
-
-from base5.core.interfaces import IBase5CoreLayer
-
-from base5.core.adapters import IImportant
-from base5.core.adapters import IFlash
-from base5.core.adapters import IOutOfList
-from base5.core.adapters import IShowInApp
-
+from Products.statusmessages.interfaces import IStatusMessage
+from repoze.catalog.query import Eq
 from souper.soup import get_soup
 from souper.soup import Record
-from repoze.catalog.query import Eq
-
-from base5.core import _
+from zExceptions import NotFound
+from zope.component import getMultiAdapter
+from zope.component import queryUtility
+from zope.component.hooks import getSite
+from zope.interface import Interface
 
 import json
 

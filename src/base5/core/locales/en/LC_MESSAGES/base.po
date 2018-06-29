@@ -76,35 +76,35 @@ msgstr "Installs the base5.core add-on."
 
 #: ../browser/views.py:111
 msgid "L'element es mostra a la App"
-msgstr "The item is displayed in the App"
+msgstr "The item is displayed in the App."
 
 #: ../browser/views.py:108
 msgid "L'element no es mostra a la App"
-msgstr "The item isn't displayed in the App"
+msgstr "The item isn't displayed in the App."
 
 #: ../browser/views.py:68
 msgid "L'element s'ha desmarcat com flash"
-msgstr "The item has been unmarked as a flash"
+msgstr "The item hasn't been showed as flash."
 
 #: ../browser/views.py:48
 msgid "L'element s'ha desmarcat com important"
-msgstr "The item has been unmarked as a important"
+msgstr "The item hasn't been showed as important."
 
 #: ../browser/views.py:88
 msgid "L'element s'ha desmarcat de la blacklist"
-msgstr "The item has been unmarked as a blacklist"
+msgstr "The item has been removed from the news set of all communities."
 
 #: ../browser/views.py:91
 msgid "L'element s'ha marcat com a blacklist"
-msgstr "The item has been marked as a blacklist"
+msgstr "The item has been added to the news set of all communities."
 
 #: ../browser/views.py:71
 msgid "L'element s'ha marcat com flash"
-msgstr "The item has been marked as a flash"
+msgstr "The item has been showed as flash."
 
 #: ../browser/views.py:51
 msgid "L'element s'ha marcat com important"
-msgstr "The item has been marked as a important"
+msgstr "The item has been showed as important."
 
 #: ../controlpanel/interface.py:14
 msgid "Language"

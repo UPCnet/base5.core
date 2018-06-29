@@ -76,35 +76,35 @@ msgstr "Instala el complemento base5.core."
 
 #: ../browser/views.py:111
 msgid "L'element es mostra a la App"
-msgstr "El elemento se muestra en la App"
+msgstr "El elemento se muestra en la App."
 
 #: ../browser/views.py:108
 msgid "L'element no es mostra a la App"
-msgstr "El elemento no se muestra en la App"
+msgstr "El elemento no se muestra en la App."
 
 #: ../browser/views.py:68
 msgid "L'element s'ha desmarcat com flash"
-msgstr "El elemento se ha desmarcado como flash"
+msgstr "El elemento no se muestra en los flash informativos."
 
 #: ../browser/views.py:48
 msgid "L'element s'ha desmarcat com important"
-msgstr "El elemento se ha desmarcado como importante"
+msgstr "El elemento no se muestra como importante."
 
 #: ../browser/views.py:88
 msgid "L'element s'ha desmarcat de la blacklist"
-msgstr "El elemento se ha desmarcado como blacklist"
+msgstr "El elemento se ha eliminado del conjunto de noticias de todas las comunidades."
 
 #: ../browser/views.py:91
 msgid "L'element s'ha marcat com a blacklist"
-msgstr "El elemento ha desmarcado como blacklist"
+msgstr "El elemento se ha añadido al conjunto de noticias de todas las comunidades."
 
 #: ../browser/views.py:71
 msgid "L'element s'ha marcat com flash"
-msgstr "El elemento ha desmarcado como flash"
+msgstr "El elemento se muestra en los flash informativos."
 
 #: ../browser/views.py:51
 msgid "L'element s'ha marcat com important"
-msgstr "El elemento ha desmarcado como importante"
+msgstr "El elemento se muestra como importante."
 
 #: ../controlpanel/interface.py:14
 msgid "Language"
