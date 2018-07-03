@@ -2,11 +2,16 @@ Changelog
 =========
 
 
-0.4 (unreleased)
+0.4 (2018-07-03)
 ----------------
 
-- Nothing changed yet.
-
+* traduccions [root@comunitatsdevel]
+* Traducciones [iago.lopez]
+* Update parameter [root@comunitatsdevel]
+* Update plugins for setupldapupc [alberto.duran]
+* Update ldap configs [alberto.duran]
+* Disable CSRF in delete_user_catalog [Pilar Marinas]
+* Update view for tinymce configurator [alberto.duran]
 
 0.3 (2018-06-07)
 ----------------
