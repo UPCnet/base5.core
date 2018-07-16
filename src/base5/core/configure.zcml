@@ -6,6 +6,7 @@
     xmlns:browser="http://namespaces.zope.org/browser"
     xmlns:grok="http://namespaces.zope.org/grok"
     xmlns:genericsetup="http://namespaces.zope.org/genericsetup"
+    xmlns:plone="http://namespaces.plone.org/plone"
     i18n_domain="base">
 
   <!-- Convenience permission identifying authenticated and member users -->
@@ -13,14 +14,23 @@
   <permission id="base.member" title="Base: Member Users" />
   <permission id="base.webmaster" title="Base: Webmaster Users" />
 
-
   <grok:grok package="." />
   <i18n:registerTranslations directory="locales" />
   <includeDependencies package="." />
+
   <include package=".controlpanel" />
   <include package=".browser" />
-  <include file="patches.zcml" />
+  <include package=".portlets" />
+
   <include file="behaviors.zcml" />
+  <include file="patches.zcml" />
+
+  <!-- ++base++portlets -->
+  <plone:static
+      directory="portlets"
+      type="base"
+      name="portlets"
+      />
 
   <interface
       interface=".interfaces.IBase5CoreLayer"
@@ -51,7 +61,6 @@
       provides="Products.GenericSetup.interfaces.EXTENSION"
       post_handler=".setuphandlers.uninstall"
       />
-
 
   <utility
       factory=".setuphandlers.HiddenProfiles"
