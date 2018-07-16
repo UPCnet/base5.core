@@ -21,7 +21,6 @@ msgid "A skinnable portlet which displays the results of a query"
 msgstr ""
 
 #: ../portlets/smart/smart.py:235
-#, fuzzy
 msgid "Add Query Portlet"
 msgstr "Add Query Portlet"
 
@@ -62,7 +61,6 @@ msgid "Custom Link"
 msgstr "Send invitation"
 
 #: ../portlets/smart/smart.py:45
-#, fuzzy
 msgid "Description of the portlet"
 msgstr "Description of the portlet"
 
@@ -71,7 +69,6 @@ msgid "E-mail"
 msgstr "E-mail"
 
 #: ../portlets/smart/smart.py:250
-#, fuzzy
 msgid "Edit Collection Portlet"
 msgstr "Edit Collection Portlet"
 
@@ -92,7 +89,6 @@ msgid "Genweb UPC settings"
 msgstr "Genweb UPC settings"
 
 #: ../portlets/smart/smart.py:93
-#, fuzzy
 msgid ""
 "If enabled, items will be selected randomly from the collection, rather than "
 "based on its sort order."
@@ -137,7 +133,6 @@ msgid "L'element s'ha marcat com important"
 msgstr "The item has been marked as a important"
 
 #: ../portlets/smart/smart.py:105
-#, fuzzy
 msgid "Label the 'Show more link' defined avobe"
 msgstr "Label the 'Show more link' defined avobe"
 
@@ -146,12 +141,10 @@ msgid "Language"
 msgstr "Language"
 
 #: ../portlets/smart/smart.py:86
-#, fuzzy
 msgid "Limit"
 msgstr "Limit"
 
 #: ../portlets/smart/smart.py:100
-#, fuzzy
 msgid "Link to display in the footer, leave empty to hide it"
 msgstr "Link to display in the footer, leave empty to hide it"
 
@@ -176,27 +169,22 @@ msgid "Optional open link in a new window"
 msgstr "Optional open link in a new window"
 
 #: ../portlets/smart/smart.py:81
-#, fuzzy
 msgid "Override query sort order using folder order"
 msgstr "Override query sort order using folder order"
 
 #: ../portlets/smart/smart.py:44
-#, fuzzy
 msgid "Portlet description"
 msgstr "Portlet description"
 
 #: ../portlets/smart/smart.py:32
-#, fuzzy
 msgid "Portlet header"
 msgstr "Portlet header"
 
 #: ../portlets/smart/smart.py:50
-#, fuzzy
 msgid "Portlet view to use"
 msgstr "Portlet view to use"
 
 #: ../portlets/smart/smart.py:38
-#, fuzzy
 msgid "Renders the header"
 msgstr "Renders the header"
 
@@ -209,32 +197,26 @@ msgid "Searchable RichText"
 msgstr "Searchable RichText"
 
 #: ../portlets/smart/smart.py:92
-#, fuzzy
 msgid "Select random items"
 msgstr "Select random items"
 
 #: ../portlets/smart/smart.py:99
-#, fuzzy
 msgid "Show more link"
 msgstr "Show more link"
 
 #: ../portlets/smart/smart.py:104
-#, fuzzy
 msgid "Show more link text"
 msgstr "Show more link text"
 
 #: ../profiles/default/portlets.xml
-#, fuzzy
 msgid "Smart portlet"
 msgstr "Description of the portlet"
 
 #: ../portlets/smart/smart.py:68
-#, fuzzy
 msgid "Sort the collection on this index"
 msgstr "Sort the collection on this index"
 
 #: ../portlets/smart/smart.py:75
-#, fuzzy
 msgid "Sort the results in reversed order"
 msgstr "Sort the results in reversed order"
 
@@ -243,7 +225,6 @@ msgid "Specific"
 msgstr "Specific"
 
 #: ../portlets/smart/smart.py:87
-#, fuzzy
 msgid ""
 "Specify the maximum number of items to show in the portlet. Leave this blank "
 "to show all items."
@@ -272,12 +253,10 @@ msgid "Text"
 msgstr "Text"
 
 #: ../portlets/smart/smart.py:236
-#, fuzzy
 msgid "This portlet displays a listing of items from a Collection."
 msgstr "This portlet displays a listing of items from a Collection."
 
 #: ../portlets/smart/smart.py:33
-#, fuzzy
 msgid "Title of the rendered portlet"
 msgstr "Title of the rendered portlet"
 
@@ -660,37 +639,31 @@ msgstr "Link to the top menu icon"
 
 #. Default: "Portlet view to use"
 #: ../portlets/smart/smart.py:49
-#, fuzzy
 msgid "label_container_view"
 msgstr "Portlet view to use"
 
 #. Default: "Search terms"
 #: ../portlets/smart/smart.py:56
-#, fuzzy
 msgid "label_query"
 msgstr "Search terms"
 
 #. Default: "Show header"
 #: ../portlets/smart/smart.py:37
-#, fuzzy
 msgid "label_show_header"
 msgstr "Show header"
 
 #. Default: "Order as in folder"
 #: ../portlets/smart/smart.py:80
-#, fuzzy
 msgid "label_sort_folderorder"
 msgstr "Order as in folder"
 
 #. Default: "Sort on"
 #: ../portlets/smart/smart.py:67
-#, fuzzy
 msgid "label_sort_on"
 msgstr "Sort on"
 
 #. Default: "Reversed order"
 #: ../portlets/smart/smart.py:74
-#, fuzzy
 msgid "label_sort_reversed"
 msgstr "Reversed order"
 

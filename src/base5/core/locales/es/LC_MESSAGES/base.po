@@ -21,7 +21,6 @@ msgid "A skinnable portlet which displays the results of a query"
 msgstr ""
 
 #: ../portlets/smart/smart.py:235
-#, fuzzy
 msgid "Add Query Portlet"
 msgstr "Añadir Portlet Query"
 
@@ -64,7 +63,6 @@ msgid "Custom Link"
 msgstr "Hoy"
 
 #: ../portlets/smart/smart.py:45
-#, fuzzy
 msgid "Description of the portlet"
 msgstr "Descripción del portlet"
 
@@ -73,7 +71,6 @@ msgid "E-mail"
 msgstr "Mensaje enviado"
 
 #: ../portlets/smart/smart.py:250
-#, fuzzy
 msgid "Edit Collection Portlet"
 msgstr "Editar potlet colecciones"
 
@@ -94,7 +91,6 @@ msgid "Genweb UPC settings"
 msgstr "Preferencias del Genweb"
 
 #: ../portlets/smart/smart.py:93
-#, fuzzy
 msgid ""
 "If enabled, items will be selected randomly from the collection, rather than "
 "based on its sort order."
@@ -139,7 +135,6 @@ msgid "L'element s'ha marcat com important"
 msgstr "El elemento ha desmarcado como importante"
 
 #: ../portlets/smart/smart.py:105
-#, fuzzy
 msgid "Label the 'Show more link' defined avobe"
 msgstr "Etiquetar el 'Mostrar más enlace' definido anteriormente"
 
@@ -148,12 +143,10 @@ msgid "Language"
 msgstr "Idioma"
 
 #: ../portlets/smart/smart.py:86
-#, fuzzy
 msgid "Limit"
 msgstr "Límite"
 
 #: ../portlets/smart/smart.py:100
-#, fuzzy
 msgid "Link to display in the footer, leave empty to hide it"
 msgstr "Enlace a mostrar en el pie de página. Dejar vacío para ocultarlo"
 
@@ -184,22 +177,18 @@ msgid "Override query sort order using folder order"
 msgstr ""
 
 #: ../portlets/smart/smart.py:44
-#, fuzzy
 msgid "Portlet description"
 msgstr "Descripción del portlet"
 
 #: ../portlets/smart/smart.py:32
-#, fuzzy
 msgid "Portlet header"
 msgstr "Cabecera del portlet"
 
 #: ../portlets/smart/smart.py:50
-#, fuzzy
 msgid "Portlet view to use"
 msgstr "Vista del portlet"
 
 #: ../portlets/smart/smart.py:38
-#, fuzzy
 msgid "Renders the header"
 msgstr "Renderizar la cabecera"
 
@@ -212,32 +201,26 @@ msgid "Searchable RichText"
 msgstr "Texto enriquecido buscable"
 
 #: ../portlets/smart/smart.py:92
-#, fuzzy
 msgid "Select random items"
 msgstr "Seleccionar artículos aleatorios"
 
 #: ../portlets/smart/smart.py:99
-#, fuzzy
 msgid "Show more link"
 msgstr "Mostrar más enlaces"
 
 #: ../portlets/smart/smart.py:104
-#, fuzzy
 msgid "Show more link text"
 msgstr "Mostrar mas enlaces de texto"
 
 #: ../profiles/default/portlets.xml
-#, fuzzy
 msgid "Smart portlet"
 msgstr "Descripción del portlet"
 
 #: ../portlets/smart/smart.py:68
-#, fuzzy
 msgid "Sort the collection on this index"
 msgstr "Ordenar la colección en este índice"
 
 #: ../portlets/smart/smart.py:75
-#, fuzzy
 msgid "Sort the results in reversed order"
 msgstr "Ordenar los resultados en orden inverso"
 
@@ -246,7 +229,6 @@ msgid "Specific"
 msgstr "Específico"
 
 #: ../portlets/smart/smart.py:87
-#, fuzzy
 msgid ""
 "Specify the maximum number of items to show in the portlet. Leave this blank "
 "to show all items."
@@ -275,12 +257,10 @@ msgid "Text"
 msgstr "Texto"
 
 #: ../portlets/smart/smart.py:236
-#, fuzzy
 msgid "This portlet displays a listing of items from a Collection."
 msgstr "El portlet muestra una lista de elementos de la colección."
 
 #: ../portlets/smart/smart.py:33
-#, fuzzy
 msgid "Title of the rendered portlet"
 msgstr "Título del portlet"
 
@@ -667,37 +647,31 @@ msgstr "Enlace para la icona del menú superior"
 
 #. Default: "Portlet view to use"
 #: ../portlets/smart/smart.py:49
-#, fuzzy
 msgid "label_container_view"
 msgstr "Vista del portlet"
 
 #. Default: "Search terms"
 #: ../portlets/smart/smart.py:56
-#, fuzzy
 msgid "label_query"
 msgstr "Términos de búsqueda "
 
 #. Default: "Show header"
 #: ../portlets/smart/smart.py:37
-#, fuzzy
 msgid "label_show_header"
 msgstr "Mostrar cabecera"
 
 #. Default: "Order as in folder"
 #: ../portlets/smart/smart.py:80
-#, fuzzy
 msgid "label_sort_folderorder"
 msgstr "Ordenar como en la carpeta"
 
 #. Default: "Sort on"
 #: ../portlets/smart/smart.py:67
-#, fuzzy
 msgid "label_sort_on"
 msgstr "Ordenar en"
 
 #. Default: "Reversed order"
 #: ../portlets/smart/smart.py:74
-#, fuzzy
 msgid "label_sort_reversed"
 msgstr "Orden inversa"
 
