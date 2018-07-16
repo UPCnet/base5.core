@@ -35,8 +35,8 @@
 
         <div class="carousel-ctrls" tal:condition="python:len(items) > 1">
           <!-- Carousel nav -->
-          <a class="carousel-ctrl left" tal:attributes="href string:#${carousel_id}" data-slide="prev" onclick='pause()'>&lsaquo;</a>
-          <a class="carousel-ctrl right" tal:attributes="href string:#${carousel_id}" data-slide="next" onclick='pause()'>&rsaquo;</a>
+          <a class="carousel-ctrl left" tal:attributes="href string:#${carousel_id}" data-slide="prev" onclick='pauseYT()'>&lsaquo;</a>
+          <a class="carousel-ctrl right" tal:attributes="href string:#${carousel_id}" data-slide="next" onclick='pauseYT()'>&rsaquo;</a>
         </div>
 
         <a tal:condition="view/portlet/data/more_link"
