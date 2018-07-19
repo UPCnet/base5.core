@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 from Products.CMFCore.interfaces import IContentish
-
 from Products.Five.browser.pagetemplatefile import ViewPageTemplateFile
+
 from plone.app.contenttypes.interfaces import IImage
 from plone.app.portlets.portlets.base import IPortletRenderer
 from zope.component import adapts

@@ -1,3 +1,7 @@
+# -*- coding: utf-8 -*-
+from plone import api
+
+
 class PortletItemRenderer(object):
 
     def __init__(self, context):
@@ -23,9 +27,12 @@ class PortletContainerRenderer(object):
         self.request = self.portlet.request
 
     def __call__(self, **kwargs):
-
         for key, value in kwargs.items():
             setattr(self, key, value)
 
         return self.template(self)
 
+    def isAnon(self):
+        if not api.user.is_anonymous():
+            return False
+        return True
