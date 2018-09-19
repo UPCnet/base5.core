@@ -40,6 +40,7 @@ def base_config():
     registry = queryUtility(IRegistry)
     return registry.forInterface(IGenwebControlPanelSettings)
 
+
 def havePermissionAtRoot():
     """Funcio que retorna si es Editor a l'arrel"""
     proot = portal()
@@ -120,6 +121,7 @@ def get_safe_member_by_id(username):
                 'home_page': '', 'name_or_id': username, 'location': '',
                 'fullname': ''}
 
+
 def get_all_user_properties(user):
     """
         Returns a mapping with all the defined user profile properties and its values.
@@ -152,7 +154,6 @@ def get_all_user_properties(user):
             value = user.getProperty(attr)
             if isinstance(value, str) or isinstance(value, unicode):
                 mapping.update({attr: value})
-
 
     return mapping
 
@@ -236,14 +237,18 @@ def add_user_to_catalog(user, properties={}, notlegit=False, overwrite=False):
         for attr in user_properties_utility.properties + METADATA_USER_ATTRS:
             has_property_definition = attr in properties
             property_empty_or_not_set = user_record.attrs.get(attr, u'') == u''
+
             if has_property_definition:
                 if isinstance(properties[attr], str):
                     property_different_value = user_record.attrs.get(attr, u'') != properties[attr].decode('utf-8')
                 else:
                     property_different_value = user_record.attrs.get(attr, u'') != properties[attr]
+
             if has_property_definition and (property_empty_or_not_set or overwrite or property_different_value):
                 if isinstance(properties[attr], str):
                     user_record.attrs[attr] = properties[attr].decode('utf-8')
+                elif isinstance(properties[attr], bool):
+                    user_record.attrs[attr] = str(properties[attr]).decode('utf-8')
                 else:
                     user_record.attrs[attr] = properties[attr]
 
@@ -255,8 +260,13 @@ def add_user_to_catalog(user, properties={}, notlegit=False, overwrite=False):
         return
 
     # Build the searchable_text field for wildcard searchs
-    user_record.attrs['searchable_text'] = ' '.join([unicodedata.normalize('NFKD', user_record.attrs[key]).encode('ascii', errors='ignore') for key in user_properties_utility.properties if user_record.attrs.get(key, False)])
-
+    user_record.attrs['searchable_text'] = ''
+    for key in user_properties_utility.properties:
+        if user_record.attrs.get(key, False) and 'check_' not in key:
+            checkKey = 'check_' + key
+            hasCheck = checkKey in user_record.attrs
+            if not hasCheck or (hasCheck and user_record.attrs[checkKey] != 'False'):
+                user_record.attrs['searchable_text'] += unicodedata.normalize('NFKD', user_record.attrs[key]).encode('ascii', errors='ignore') + ' '
     soup.reindex(records=[user_record])
 
     # If uLearn is present, then lookup for a customized set of fields and its
@@ -311,10 +321,13 @@ def add_user_to_catalog(user, properties={}, notlegit=False, overwrite=False):
                 for attr in extended_user_properties_utility.properties:
                     has_property_definition = attr in properties
                     property_empty_or_not_set = user_record.attrs.get(attr, u'') == u''
+
                     # Only update it if user has already not property set or it's empty
                     if has_property_definition and (property_empty_or_not_set or overwrite):
                         if isinstance(properties[attr], str):
                             user_record.attrs[attr] = properties[attr].decode('utf-8')
+                        elif isinstance(properties[attr], bool):
+                            user_record.attrs[attr] = str(properties[attr]).decode('utf-8')
                         else:
                             user_record.attrs[attr] = properties[attr]
 

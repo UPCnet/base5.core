@@ -43,7 +43,8 @@ class UserPropertiesSoupCatalogFactory(object):
         The directory_icons is the dict containing the correspondency with the
         field names and the icon.
     """
-    properties = [_(u'username'), _(u'fullname'), _(u'email'), _(u'description'), _(u'location'), _(u'ubicacio'), _(u'telefon'), _(u'twitter_username'), _(u'home_page')]
+    properties = [_(u'username'), _(u'fullname'), _(u'email'), _(u'description'), _(u'location'), _(u'check_ubicacio'), _(u'ubicacio'), _(u'check_telefon'), _(u'telefon'), _(u'check_twitter_username'), _(u'twitter_username'), _(u'home_page')]
+    # public_properties = ['email', 'description', 'location', 'ubicacio', 'telefon', 'twitter_username', 'home_page']
     profile_properties = ['email', 'description', 'location', 'ubicacio', 'telefon', 'twitter_username', 'home_page']
     directory_properties = ['email', 'telefon', 'location', 'ubicacio']
     directory_icons = {'email': 'fa fa-envelope', 'telefon': 'fa fa-mobile', 'location': 'fa fa-building-o', 'ubicacio': 'fa fa-user'}
@@ -65,10 +66,16 @@ class UserPropertiesSoupCatalogFactory(object):
         catalog['email'] = CatalogTextIndex(email)
         location = NodeAttributeIndexer('location')
         catalog['location'] = CatalogTextIndex(location)
+        check_ubicacio = NodeAttributeIndexer('check_ubicacio')
+        catalog['check_ubicacio'] = CatalogTextIndex(check_ubicacio)
         ubicacio = NodeAttributeIndexer('ubicacio')
         catalog['ubicacio'] = CatalogTextIndex(ubicacio)
+        check_telefon = NodeAttributeIndexer('check_telefon')
+        catalog['check_telefon'] = CatalogTextIndex(check_telefon)
         telefon = NodeAttributeIndexer('telefon')
         catalog['telefon'] = CatalogTextIndex(telefon)
+        check_twitter_username = NodeAttributeIndexer('check_twitter_username')
+        catalog['check_twitter_username'] = CatalogTextIndex(check_twitter_username)
         twitter_username = NodeAttributeIndexer('twitter_username')
         catalog['twitter_username'] = CatalogTextIndex(twitter_username)
         return catalog
