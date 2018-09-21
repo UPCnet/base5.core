@@ -1,10 +1,10 @@
 from five import grok
 from plone import api
+from Products.PlonePAS.interfaces.events import IUserInitialLoginInEvent
 from Products.PluggableAuthService.interfaces.authservice import IPropertiedUser
 from Products.PluggableAuthService.interfaces.events import IPrincipalCreatedEvent
 from Products.PluggableAuthService.interfaces.events import IPropertiesUpdatedEvent
 from Products.PluggableAuthService.interfaces.events import IUserLoggedInEvent
-
 
 from base5.core.utils import get_all_user_properties
 from base5.core.utils import add_user_to_catalog
@@ -38,3 +38,11 @@ def UpdateUserPropertiesOnLogin(event):
         # test_user doesn't have properties and stops the tests.
         pass
 
+
+@grok.subscribe(IUserInitialLoginInEvent)
+def UpdateUserPropPropertiesOnFirstLogin(event):
+    user = api.user.get_current()
+    properties = get_all_user_properties(user)
+    for key, value in properties.iteritems():
+        if 'check_' in key:
+            user.setMemberProperties({key: True})

@@ -23,8 +23,11 @@ class UserPropertiesSoupCatalogFactory(object):
         :index fullname: FullTextIndex - The user display name
         :index email: FullTextIndex - The user e-mail
         :index location: FullTextIndex - The user location
+        :index check_ubicacio: FullTextIndex - Boolean, if the ubicacio is visible for all users
         :index ubicacio: FullTextIndex - The user ubicacio
+        :index check_telefon: FullTextIndex - Boolean, if the telefon is visible for all users
         :index telefon: FullTextIndex - The user telephone
+        :index check_twitter_username: FullTextIndex - Boolean, if the twitter_username is visible for all userss
         :index twitter_username: FullTextIndex - The user Twitter username
 
         The properties attribute is used to know in advance which properties are

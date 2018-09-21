@@ -152,7 +152,7 @@ def get_all_user_properties(user):
         # OJO revisar este if mas adelante, no estaba en plone4
         if attr != 'username':
             value = user.getProperty(attr)
-            if isinstance(value, str) or isinstance(value, unicode):
+            if isinstance(value, str) or isinstance(value, unicode) or isinstance(value, bool):
                 mapping.update({attr: value})
 
     return mapping
