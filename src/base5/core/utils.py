@@ -305,15 +305,28 @@ def add_user_to_catalog(user, properties={}, notlegit=False, overwrite=False):
                     if has_property_definition and (property_empty_or_not_set or overwrite):
                         if isinstance(properties[attr], str):
                             extended_user_record.attrs[attr] = properties[attr].decode('utf-8')
+                        elif isinstance(properties[attr], bool):
+                            extended_user_record.attrs[attr] = str(properties[attr]).decode('utf-8')
                         else:
                             extended_user_record.attrs[attr] = properties[attr]
 
             # Update the searchable_text of the standard user record field with
             # the ones in the extended catalog
+            user_record.attrs['searchable_text'] = ''
             if hasattr(extended_user_properties_utility, 'public_properties'):
-                user_record.attrs['searchable_text'] = user_record.attrs['searchable_text'] + ' ' + ' '.join([unicodedata.normalize('NFKD', extended_user_record.attrs[key]).encode('ascii', errors='ignore') for key in extended_user_properties_utility.public_properties if extended_user_record.attrs.get(key, False)])
+                for key in extended_user_properties_utility.public_properties:
+                    if extended_user_record.attrs.get(key, False) and 'check_' not in key:
+                        checkKey = 'check_' + key
+                        hasCheck = checkKey in extended_user_record.attrs
+                        if not hasCheck or (hasCheck and extended_user_record.attrs[checkKey] != 'False'):
+                            user_record.attrs['searchable_text'] += unicodedata.normalize('NFKD', extended_user_record.attrs[key]).encode('ascii', errors='ignore') + ' '
             else:
-                user_record.attrs['searchable_text'] = user_record.attrs['searchable_text'] + ' ' + ' '.join([unicodedata.normalize('NFKD', extended_user_record.attrs[key]).encode('ascii', errors='ignore') for key in extended_user_properties_utility.properties if extended_user_record.attrs.get(key, False)])
+                for key in extended_user_properties_utility.properties:
+                    if extended_user_record.attrs.get(key, False) and 'check_' not in key:
+                        checkKey = 'check_' + key
+                        hasCheck = checkKey in extended_user_record.attrs
+                        if not hasCheck or (hasCheck and extended_user_record.attrs[checkKey] != 'False'):
+                            user_record.attrs['searchable_text'] += unicodedata.normalize('NFKD', extended_user_record.attrs[key]).encode('ascii', errors='ignore') + ' '
 
             # Save for free the extended properties in the main user_properties soup
             # for easy access with one query
