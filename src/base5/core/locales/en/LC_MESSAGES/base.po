@@ -1,8 +1,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: GenWebUPC\n"
-"POT-Creation-Date: 2018-06-25 08:42+0000\n"
-"PO-Revision-Date: 2018-02-01 10:58+0100\n"
+"POT-Creation-Date: YEAR-MO-DA HO:MI +ZONE\n"
+"PO-Revision-Date: 2018-07-16 08:45+0100\n"
 "Last-Translator: \n"
 "Language-Team: Plone Team@UPCnet <plone.team@upcnet.es>\n"
 "MIME-Version: 1.0\n"
@@ -16,6 +16,14 @@ msgstr ""
 "Language: en\n"
 "X-Generator: Poedit 1.5.4\n"
 
+#: ../profiles/default/portlets.xml
+msgid "A skinnable portlet which displays the results of a query"
+msgstr ""
+
+#: ../portlets/smart/smart.py:235
+msgid "Add Query Portlet"
+msgstr "Add Query Portlet"
+
 #: ../behaviors.zcml:14
 msgid "Add field to mark a link to open in a new window when clicked."
 msgstr "Add field to mark a link to open in a new window when clicked."
@@ -25,11 +33,14 @@ msgid "Adds searchable richtext behavior"
 msgstr "Adds searchable richtext behavior"
 
 #: ../controlpanel/core.py:57
-msgid "Cada línia és una fila d'icones. Si es deixa en blanc s'agafen els valors per defecte. Han d'omplir-se fins a 4 files obligatòriament."
-msgstr "Each line is a row of icons. If left blank the default values are taken. Must fill up to 4 rows obligatory."
+msgid ""
+"Cada línia és una fila d'icones. Si es deixa en blanc s'agafen els valors "
+"per defecte. Han d'omplir-se fins a 4 files obligatòriament."
+msgstr ""
+"Each line is a row of icons. If left blank the default values are taken. "
+"Must fill up to 4 rows obligatory."
 
-#: ../controlpanel/controlpanel.py:79
-#: ../controlpanel/core.py:159
+#: ../controlpanel/controlpanel.py:79 ../controlpanel/core.py:159
 msgid "Cancel"
 msgstr "Cancel"
 
@@ -49,12 +60,19 @@ msgstr "Meta tag content \"author \""
 msgid "Custom Link"
 msgstr "Send invitation"
 
+#: ../portlets/smart/smart.py:45
+msgid "Description of the portlet"
+msgstr "Description of the portlet"
+
 #: ../controlpanel/interface.py:20
 msgid "E-mail"
 msgstr "E-mail"
 
-#: ../controlpanel/controlpanel.py:81
-#: ../controlpanel/core.py:161
+#: ../portlets/smart/smart.py:250
+msgid "Edit Collection Portlet"
+msgstr "Edit Collection Portlet"
+
+#: ../controlpanel/controlpanel.py:81 ../controlpanel/core.py:161
 msgid "Edit cancelled"
 msgstr "Edit cancelled"
 
@@ -70,7 +88,15 @@ msgstr "Genweb UPC settings"
 msgid "Genweb UPC settings"
 msgstr "Genweb UPC settings"
 
-#: ../configure.zcml:44
+#: ../portlets/smart/smart.py:93
+msgid ""
+"If enabled, items will be selected randomly from the collection, rather than "
+"based on its sort order."
+msgstr ""
+"If enabled, items will be selected randomly from the collection, rather than "
+"based on its sort order."
+
+#: ../configure.zcml:55
 msgid "Installs the base5.core add-on."
 msgstr "Installs the base5.core add-on."
 
@@ -106,9 +132,21 @@ msgstr "The item has been showed as flash."
 msgid "L'element s'ha marcat com important"
 msgstr "The item has been showed as important."
 
+#: ../portlets/smart/smart.py:105
+msgid "Label the 'Show more link' defined avobe"
+msgstr "Label the 'Show more link' defined avobe"
+
 #: ../controlpanel/interface.py:14
 msgid "Language"
 msgstr "Language"
+
+#: ../portlets/smart/smart.py:86
+msgid "Limit"
+msgstr "Limit"
+
+#: ../portlets/smart/smart.py:100
+msgid "Link to display in the footer, leave empty to hide it"
+msgstr "Link to display in the footer, leave empty to hide it"
 
 #: ../controlpanel/core.py:56
 msgid "Llista personalitzada d'icones per l'editor TinyMCE"
@@ -130,8 +168,27 @@ msgstr "Contact Name"
 msgid "Optional open link in a new window"
 msgstr "Optional open link in a new window"
 
-#: ../controlpanel/controlpanel.py:65
-#: ../controlpanel/core.py:144
+#: ../portlets/smart/smart.py:81
+msgid "Override query sort order using folder order"
+msgstr "Override query sort order using folder order"
+
+#: ../portlets/smart/smart.py:44
+msgid "Portlet description"
+msgstr "Portlet description"
+
+#: ../portlets/smart/smart.py:32
+msgid "Portlet header"
+msgstr "Portlet header"
+
+#: ../portlets/smart/smart.py:50
+msgid "Portlet view to use"
+msgstr "Portlet view to use"
+
+#: ../portlets/smart/smart.py:38
+msgid "Renders the header"
+msgstr "Renders the header"
+
+#: ../controlpanel/controlpanel.py:65 ../controlpanel/core.py:144
 msgid "Save"
 msgstr "Save"
 
@@ -139,9 +196,41 @@ msgstr "Save"
 msgid "Searchable RichText"
 msgstr "Searchable RichText"
 
+#: ../portlets/smart/smart.py:92
+msgid "Select random items"
+msgstr "Select random items"
+
+#: ../portlets/smart/smart.py:99
+msgid "Show more link"
+msgstr "Show more link"
+
+#: ../portlets/smart/smart.py:104
+msgid "Show more link text"
+msgstr "Show more link text"
+
+#: ../profiles/default/portlets.xml
+msgid "Smart portlet"
+msgstr "Description of the portlet"
+
+#: ../portlets/smart/smart.py:68
+msgid "Sort the collection on this index"
+msgstr "Sort the collection on this index"
+
+#: ../portlets/smart/smart.py:75
+msgid "Sort the results in reversed order"
+msgstr "Sort the results in reversed order"
+
 #: ../controlpanel/interface.py:42
 msgid "Specific"
 msgstr "Specific"
+
+#: ../portlets/smart/smart.py:87
+msgid ""
+"Specify the maximum number of items to show in the portlet. Leave this blank "
+"to show all items."
+msgstr ""
+"Specify the maximum number of items to show in the portlet. Leave this blank "
+"to show all items."
 
 #: ../adapters/flash.py:22
 msgid "Tells if an object is marked as flash"
@@ -163,7 +252,15 @@ msgstr "Tells if an object is shown in App"
 msgid "Text"
 msgstr "Text"
 
-#: ../configure.zcml:53
+#: ../portlets/smart/smart.py:236
+msgid "This portlet displays a listing of items from a Collection."
+msgstr "This portlet displays a listing of items from a Collection."
+
+#: ../portlets/smart/smart.py:33
+msgid "Title of the rendered portlet"
+msgstr "Title of the rendered portlet"
+
+#: ../configure.zcml:64
 msgid "Uninstalls the base5.core add-on."
 msgstr "Uninstalls the base5.core add-on."
 
@@ -216,11 +313,11 @@ msgstr "URL del servidor LDAP per aquest lloc"
 msgid "amaga_identificacio"
 msgstr "Hide the identification link tools"
 
-#: ../configure.zcml:44
+#: ../configure.zcml:55
 msgid "base5.core"
 msgstr "base5.core"
 
-#: ../configure.zcml:53
+#: ../configure.zcml:64
 msgid "base5.core (uninstall)"
 msgstr "base5.core (uninstall)"
 
@@ -274,6 +371,10 @@ msgstr "Disable UPCmaps"
 msgid "create_packet"
 msgstr "Create packet UPC at root"
 
+#: ../directory/indexers.py:46
+msgid "description"
+msgstr "Biography"
+
 #. Default: "Directori UPC filtrat a les eines"
 #: ../controlpanel/interface.py:178
 msgid "directori_filtrat"
@@ -294,6 +395,10 @@ msgstr "ElasticSearch"
 msgid "elasticsearch_help"
 msgstr "ElasticSearch server URL for this site"
 
+#: ../directory/indexers.py:46
+msgid "email"
+msgstr "Email"
+
 #. Default: "Color especific 1"
 #: ../controlpanel/interface.py:207
 msgid "especific1"
@@ -304,6 +409,10 @@ msgstr "Specific color 1"
 msgid "especific2"
 msgstr "Specific color 2"
 
+#: ../directory/indexers.py:46
+msgid "fullname"
+msgstr "Fullname"
+
 #. Default: "groups_query"
 #: ../controlpanel/core.py:109
 msgid "groups_query"
@@ -312,7 +421,9 @@ msgstr "LDAP query for groups"
 #. Default: "LDAP groups query. Ex: (&(objectClass=groupOfNames))"
 #: ../controlpanel/core.py:111
 msgid "groups_query_help"
-msgstr "LDAP query for groups. Ex: (|(objectClass=groupOfNames)(objectClass=groupOfUniqueNames))"
+msgstr ""
+"LDAP query for groups. Ex: (|(objectClass=groupOfNames)"
+"(objectClass=groupOfUniqueNames))"
 
 #. Default: "Amaga de les eines l'enllac d'identificacio ..."
 #: ../controlpanel/interface.py:254
@@ -327,7 +438,8 @@ msgstr "Select to publish the link"
 #. Default: "URL de l'enllac a la imatge que es mostrara al menu superior dret"
 #: ../controlpanel/interface.py:321
 msgid "help_cl_img"
-msgstr "URL of the link to the image that will be displayed in the upper right menu"
+msgstr ""
+"URL of the link to the image that will be displayed in the upper right menu"
 
 #. Default: "Selecciona per obrir en una nova finestra"
 #: ../controlpanel/interface.py:329
@@ -347,12 +459,15 @@ msgstr "URL of the link that will be displayed in the upper right menu"
 #. Default: "Per defecte, la informacio de contacte prove de la base de dades de SCP, sota peticio."
 #: ../controlpanel/interface.py:153
 msgid "help_contacte_BBBDD_or_page"
-msgstr "By default, the contact information proves from the SCP database, upon request."
+msgstr ""
+"By default, the contact information proves from the SCP database, upon "
+"request."
 
 #. Default: "La informacio provinent de la base de dades de SCP es visualitzen al peu de la pagina."
 #: ../controlpanel/interface.py:162
 msgid "help_contacte_al_peu"
-msgstr "The information from the SCP database is displayed at the bottom of the page."
+msgstr ""
+"The information from the SCP database is displayed at the bottom of the page."
 
 #. Default: "Afegiu el id de contacte de la base de dades de masters."
 #: ../controlpanel/interface.py:144
@@ -427,12 +542,16 @@ msgstr "Add the study ID of the master database"
 #. Default: "Aquests seran els idiomes publicats a la web, els idiomes no especificats no seran publics pero seran visibles pels gestors (editors)."
 #: ../controlpanel/interface.py:263
 msgid "help_idiomes_publicats"
-msgstr "These languages will be published on the website, languages not specified not be public but will be visible to managers (editors)."
+msgstr ""
+"These languages will be published on the website, languages not specified "
+"not be public but will be visible to managers (editors)."
 
 #. Default: "help_languages_link_to_root"
 #: ../controlpanel/interface.py:273
 msgid "help_languages_link_to_root"
-msgstr "Selecting this option makes that all the clicks on the languages combo always redirects to the site root."
+msgstr ""
+"Selecting this option makes that all the clicks on the languages combo "
+"always redirects to the site root."
 
 #: ../behaviors/openlinkin.py:22
 msgid "help_open_link_in_new_window"
@@ -451,17 +570,23 @@ msgstr "Show or not the right header logo"
 #. Default: "Es el literal que apareix al peu de pagina o el text alternatiu del logotip (centres docents)."
 #: ../controlpanel/interface.py:91
 msgid "help_signatura_unitat_ca"
-msgstr "It is the literal that appears at the bottom of the page or in the alternative text of the logo (educational centers)."
+msgstr ""
+"It is the literal that appears at the bottom of the page or in the "
+"alternative text of the logo (educational centers)."
 
 #. Default: "Es el literal que apareix al peu de pagina o el text alternatiu del logotip (centres docents)."
 #: ../controlpanel/interface.py:109
 msgid "help_signatura_unitat_en"
-msgstr "It is the literal that appears at the bottom of the page or in the alternative text of the logo (educational centers)."
+msgstr ""
+"It is the literal that appears at the bottom of the page or in the "
+"alternative text of the logo (educational centers)."
 
 #. Default: "Es el literal que apareix al peu de pagina o el text alternatiu del logotip (centres docents)."
 #: ../controlpanel/interface.py:100
 msgid "help_signatura_unitat_es"
-msgstr "It is the literal that appears at the bottom of the page or in the alternative text of the logo (educational centers)."
+msgstr ""
+"It is the literal that appears at the bottom of the page or in the "
+"alternative text of the logo (educational centers)."
 
 #. Default: "Treu les icones per compartir en xarxes socials ..."
 #: ../controlpanel/interface.py:245
@@ -477,6 +602,10 @@ msgstr "Hide the header image by ..."
 #: ../controlpanel/interface.py:236
 msgid "help_treu_menu_horitzontal"
 msgstr "Hide horizontal menu ..."
+
+#: ../directory/indexers.py:46
+msgid "home_page"
+msgstr "Home Page"
 
 #. Default: "Titol del web amb HTML tags (negretes) [CA]"
 #: ../controlpanel/interface.py:62
@@ -508,10 +637,46 @@ msgstr "Languages activated on the website"
 msgid "img_cl"
 msgstr "Link to the top menu icon"
 
+#. Default: "Portlet view to use"
+#: ../portlets/smart/smart.py:49
+msgid "label_container_view"
+msgstr "Portlet view to use"
+
+#. Default: "Search terms"
+#: ../portlets/smart/smart.py:56
+msgid "label_query"
+msgstr "Search terms"
+
+#. Default: "Show header"
+#: ../portlets/smart/smart.py:37
+msgid "label_show_header"
+msgstr "Show header"
+
+#. Default: "Order as in folder"
+#: ../portlets/smart/smart.py:80
+msgid "label_sort_folderorder"
+msgstr "Order as in folder"
+
+#. Default: "Sort on"
+#: ../portlets/smart/smart.py:67
+msgid "label_sort_on"
+msgstr "Sort on"
+
+#. Default: "Reversed order"
+#: ../portlets/smart/smart.py:74
+msgid "label_sort_reversed"
+msgstr "Reversed order"
+
 #. Default: "languages_link_to_root"
 #: ../controlpanel/interface.py:271
 msgid "languages_link_to_root"
-msgstr "Redirect to site root when the user clicks on the languages availables on the site"
+msgstr ""
+"Redirect to site root when the user clicks on the languages availables on "
+"the site"
+
+#: ../directory/indexers.py:46
+msgid "location"
+msgstr "Location"
 
 #. Default: "Seleccionar l'adreca d'enviament"
 #: ../controlpanel/interface.py:196
@@ -547,6 +712,10 @@ msgstr "Signature unit [EN]"
 msgid "signatura_unitat_es"
 msgstr "Signature unit [ES]"
 
+#: ../directory/indexers.py:46
+msgid "telefon"
+msgstr "Telephone"
+
 #. Default: "Treu les icones per compartir en xarxes socials"
 #: ../controlpanel/interface.py:243
 msgid "treu_icones_xarxes_socials"
@@ -562,6 +731,14 @@ msgstr "Hide the header image"
 msgid "treu_menu_horitzontal"
 msgstr "Hide horizontal menu"
 
+#: ../directory/indexers.py:46
+msgid "twitter_username"
+msgstr "Twitter Username"
+
+#: ../directory/indexers.py:46
+msgid "ubicacio"
+msgstr "Ubication"
+
 #. Default: "Enllac per al menu superior"
 #: ../controlpanel/interface.py:311
 msgid "url_cl"
@@ -575,4 +752,10 @@ msgstr "LDAP query for group users"
 #. Default: "LDAP user groups query. Ex: (&(objectClass=groupOfNames)(member=%s))"
 #: ../controlpanel/core.py:120
 msgid "user_groups_query_help"
-msgstr "LDAP query for group users. Ex:(&(objectClass=groupOfUniqueNames)(uniqueMember=%s))"
+msgstr ""
+"LDAP query for group users. Ex:(&(objectClass=groupOfUniqueNames)"
+"(uniqueMember=%s))"
+
+#: ../directory/indexers.py:46
+msgid "username"
+msgstr "Username"

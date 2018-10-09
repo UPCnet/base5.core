@@ -4,7 +4,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
-"POT-Creation-Date: 2018-06-25 08:42+0000\n"
+"POT-Creation-Date: 2018-07-16 06:24+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI +ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -16,6 +16,14 @@ msgstr ""
 "Language-Name: English\n"
 "Preferred-Encodings: utf-8 latin1\n"
 "Domain: base\n"
+
+#: ../profiles/default/portlets.xml
+msgid "A skinnable portlet which displays the results of a query"
+msgstr ""
+
+#: ../portlets/smart/smart.py:235
+msgid "Add Query Portlet"
+msgstr ""
 
 #: ../behaviors.zcml:14
 msgid "Add field to mark a link to open in a new window when clicked."
@@ -50,8 +58,22 @@ msgstr ""
 msgid "Custom Link"
 msgstr ""
 
+#: ../portlets/smart/smart.py:57
+msgid "Define the search terms for the items you want to
+            list by choosing what to match on.
+            The list of results will be dynamically updated"
+msgstr ""
+
+#: ../portlets/smart/smart.py:45
+msgid "Description of the portlet"
+msgstr ""
+
 #: ../controlpanel/interface.py:20
 msgid "E-mail"
+msgstr ""
+
+#: ../portlets/smart/smart.py:250
+msgid "Edit Collection Portlet"
 msgstr ""
 
 #: ../controlpanel/controlpanel.py:81
@@ -71,7 +93,11 @@ msgstr ""
 msgid "Genweb UPC settings"
 msgstr ""
 
-#: ../configure.zcml:44
+#: ../portlets/smart/smart.py:93
+msgid "If enabled, items will be selected randomly from the collection, rather than based on its sort order."
+msgstr ""
+
+#: ../configure.zcml:55
 msgid "Installs the base5.core add-on."
 msgstr ""
 
@@ -107,8 +133,20 @@ msgstr ""
 msgid "L'element s'ha marcat com important"
 msgstr ""
 
+#: ../portlets/smart/smart.py:105
+msgid "Label the 'Show more link' defined avobe"
+msgstr ""
+
 #: ../controlpanel/interface.py:14
 msgid "Language"
+msgstr ""
+
+#: ../portlets/smart/smart.py:86
+msgid "Limit"
+msgstr ""
+
+#: ../portlets/smart/smart.py:100
+msgid "Link to display in the footer, leave empty to hide it"
 msgstr ""
 
 #: ../controlpanel/core.py:56
@@ -131,6 +169,26 @@ msgstr ""
 msgid "Optional open link in a new window"
 msgstr ""
 
+#: ../portlets/smart/smart.py:81
+msgid "Override query sort order using folder order"
+msgstr ""
+
+#: ../portlets/smart/smart.py:44
+msgid "Portlet description"
+msgstr ""
+
+#: ../portlets/smart/smart.py:32
+msgid "Portlet header"
+msgstr ""
+
+#: ../portlets/smart/smart.py:50
+msgid "Portlet view to use"
+msgstr ""
+
+#: ../portlets/smart/smart.py:38
+msgid "Renders the header"
+msgstr ""
+
 #: ../controlpanel/controlpanel.py:65
 #: ../controlpanel/core.py:144
 msgid "Save"
@@ -140,8 +198,36 @@ msgstr ""
 msgid "Searchable RichText"
 msgstr ""
 
+#: ../portlets/smart/smart.py:92
+msgid "Select random items"
+msgstr ""
+
+#: ../portlets/smart/smart.py:99
+msgid "Show more link"
+msgstr ""
+
+#: ../portlets/smart/smart.py:104
+msgid "Show more link text"
+msgstr ""
+
+#: ../profiles/default/portlets.xml
+msgid "Smart portlet"
+msgstr ""
+
+#: ../portlets/smart/smart.py:68
+msgid "Sort the collection on this index"
+msgstr ""
+
+#: ../portlets/smart/smart.py:75
+msgid "Sort the results in reversed order"
+msgstr ""
+
 #: ../controlpanel/interface.py:42
 msgid "Specific"
+msgstr ""
+
+#: ../portlets/smart/smart.py:87
+msgid "Specify the maximum number of items to show in the portlet. Leave this blank to show all items."
 msgstr ""
 
 #: ../adapters/flash.py:22
@@ -164,7 +250,15 @@ msgstr ""
 msgid "Text"
 msgstr ""
 
-#: ../configure.zcml:53
+#: ../portlets/smart/smart.py:236
+msgid "This portlet displays a listing of items from a Collection."
+msgstr ""
+
+#: ../portlets/smart/smart.py:33
+msgid "Title of the rendered portlet"
+msgstr ""
+
+#: ../configure.zcml:64
 msgid "Uninstalls the base5.core add-on."
 msgstr ""
 
@@ -217,11 +311,11 @@ msgstr ""
 msgid "amaga_identificacio"
 msgstr ""
 
-#: ../configure.zcml:44
+#: ../configure.zcml:55
 msgid "base5.core"
 msgstr ""
 
-#: ../configure.zcml:53
+#: ../configure.zcml:64
 msgid "base5.core (uninstall)"
 msgstr ""
 
@@ -275,6 +369,10 @@ msgstr ""
 msgid "create_packet"
 msgstr ""
 
+#: ../directory/indexers.py:46
+msgid "description"
+msgstr ""
+
 #. Default: "Directori UPC filtrat a les eines"
 #: ../controlpanel/interface.py:178
 msgid "directori_filtrat"
@@ -295,6 +393,10 @@ msgstr ""
 msgid "elasticsearch_help"
 msgstr ""
 
+#: ../directory/indexers.py:46
+msgid "email"
+msgstr ""
+
 #. Default: "Color especific 1"
 #: ../controlpanel/interface.py:207
 msgid "especific1"
@@ -303,6 +405,10 @@ msgstr ""
 #. Default: "Color especific 2"
 #: ../controlpanel/interface.py:216
 msgid "especific2"
+msgstr ""
+
+#: ../directory/indexers.py:46
+msgid "fullname"
 msgstr ""
 
 #. Default: "groups_query"
@@ -479,6 +585,10 @@ msgstr ""
 msgid "help_treu_menu_horitzontal"
 msgstr ""
 
+#: ../directory/indexers.py:46
+msgid "home_page"
+msgstr ""
+
 #. Default: "Titol del web amb HTML tags (negretes) [CA]"
 #: ../controlpanel/interface.py:62
 msgid "html_title_ca"
@@ -509,9 +619,43 @@ msgstr ""
 msgid "img_cl"
 msgstr ""
 
+#. Default: "Portlet view to use"
+#: ../portlets/smart/smart.py:49
+msgid "label_container_view"
+msgstr ""
+
+#. Default: "Search terms"
+#: ../portlets/smart/smart.py:56
+msgid "label_query"
+msgstr ""
+
+#. Default: "Show header"
+#: ../portlets/smart/smart.py:37
+msgid "label_show_header"
+msgstr ""
+
+#. Default: "Order as in folder"
+#: ../portlets/smart/smart.py:80
+msgid "label_sort_folderorder"
+msgstr ""
+
+#. Default: "Sort on"
+#: ../portlets/smart/smart.py:67
+msgid "label_sort_on"
+msgstr ""
+
+#. Default: "Reversed order"
+#: ../portlets/smart/smart.py:74
+msgid "label_sort_reversed"
+msgstr ""
+
 #. Default: "languages_link_to_root"
 #: ../controlpanel/interface.py:271
 msgid "languages_link_to_root"
+msgstr ""
+
+#: ../directory/indexers.py:46
+msgid "location"
 msgstr ""
 
 #. Default: "Seleccionar l'adreca d'enviament"
@@ -548,6 +692,10 @@ msgstr ""
 msgid "signatura_unitat_es"
 msgstr ""
 
+#: ../directory/indexers.py:46
+msgid "telefon"
+msgstr ""
+
 #. Default: "Treu les icones per compartir en xarxes socials"
 #: ../controlpanel/interface.py:243
 msgid "treu_icones_xarxes_socials"
@@ -563,6 +711,14 @@ msgstr ""
 msgid "treu_menu_horitzontal"
 msgstr ""
 
+#: ../directory/indexers.py:46
+msgid "twitter_username"
+msgstr ""
+
+#: ../directory/indexers.py:46
+msgid "ubicacio"
+msgstr ""
+
 #. Default: "Enllac per al menu superior"
 #: ../controlpanel/interface.py:311
 msgid "url_cl"
@@ -576,4 +732,8 @@ msgstr ""
 #. Default: "LDAP user groups query. Ex: (&(objectClass=groupOfNames)(member=%s))"
 #: ../controlpanel/core.py:120
 msgid "user_groups_query_help"
+msgstr ""
+
+#: ../directory/indexers.py:46
+msgid "username"
 msgstr ""
