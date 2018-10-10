@@ -2,11 +2,17 @@ Changelog
 =========
 
 
-0.5 (unreleased)
+0.5 (2018-10-10)
 ----------------
 
-- Nothing changed yet.
-
+* Merge externs [Pilar Marinas]
+* Visibilidad campos del perfil: externs [iago.lopez]
+* Visibilidad campos perfil por el usuario [iago.lopez]
+* Visibilidad campos del perfil [iago.lopez]
+* Solucion errores con usuario anonimo [iago.lopez]
+* Quitar fuzzy [iago.lopez]
+* Portlet Smart [iago.lopez]
+* Portlet Smart [iago.lopez]
 
 0.4 (2018-07-03)
 ----------------
