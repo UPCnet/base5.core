@@ -229,8 +229,8 @@ class setupLDAPExterns(grok.View):
             #Configuracion por defecto de los grupos de LDAP de externs
             groups_query = u'(&(objectClass=groupOfUniqueNames))'
             user_groups_query = u'(&(objectClass=groupOfUniqueNames)(uniqueMember=%s))'
-            api.portal.set_registry_record('base5.core.controlpanel.core.IGenwebCoreControlPanelSettings.groups_query', groups_query)
-            api.portal.set_registry_record('base5.core.controlpanel.core.IGenwebCoreControlPanelSettings.user_groups_query', user_groups_query)
+            api.portal.set_registry_record('base5.core.controlpanel.core.IBaseCoreControlPanelSettings.groups_query', groups_query)
+            api.portal.set_registry_record('base5.core.controlpanel.core.IBaseCoreControlPanelSettings.user_groups_query', user_groups_query)
             return 'Done. groupOfUniqueNames in LDAP Controlpanel Search'
 
 

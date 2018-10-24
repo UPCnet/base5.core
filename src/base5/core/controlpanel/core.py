@@ -25,8 +25,8 @@ class RegisteredExtendersVocabulary(object):
 RegisteredExtendersVocabularyFactory = RegisteredExtendersVocabulary()
 
 
-class IGenwebCoreControlPanelSettings(Interface):
-    """ Global Genweb settings. This describes records stored in the
+class IBaseCoreControlPanelSettings(Interface):
+    """ Global Base settings. This describes records stored in the
     configuration registry and obtainable via plone.registry.
     """
 
@@ -126,20 +126,20 @@ class IGenwebCoreControlPanelSettings(Interface):
 
 
 
-class GenwebCoreControlPanelSettingsForm(controlpanel.RegistryEditForm):
-    """ Genweb settings form """
+class BaseCoreControlPanelSettingsForm(controlpanel.RegistryEditForm):
+    """ Base settings form """
 
-    schema = IGenwebCoreControlPanelSettings
-    id = "GenwebCoreControlPanelSettingsForm"
-    label = _(u"Genweb Core settings")
-    description = _(u"help_genweb_core_settings_editform",
-                    default=u"Configuracio de Genweb Core")
+    schema = IBaseCoreControlPanelSettings
+    id = "BaseCoreControlPanelSettingsForm"
+    label = _(u"Base settings")
+    description = _(u"help_base_core_settings_editform",
+                    default=u"Configuracio de Base Core")
 
     def updateFields(self):
-        super(GenwebCoreControlPanelSettingsForm, self).updateFields()
+        super(BaseCoreControlPanelSettingsForm, self).updateFields()
 
     def updateWidgets(self):
-        super(GenwebCoreControlPanelSettingsForm, self).updateWidgets()
+        super(BaseCoreControlPanelSettingsForm, self).updateWidgets()
 
     @button.buttonAndHandler(_('Save'), name=None)
     def handleSave(self, action):
@@ -154,7 +154,7 @@ class GenwebCoreControlPanelSettingsForm(controlpanel.RegistryEditForm):
         es.create_new_connection()
 
         IStatusMessage(self.request).addStatusMessage(_(u"Changes saved"), "info")
-        self.context.REQUEST.RESPONSE.redirect("@@genweb-core-controlpanel")
+        self.context.REQUEST.RESPONSE.redirect("@@base-controlpanel")
 
     @button.buttonAndHandler(_('Cancel'), name='cancel')
     def handleCancel(self, action):
@@ -163,6 +163,6 @@ class GenwebCoreControlPanelSettingsForm(controlpanel.RegistryEditForm):
                                                   self.control_panel_view))
 
 
-class GenwebCoreControlPanel(controlpanel.ControlPanelFormWrapper):
-    """ Genweb Core settings control panel """
-    form = GenwebCoreControlPanelSettingsForm
+class BaseCoreControlPanel(controlpanel.ControlPanelFormWrapper):
+    """ Base settings control panel """
+    form = BaseCoreControlPanelSettingsForm

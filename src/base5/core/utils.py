@@ -22,7 +22,7 @@ from zope.component import getUtilitiesFor
 from base5.core import HAS_PAM
 from base5.core import IAMULEARN
 from base5.core.directory import METADATA_USER_ATTRS
-from base5.core.controlpanel.interface import IGenwebControlPanelSettings
+from base5.core.controlpanel.core import IBaseCoreControlPanelSettings
 
 
 import logging
@@ -38,7 +38,7 @@ if HAS_PAM:
 def base_config():
     """ Funcio que retorna les configuracions del controlpanel """
     registry = queryUtility(IRegistry)
-    return registry.forInterface(IGenwebControlPanelSettings)
+    return registry.forInterface(IBaseCoreControlPanelSettings)
 
 
 def havePermissionAtRoot():
@@ -138,7 +138,7 @@ def get_all_user_properties(user):
     attributes = user_properties_utility.properties + METADATA_USER_ATTRS
 
     try:
-        extender_name = api.portal.get_registry_record('base5.core.controlpanel.core.IGenwebCoreControlPanelSettings.user_properties_extender')
+        extender_name = api.portal.get_registry_record('base5.core.controlpanel.core.IBaseCoreControlPanelSettings.user_properties_extender')
     except:
         extender_name = ''
 
@@ -167,7 +167,7 @@ def remove_user_from_catalog(username):
         del soup[user_record]
 
     if IAMULEARN:
-        extender_name = api.portal.get_registry_record('base5.core.controlpanel.core.IGenwebCoreControlPanelSettings.user_properties_extender')
+        extender_name = api.portal.get_registry_record('base5.core.controlpanel.core.IBaseCoreControlPanelSettings.user_properties_extender')
         # Make sure that, in fact we have such a extender in place
         if extender_name in [a[0] for a in getUtilitiesFor(ICatalogFactory)]:
             extended_soup = get_soup(extender_name, portal)
@@ -272,10 +272,10 @@ def add_user_to_catalog(user, properties={}, notlegit=False, overwrite=False):
     # If uLearn is present, then lookup for a customized set of fields and its
     # related soup. The soup has the form 'user_properties_<client_name>'. This
     # feature is currently restricted to uLearn but could be easily backported
-    # to Genweb. The setting that makes the extension available lives in:
-    # 'base5.core.controlpanel.core.IGenwebCoreControlPanelSettings.user_properties_extender'
+    # to Base. The setting that makes the extension available lives in:
+    # 'base5.core.controlpanel.core.IBaseCoreControlPanelSettings.user_properties_extender'
     if IAMULEARN:
-        extender_name = api.portal.get_registry_record('base5.core.controlpanel.core.IGenwebCoreControlPanelSettings.user_properties_extender')
+        extender_name = api.portal.get_registry_record('base5.core.controlpanel.core.IBaseCoreControlPanelSettings.user_properties_extender')
         # Make sure that, in fact we have such a extender in place
         if extender_name in [a[0] for a in getUtilitiesFor(ICatalogFactory)]:
             extended_soup = get_soup(extender_name, portal)

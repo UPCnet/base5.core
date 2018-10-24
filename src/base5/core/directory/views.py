@@ -7,7 +7,7 @@ from souper.soup import Record
 from Products.CMFPlone.interfaces import IPloneSiteRoot
 from plone.registry.interfaces import IRegistry
 from zope.component import queryUtility
-from base5.core.controlpanel.core import IGenwebCoreControlPanelSettings
+from base5.core.controlpanel.core import IBaseCoreControlPanelSettings
 from zope.interface import alsoProvides
 import logging
 
@@ -20,7 +20,7 @@ import os
 def get_ldap_config():
     """ return config ldap """
     registry = queryUtility(IRegistry)
-    gw_settings = registry.forInterface(IGenwebCoreControlPanelSettings)
+    gw_settings = registry.forInterface(IBaseCoreControlPanelSettings)
     ALT_LDAP_URI = gw_settings.alt_ldap_uri if gw_settings.alt_ldap_uri is not None else os.environ.get('alt_ldap_uri', '')
     ALT_LDAP_DN = gw_settings.alt_bind_dn if gw_settings.alt_bind_dn is not None else os.environ.get('alt_bind_dn', '')
     ALT_LDAP_PASSWORD = gw_settings.alt_bindpasswd if gw_settings.alt_bindpasswd is not None else os.environ.get('alt_bindpasswd', '')

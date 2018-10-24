@@ -1,6 +1,6 @@
 msgid ""
 msgstr ""
-"Project-Id-Version: GenWebUPC\n"
+"Project-Id-Version: BaseUPC\n"
 "POT-Creation-Date: YEAR-MO-DA HO:MI +ZONE\n"
 "PO-Revision-Date: 2018-07-16 08:45+0100\n"
 "Last-Translator: \n"
@@ -83,12 +83,8 @@ msgid "General"
 msgstr "General"
 
 #: ../controlpanel/core.py:134
-msgid "Genweb Core settings"
-msgstr "Configuració del Genweb"
-
-#: ../controlpanel/controlpanel.py:26
-msgid "Genweb UPC settings"
-msgstr "Configuració del Genweb"
+msgid "Base settings"
+msgstr "Configuració Base"
 
 #: ../portlets/smart/smart.py:93
 msgid ""
@@ -511,30 +507,30 @@ msgstr "Afegiu el color específic 1. És aquell que..."
 msgid "help_especific2"
 msgstr "Afegiu el color específic 2. És aquell que..."
 
-#. Default: "Configuracio de Genweb Core"
+#. Default: "Configuracio de Base Core"
 #: ../controlpanel/core.py:135
-msgid "help_genweb_core_settings_editform"
-msgstr "Configuració de Genweb Core"
+msgid "help_base_core_settings_editform"
+msgstr "Configuració de Base Core"
 
-#. Default: "Configuracio de Genweb UPC ..."
+#. Default: "Configuracio de Base UPC ..."
 #: ../controlpanel/controlpanel.py:27
-msgid "help_genweb_settings_editform"
-msgstr "Configuració de Genweb UPC ..."
+msgid "help_base_settings_editform"
+msgstr "Configuració de Base UPC ..."
 
-#. Default: "Afegiu el titol del Genweb. Podeu incloure tags HTML"
+#. Default: "Afegiu el titol del Base. Podeu incloure tags HTML"
 #: ../controlpanel/interface.py:64
 msgid "help_html_title_ca"
-msgstr "Afegiu el títol del Genweb. Podeu incloure tags HTML"
+msgstr "Afegiu el títol del Base. Podeu incloure tags HTML"
 
-#. Default: "Afegiu el titol del Genweb. Podeu incloure tags HTML."
+#. Default: "Afegiu el titol del Base. Podeu incloure tags HTML."
 #: ../controlpanel/interface.py:82
 msgid "help_html_title_en"
-msgstr "Afegiu el títol del Genweb. Podeu incloure tags HTML"
+msgstr "Afegiu el títol del Base. Podeu incloure tags HTML"
 
-#. Default: "Afegiu el titol del Genweb. Podeu incloure tags HTML"
+#. Default: "Afegiu el titol del Base. Podeu incloure tags HTML"
 #: ../controlpanel/interface.py:73
 msgid "help_html_title_es"
-msgstr "Afegiu el títol del Genweb. Podeu incloure tags HTML"
+msgstr "Afegiu el títol del Base. Podeu incloure tags HTML"
 
 #. Default: "Afegiu el id de l'estudi de la base de dades de masters."
 #: ../controlpanel/interface.py:284

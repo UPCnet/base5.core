@@ -8,14 +8,14 @@ import json
 import pkg_resources
 
 
-class gwCSSViewletManager(grok.ViewletManager):
+class baseCSSViewletManager(grok.ViewletManager):
     grok.context(Interface)
-    grok.name('genweb.css')
+    grok.name('base.css')
 
 
-class gwJSViewletManager(grok.ViewletManager):
+class baseJSViewletManager(grok.ViewletManager):
     grok.context(Interface)
-    grok.name('genweb.js')
+    grok.name('base.js')
 
 
 class baseResourcesViewlet(grok.Viewlet):
@@ -25,8 +25,8 @@ class baseResourcesViewlet(grok.Viewlet):
     resource_type = None
     current_egg_name = None
 
-    index_css = ViewPageTemplateFile('viewlets_templates/gwcssviewlet.pt')
-    index_js = ViewPageTemplateFile('viewlets_templates/gwjsviewlet.pt')
+    index_css = ViewPageTemplateFile('viewlets_templates/basecssviewlet.pt')
+    index_js = ViewPageTemplateFile('viewlets_templates/basejsviewlet.pt')
 
     def render(self):
         if self.resource_type == 'css':

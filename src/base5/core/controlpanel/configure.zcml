@@ -11,21 +11,14 @@
   <include package="collective.z3cform.datagridfield" />
 
   <browser:resource
-      name="cpgenweb.png"
-      file="cpgenweb.png"
+      name="cpbase.png"
+      file="cpbase.png"
       />
 
   <browser:page
-    name="genweb-controlpanel"
+    name="base-controlpanel"
     for="Products.CMFPlone.interfaces.IPloneSiteRoot"
-    class=".controlpanel.GenwebControlPanel"
-    permission="cmf.ManagePortal"
-    />
-
-  <browser:page
-    name="genweb-core-controlpanel"
-    for="Products.CMFPlone.interfaces.IPloneSiteRoot"
-    class=".core.GenwebCoreControlPanel"
+    class=".core.BaseCoreControlPanel"
     permission="cmf.ManagePortal"
     />
 

@@ -1,6 +1,6 @@
 msgid ""
 msgstr ""
-"Project-Id-Version: GenWebUPC\n"
+"Project-Id-Version: BaseUPC\n"
 "POT-Creation-Date: 2018-07-16 06:24+0000\n"
 "PO-Revision-Date: 2018-02-05 10:53+0100\n"
 "Last-Translator: \n"

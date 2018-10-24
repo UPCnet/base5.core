@@ -37,7 +37,7 @@ from cgi import escape
 
 
 logger = logging.getLogger('event.LDAPUserFolder')
-genweb_log = logging.getLogger('genweb.core')
+base5_log = logging.getLogger('base5.core')
 
 
 def getToolbars(self, config):
@@ -50,7 +50,7 @@ def getToolbars(self, config):
     config['theme_advanced_blockformats'] = 'p,div,h2,h3,h4'
 
     try:
-        custom_icons = api.portal.get_registry_record('base5.core.controlpanel.core.IGenwebCoreControlPanelSettings.custom_editor_icons')
+        custom_icons = api.portal.get_registry_record('base5.core.controlpanel.core.IBaseCoreControlPanelSettings.custom_editor_icons')
     except:
         custom_icons = []
 
@@ -280,7 +280,7 @@ def setMemberProperties(self, mapping, force_local=0, force_empty=False):
     if modified:
         self.notifyModified()
 
-        # Genweb: Updated by patch
+        # Base: Updated by patch
         notify(PropertiesUpdated(user, mapping))
 
 
@@ -320,10 +320,10 @@ def getMemberById(self, id):
 
     # If the user is not on the new catalog, then fallback anyway
     if api.env.debug_mode():
-        genweb_log.warning('')
-        genweb_log.warning('Warning! Using getMemberById')
-        genweb_log.warning('from: {}'.format(upstream_callers))
-        genweb_log.warning('')
+        base5_log.warning('')
+        base5_log.warning('Warning! Using getMemberById')
+        base5_log.warning('from: {}'.format(upstream_callers))
+        base5_log.warning('')
 
     user = self._huntUser(id, self)
     if user is not None:
