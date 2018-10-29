@@ -3,7 +3,8 @@ from Acquisition import aq_inner
 from Acquisition import aq_parent
 from Products.CMFCore.utils import getToolByName
 
-from plone.app.collection.interfaces import ICollection
+from zope.schema.interfaces import ICollection
+#from plone.app.collection.interfaces import ICollection
 from plone.app.portlets.portlets import base
 from plone.app.querystring.querybuilder import QueryBuilder
 from plone.directives import form
