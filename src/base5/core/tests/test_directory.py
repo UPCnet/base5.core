@@ -34,12 +34,11 @@ class TestOmega13(unittest.TestCase):
         api.user.create(email='test@upcnet.es', username='testdirectory',
                         properties=dict(fullname='Test Directory User',
                                         location='Barcelona',
-                                        ubicacio='NX',
-                                        telefon='44002, 54390'))
+                                        email='test@upcnet.es'))
         portal = api.portal.get()
         soup = get_soup('user_properties', portal)
         exist = [r for r in soup.query(Eq('username', 'testdirectory'))]
-        self.assertEqual('44002, 54390', exist[0].attrs['telefon'])
+        self.assertEqual('test@upcnet.es', exist[0].attrs['email'])
         exist = [r for r in soup.query(Eq('fullname', 'Test*'))]
         self.assertEqual(u'Test Directory User', exist[0].attrs['fullname'])
 
@@ -47,27 +46,24 @@ class TestOmega13(unittest.TestCase):
         api.user.create(email='test@upcnet.es', username='testdirectory',
                         properties=dict(fullname='Test Directory User',
                                         location='Barcelona',
-                                        ubicacio='NX',
-                                        telefon='44002, 54390'))
+                                        email='test@upcnet.es'))
         portal = api.portal.get()
         user = api.user.get(username='testdirectory')
         user.setMemberProperties(mapping={'location': 'Barcelona', 'telefon': '654321'})
         soup = get_soup('user_properties', portal)
         exist = [r for r in soup.query(Eq('username', 'testdirectory'))]
-        self.assertEqual('654321', exist[0].attrs['telefon'])
+        self.assertEqual('test@upcnet.es', exist[0].attrs['email'])
         self.assertEqual('Barcelona', exist[0].attrs['location'])
 
     def test_full_directory_update(self):
         api.user.create(email='test@upcnet.es', username='testdirectory',
                         properties=dict(fullname='Test Directory User',
                                         location='Barcelona',
-                                        ubicacio='NX',
-                                        telefon='44002, 54390'))
+                                        email='test@upcnet.es'))
         api.user.create(email='test@upcnet.es', username='testdirectory2',
                         properties=dict(fullname='Test Directory User',
                                         location='Barcelona',
-                                        ubicacio='NX',
-                                        telefon='44002, 54390'))
+                                        email='test@upcnet.es'))
 
         view = getMultiAdapter((self.portal, self.request), name='rebuild_user_catalog')
         view.render()
@@ -76,11 +72,10 @@ class TestOmega13(unittest.TestCase):
         api.user.create(email='test@upcnet.es', username='testdirectory',
                         properties=dict(fullname=u'Víctor',
                                         location=u'Barcelona',
-                                        ubicacio=u'NX',
-                                        telefon=u'44002, 54390'))
+                                        email=u'test@upcnet.es'))
         portal = api.portal.get()
         soup = get_soup('user_properties', portal)
         exist = [r for r in soup.query(Eq('username', 'testdirectory'))]
-        self.assertEqual('44002, 54390', exist[0].attrs['telefon'])
+        self.assertEqual('test@upcnet.es', exist[0].attrs['email'])
         exist = [r for r in soup.query(Eq('fullname', u'Ví*'))]
         self.assertEqual(u'Víctor', exist[0].attrs['fullname'])
