@@ -2,11 +2,12 @@ Changelog
 =========
 
 
-0.6 (unreleased)
+0.6 (2018-10-29)
 ----------------
 
-- Nothing changed yet.
-
+* Modify UserPropertiesSoupCatalogFactory base with properties plone [Pilar Marinas]
+* Quitar Genweb [Pilar Marinas]
+* Add helpers add_user_catalog and remove_user_catalog: Add and remove a specific user in catalog [iago.lopez]
 
 0.5 (2018-10-10)
 ----------------
