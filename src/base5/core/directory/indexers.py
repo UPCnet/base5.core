@@ -1,10 +1,11 @@
 from five import grok
-from zope.interface import implementer
 from repoze.catalog.catalog import Catalog
 from repoze.catalog.indexes.field import CatalogFieldIndex
+from repoze.catalog.indexes.keyword import CatalogKeywordIndex
 from repoze.catalog.indexes.text import CatalogTextIndex
 from souper.interfaces import ICatalogFactory
 from souper.soup import NodeAttributeIndexer
+from zope.interface import implementer
 
 from base5.core import _
 
@@ -101,3 +102,18 @@ class GroupsSoupCatalogFactory(object):
 
 
 grok.global_utility(GroupsSoupCatalogFactory, name='ldap_groups')
+
+
+@implementer(ICatalogFactory)
+class UserNewsSearchSoupCatalog(object):
+    def __call__(self, context):
+        catalog = Catalog()
+        idindexer = NodeAttributeIndexer('id')
+        catalog['id'] = CatalogFieldIndex(idindexer)
+        hashindex = NodeAttributeIndexer('searches')
+        catalog['searches'] = CatalogKeywordIndex(hashindex)
+
+        return catalog
+
+
+grok.global_utility(UserNewsSearchSoupCatalog, name='user_news_searches')
