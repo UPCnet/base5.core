@@ -1,4 +1,5 @@
 .coverage
+downloads/
 *.egg-info
 *.log
 *.mo

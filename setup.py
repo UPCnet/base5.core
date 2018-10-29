@@ -53,7 +53,8 @@ setup(
         'plone.app.drafts',
         'plone.app.mosaic',
         'collective.dexteritytextindexer',
-        'Products.PloneLDAP'
+        'Products.PloneLDAP',
+        'collective.z3cform.datagridfield'
     ],
     extras_require={
         'test': [
