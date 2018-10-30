@@ -2,11 +2,20 @@ Changelog
 =========
 
 
-0.7 (unreleased)
+0.8 (unreleased)
 ----------------
 
 - Nothing changed yet.
 
+
+0.7 (2018-10-30)
+----------------
+
+* Connection elestic url not equal localhost [Pilar Marinas]
+* Si no hay url y check no hacer el elastic [Pilar Marinas]
+* Añadir catalogo user_news_searches [iago.lopez]
+* Solucionar test [Pilar Marinas]
+* updated package to run travis. TODO: need solve missing phone in some tests [Roberto Diaz]
 
 0.6 (2018-10-29)
 ----------------

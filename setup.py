@@ -14,7 +14,7 @@ long_description = '\n\n'.join([
 
 setup(
     name='base5.core',
-    version='0.7.dev0',
+    version='0.8.dev0',
     description="Base Genweb, Ulearn, etc Plone 5",
     long_description=long_description,
     # Get more from https://pypi.python.org/pypi?%3Aaction=list_classifiers
@@ -53,7 +53,8 @@ setup(
         'plone.app.drafts',
         'plone.app.mosaic',
         'collective.dexteritytextindexer',
-        'Products.PloneLDAP'
+        'Products.PloneLDAP',
+        'collective.z3cform.datagridfield'
     ],
     extras_require={
         'test': [
