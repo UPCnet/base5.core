@@ -20,7 +20,8 @@ class ElasticSearch(object):
 
     def create_new_connection(self):
         self.es_url = api.portal.get_registry_record('base5.core.controlpanel.core.IBaseCoreControlPanelSettings.elasticsearch')
-        self._conn = Elasticsearch(self.es_url)
+        if (api.portal.get_registry_record('base5.core.controlpanel.core.IBaseCoreControlPanelSettings.elasticsearch') != 'localhost') and (api.portal.get_registry_record('ulearn5.core.controlpanel.IUlearnControlPanelSettings.activate_sharedwithme') == True):
+            self._conn = Elasticsearch(self.es_url)
 
     @property
     def connection(self):
