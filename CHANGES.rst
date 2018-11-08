@@ -2,11 +2,11 @@ Changelog
 =========
 
 
-0.8 (unreleased)
+0.8 (2018-11-08)
 ----------------
 
-- Nothing changed yet.
-
+* removed code analysis [Roberto Diaz]
+* Merge remote-tracking branch 'origin/master' into develop [Pilar Marinas]
 
 0.7 (2018-10-30)
 ----------------
