@@ -2,11 +2,10 @@ Changelog
 =========
 
 
-0.9 (unreleased)
+0.9 (2018-11-12)
 ----------------
 
-- Nothing changed yet.
-
+* Vistas add/remove_user_catalog permitir multiples usuarios en la petición [Iago López Fernández]
 
 0.8 (2018-11-08)
 ----------------
