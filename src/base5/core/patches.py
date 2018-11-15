@@ -633,10 +633,13 @@ def enumerateUsers(self,
                 l_res['login'] = l_res[login_attr].lower()
                 # END PATCH
                 l_res['pluginid'] = plugin_id
-                quoted_dn = quote_plus(l_res['dn'])
-                l_res['editurl'] = '%s?user_dn=%s' % (edit_url, quoted_dn)
-                result.append(l_res)
-                seen.append(l_res['dn'])
+                try:
+                    quoted_dn = quote_plus(l_res['dn'])
+                    l_res['editurl'] = '%s?user_dn=%s' % (edit_url, quoted_dn)
+                    result.append(l_res)
+                    seen.append(l_res['dn'])
+                except:
+                    print l_res['dn']
 
         if sort_by is not None:
             result.sort(lambda a, b: cmp(a.get(sort_by, '').lower(),
