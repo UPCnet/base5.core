@@ -2,11 +2,10 @@ Changelog
 =========
 
 
-0.10 (unreleased)
+0.10 (2018-11-16)
 -----------------
 
-- Nothing changed yet.
-
+* Si hay ñ en el dn al hacer rebuild_user_catalog se lo salta y no da error [Pilar Marinas]
 
 0.9 (2018-11-12)
 ----------------
