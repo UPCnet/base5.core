@@ -40,8 +40,10 @@ def UpdateUserPropertiesOnLogin(event):
 
 
 @grok.subscribe(IUserInitialLoginInEvent)
-def UpdateUserPropPropertiesOnFirstLogin(event):
+def UpdateUserPropertiesOnFirstLogin(event):
     user = api.user.get_current()
+    if hasattr(user, 'visible_userprofile_portlet'):
+        user.setMemberProperties({'visible_userprofile_portlet': True})
     properties = get_all_user_properties(user)
     for key, value in properties.iteritems():
         if 'check_' in key:
