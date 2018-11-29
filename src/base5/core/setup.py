@@ -1,27 +1,27 @@
 # -*- coding: utf-8 -*-
-import os
-import transaction
+from Products.CMFPlone.interfaces import IPloneSiteRoot
+from Products.CMFPlone.interfaces import ITinyMCESchema
+from Products.PlonePAS.interfaces.group import IGroupManagement
+from Products.PluggableAuthService.interfaces.plugins import IPropertiesPlugin
+from Products.PluggableAuthService.interfaces.plugins import IUserAdderPlugin
+
 from five import grok
-from zope.interface import Interface
-from zope.interface import alsoProvides
+from plone import api
+from plone.registry.interfaces import IRegistry
+from souper.soup import get_soup
 from zope.component import getUtility
 from zope.component.hooks import getSite
-from plone.registry.interfaces import IRegistry
-
-from Products.CMFPlone.interfaces import IPloneSiteRoot, ITinyMCESchema
-from Products.CMFCore.utils import getToolByName
-from Products.PluggableAuthService.interfaces.plugins import IUserAdderPlugin, IPropertiesPlugin
-from Products.PlonePAS.interfaces.group import IGroupManagement
+from zope.interface import Interface
+from zope.interface import alsoProvides
 
 from base5.core.utils import add_user_to_catalog
-from base5.core.utils import reset_user_catalog
 from base5.core.utils import json_response
+from base5.core.utils import reset_user_catalog
 
-from plone import api
-from souper.soup import get_soup
-
-import pkg_resources
 import logging
+import os
+import pkg_resources
+import transaction
 
 try:
     pkg_resources.get_distribution('Products.PloneLDAP')
@@ -61,11 +61,11 @@ class setupTinyMCEConfigPlone5(grok.View):
             ITinyMCESchema,
             prefix="plone",
             check=False
-            )
+        )
         settings.resizing = True
-        settings.autoresize = True
+        settings.autoresize = False
         settings.editor_width = u'100%'
-        settings.editor_height = u'250'
+        settings.editor_height = u'500'
         settings.header_styles = [u'Header 2|h2', u'Header 3|h3', u'Header 4|h4']
         settings.formats = u'{"clearfix": {"classes": "clearfix", "block": "div"}, "discreet": {"inline": "span", "classes": "discreet"}, "alerta": {"inline": "span", "classes": "bg-warning", "styles": {"padding": "15px"}}, "banner-minimal": {"inline": "a", "classes": "link-banner-minimal"}, "banner": {"inline": "a", "classes": "link-banner"}, "exit": {"inline": "span", "classes": "bg-success", "styles": {"padding": "15px"}}, "perill": {"inline": "span", "classes": "bg-danger", "styles": {"padding": "15px"}}, "small": {"inline": "small"}, "destacat": {"inline": "p", "classes": "lead"}, "marcat": {"inline": "mark"}, "preformat": {"inline": "pre", "styles": {"outline-style": "none"}}}'
         settings.plugins.append('autosave')
