@@ -639,7 +639,9 @@ def enumerateUsers(self,
                     result.append(l_res)
                     seen.append(l_res['dn'])
                 except:
-                    print l_res['dn']
+                    msg = ('****Result ldap error: l_res %s' % (l_res))
+                    logger.error(msg)
+                    pass
 
         if sort_by is not None:
             result.sort(lambda a, b: cmp(a.get(sort_by, '').lower(),
