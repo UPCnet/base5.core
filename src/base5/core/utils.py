@@ -319,7 +319,14 @@ def add_user_to_catalog(user, properties={}, notlegit=False, overwrite=False):
                         checkKey = 'check_' + key
                         hasCheck = checkKey in extended_user_record.attrs
                         if not hasCheck or (hasCheck and extended_user_record.attrs[checkKey] != 'False'):
-                            user_record.attrs['searchable_text'] += unicodedata.normalize('NFKD', extended_user_record.attrs[key]).encode('ascii', errors='ignore') + ' '
+                            value = extended_user_record.attrs[key]
+                            if isinstance(value, list) or isinstance(value, tuple):
+                                value = ' '.join(value)
+
+                            if isinstance(value, unicode):
+                                user_record.attrs['searchable_text'] += ' ' + unicodedata.normalize('NFKD', value).encode('ascii', errors='ignore')
+                            else:
+                                user_record.attrs['searchable_text'] += ' ' + value
             else:
                 for key in extended_user_properties_utility.properties:
                     if extended_user_record.attrs.get(key, False) and 'check_' not in key:
