@@ -2,11 +2,14 @@ Changelog
 =========
 
 
-0.11 (unreleased)
+0.11 (2018-12-04)
 -----------------
 
-- Nothing changed yet.
-
+* memoize results portlet media [Pilar Marinas]
+* Quitar plone_log [Pilar Marinas]
+* Logger error rebuild_user_catalog [Pilar Marinas]
+* setuptinymce: Cambiar configuración [Iago López Fernández]
+* visible_userprofile_portlet por defecto a True [Iago López Fernández]
 
 0.10 (2018-11-16)
 -----------------
