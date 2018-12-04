@@ -205,7 +205,7 @@ def get_macros(self, vdata):
     try:
         return versionPreviewTemplate.macros['main']
     except KeyError:
-        context.plone_log(
+        logger.error(
             '(CMFEditions: @@get_macros) Internal error: Missing TAL '
             'macros %s in template "%s".' % (', '.join(macro_names), versionPreviewMethodName))
         return None
