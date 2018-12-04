@@ -16,6 +16,7 @@ from zope.component import getAdapter
 from zope.component import getMultiAdapter
 from zope.component import getUtility
 from zope.interface import implements
+from plone.memoize.instance import memoize
 
 from base5.core import _
 from base5.core.portlets.smart.renderers.interfaces import IPortletContainerRenderer
@@ -165,6 +166,7 @@ class Renderer(base.Renderer):
         normalizer = getUtility(IIDNormalizer)
         return "portlet-smart-%s" % normalizer.normalize(header)
 
+    @memoize
     def results(self):
         if self.data.random:
             return self._random_results()
