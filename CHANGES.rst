@@ -2,11 +2,10 @@ Changelog
 =========
 
 
-0.12 (unreleased)
+0.12 (2018-12-11)
 -----------------
 
-- Nothing changed yet.
-
+* add_user_to_catalog permitir listas [Iago López Fernández]
 
 0.11 (2018-12-04)
 -----------------
