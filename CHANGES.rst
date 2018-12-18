@@ -2,11 +2,10 @@ Changelog
 =========
 
 
-0.13 (unreleased)
+0.13 (2018-12-18)
 -----------------
 
-- Nothing changed yet.
-
+* Solucionar parche para que no de error la creacion de usuarios [Pilar Marinas]
 
 0.12 (2018-12-11)
 -----------------
