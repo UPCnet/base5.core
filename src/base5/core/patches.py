@@ -116,6 +116,7 @@ def generate_user_id(self, data):
     else:
         default = ''
     data['username'] = default
+    data['user_id'] = default
     return default
 
 
