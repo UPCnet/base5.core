@@ -416,6 +416,7 @@ class rebuild_user_catalog(grok.View):
                 print('No user found in user repository (LDAP) {}'.format(user['id']))
 
             print('Updated properties catalog for {}'.format(user['id']))
+        return 'Done'
 
 
 class DeleteUserPropertiesCatalog(grok.View):
@@ -465,4 +466,4 @@ class DeleteUserPropertiesCatalog(grok.View):
         except:
             print('The order to the plugins in En ACL_USERS / LDAP / Properties / Active Plugins : mutable_properties / auto_group / ldapaspb')
             results.append('The order to the plugins in En ACL_USERS / LDAP / Properties / Active Plugins : mutable_properties / auto_group / ldapaspb')
-            return '\n'.join([str(item) for item in results])
+            return 'Error: ' + '\n'.join([str(item) for item in results])

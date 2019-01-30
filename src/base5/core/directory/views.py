@@ -103,4 +103,4 @@ class SyncLDAPGroups(grok.View):
                 subject='[uLearn] FAIL! Import LDAP groups: ' + self.context.absolute_url(),
                 body='KO - No groups found syncing LDAP groups to communities. URL: ' + self.context.absolute_url(),
             )
-            return 'KO, no groups found.'
+            return 'KO, no groups found. Error'
