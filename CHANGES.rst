@@ -2,11 +2,10 @@ Changelog
 =========
 
 
-0.14 (unreleased)
+0.14 (2019-01-31)
 -----------------
 
-- Nothing changed yet.
-
+* Cron Task [Pilar Marinas]
 
 0.13 (2018-12-18)
 -----------------
