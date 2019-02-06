@@ -74,7 +74,6 @@ class setupTinyMCEConfigPlone5(grok.View):
         settings.plugins.append('contextmenu')
         settings.plugins.append('directionality')
         settings.plugins.append('emoticons')
-        settings.plugins.append('fullpage')
         settings.plugins.append('insertdatetime')
         settings.plugins.append('textcolor')
         settings.plugins.append('textpattern')
