@@ -1,31 +1,27 @@
-from plone import api
-from Products.CMFCore.utils import getToolByName
-import json
-import unicodedata
-
 from AccessControl import getSecurityManager
-from zope.component import queryUtility
-from zope.i18nmessageid import MessageFactory
-from zope.component.hooks import getSite
-from zope.component import getUtility
-
+from base5.core import HAS_PAM
+from base5.core import IAMULEARN
+from base5.core.controlpanel.core import IBaseCoreControlPanelSettings
+from base5.core.directory import METADATA_USER_ATTRS
+from plone import api
 from plone.registry.interfaces import IRegistry
-
-from Products.PlonePAS.tools.memberdata import MemberData
+from Products.CMFCore.utils import getToolByName
 from Products.PlonePAS.plugins.ufactory import PloneUser
-from souper.interfaces import ICatalogFactory
+from Products.PlonePAS.tools.memberdata import MemberData
 from repoze.catalog.query import Eq
+from souper.interfaces import ICatalogFactory
 from souper.soup import get_soup
 from souper.soup import Record
 from zope.component import getUtilitiesFor
+from zope.component import getUtility
+from zope.component import queryUtility
+from zope.component.hooks import getSite
+from zope.i18nmessageid import MessageFactory
 
-from base5.core import HAS_PAM
-from base5.core import IAMULEARN
-from base5.core.directory import METADATA_USER_ATTRS
-from base5.core.controlpanel.core import IBaseCoreControlPanelSettings
-
-
+import json
 import logging
+import unicodedata
+
 
 logger = logging.getLogger(__name__)
 
@@ -70,11 +66,20 @@ def portal():
     return getSite()
 
 
+def abrevia(desc):
+    """Cut long texts to 40 characters. """
+    if len(desc) > 40:
+        desc_text = desc[:40]
+        desc_text = desc_text[:desc_text.rfind(' ') - len(desc_text)]
+        desc_text = desc_text + '...'
+    else:
+        desc_text = desc
+    return desc_text
+
+
 def pref_lang():
-    """ Extracts the current language for the current user
-    """
-    portal = api.portal.get()
-    lt = getToolByName(portal, 'portal_languages')
+    """ Extracts the current language for the current user. """
+    lt = getToolByName(portal(), 'portal_languages')
     return lt.getPreferredLanguage()
 
 
