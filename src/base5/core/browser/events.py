@@ -48,8 +48,8 @@ class GridEventsView(FolderView):
                     'lastmonth': PLMF(ts.month_msgid(event.end.month)),
                     'abbrlastmonth': PLMF(ts.month_msgid(event.end.month)),
                     'connector': ' to ' if pref_lang() == 'en' else ' a ',
-                    'title': event.title,
-                    'descr': abrevia(event.description) if event.description else ""
+                    'title': abrevia(event.title, 60),
+                    'descr': abrevia(event.description, 100) if event.description else ""
                     }
             events.append(info)
         return events

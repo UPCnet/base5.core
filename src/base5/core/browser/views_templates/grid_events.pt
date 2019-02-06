@@ -25,7 +25,8 @@
           <tal:repeat repeat="item events" metal:define-macro="entries">
             <metal:block define-slot="entry">
               <div class="col-md-3 col-sm-6 col-xs-12">
-                <a class="event-highlighted event-img" tal:attributes="href item/url;">
+                <a class="event-highlighted event-img" tal:attributes="href item/url;"
+                   data-toggle="tooltip" data-placement="top" title="Tooltip on top">
                   <span class="event-time">
                     <span class="event-time--wrap" tal:define="type python: view.dateType(item)">
                       <block metal:use-macro="context/macros-comunitats/sameday_samemonth"></block>

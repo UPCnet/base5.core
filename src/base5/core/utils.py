@@ -1,8 +1,10 @@
+# -*- coding: utf-8 -*-
 from AccessControl import getSecurityManager
 from base5.core import HAS_PAM
 from base5.core import IAMULEARN
 from base5.core.controlpanel.core import IBaseCoreControlPanelSettings
 from base5.core.directory import METADATA_USER_ATTRS
+from BeautifulSoup import BeautifulSoup
 from plone import api
 from plone.registry.interfaces import IRegistry
 from Products.CMFCore.utils import getToolByName
@@ -66,15 +68,32 @@ def portal():
     return getSite()
 
 
-def abrevia(desc):
-    """Cut long texts to 40 characters. """
-    if len(desc) > 40:
-        desc_text = desc[:40]
-        desc_text = desc_text[:desc_text.rfind(' ') - len(desc_text)]
-        desc_text = desc_text + '...'
-    else:
-        desc_text = desc
-    return desc_text
+def abrevia(summary, sumlenght):
+        """ Retalla contingut de cadenes
+        """
+        bb = ''
+
+        if sumlenght < len(summary):
+            bb = summary[:sumlenght]
+
+            lastspace = bb.rfind(' ')
+            cutter = lastspace
+            precut = bb[0:cutter]
+
+            if precut.count('<b>') > precut.count('</b>'):
+                cutter = summary.find('</b>', lastspace) + 4
+            elif precut.count('<strong>') > precut.count('</strong>'):
+                cutter = summary.find('</strong>', lastspace) + 9
+            bb = summary[0:cutter]
+
+            if bb.count('<p') > precut.count('</p'):
+                bb += '...</p>'
+            else:
+                bb = bb + '...'
+        else:
+            bb = summary
+
+        return BeautifulSoup(bb).prettify()
 
 
 def pref_lang():
