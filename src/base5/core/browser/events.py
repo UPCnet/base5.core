@@ -1,6 +1,4 @@
 # -*- coding: utf-8 -*-
-from Acquisition import aq_base
-from Acquisition import aq_inner
 from base5.core.utils import abrevia
 from base5.core.utils import pref_lang
 from plone.app.contenttypes.browser.folder import FolderView
@@ -8,7 +6,6 @@ from plone.app.contenttypes.interfaces import IEvent
 from plone.memoize.instance import memoize
 from Products.CMFCore.utils import getToolByName
 from Products.CMFPlone import PloneMessageFactory as pmf
-from Products.CMFPlone.PloneBatch import Batch
 from zope.i18nmessageid import MessageFactory
 
 
@@ -20,6 +17,7 @@ class GridEventsView(FolderView):
 
     @property
     def no_items_message(self):
+        """Translate custom message for no events in this folder."""
         return pmf(
             'description_no_events_in_folder',
             default=u'There are currently no events in this folder.'
@@ -36,10 +34,13 @@ class GridEventsView(FolderView):
 
     @memoize
     def get_events(self):
+        """Customize which properties we want to show in pt."""
         events = []
         ts = getToolByName(self.context, 'translation_service')
         results = self._query_events()
         for event in results:
+            description = abrevia(event.description, 100) if event.description else None
+            location = event.location if event.location else None
             info = {'url': event.getURL(),
                     'firstday': event.start.day,
                     'firstmonth': PLMF(ts.month_msgid(event.start.month)),
@@ -47,14 +48,17 @@ class GridEventsView(FolderView):
                     'lastday': event.end.day,
                     'lastmonth': PLMF(ts.month_msgid(event.end.month)),
                     'abbrlastmonth': PLMF(ts.month_msgid(event.end.month)),
-                    'connector': ' to ' if pref_lang() == 'en' else ' a ',
                     'title': abrevia(event.title, 60),
-                    'descr': abrevia(event.description, 100) if event.description else ""
+                    'descr': description,
+                    'location': location,
+                    'showflip': location or description,
+                    'backinfo': location and description
                     }
             events.append(info)
         return events
 
     def dateType(self, event):
+        """Select which type of text appears in circle."""
         startday = event['firstday']
         endday = event['lastday']
         startmonth = event['firstmonth']

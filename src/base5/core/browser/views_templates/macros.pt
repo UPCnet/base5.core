@@ -35,7 +35,7 @@
   <metal:block metal:define-macro="difday_samemonth">
     <tal:difday_samemonth condition="python: type == 'difday_samemonth'">
       <block metal:use-macro="context/macros-comunitats/firstday"></block>
-      <span tal:content="item/connector" class='event-days event-days-connector'>/</span>
+      <span class='event-days event-days-connector'>―</span>
       <block metal:use-macro="context/macros-comunitats/lastday"></block>
       <block metal:use-macro="context/macros-comunitats/firstmonth"></block>
     </tal:difday_samemonth>
@@ -45,7 +45,7 @@
     <tal:difday_difmonth condition="python: type == 'difday_difmonth'">
       <block metal:use-macro="context/macros-comunitats/firstday"></block>
       <block metal:use-macro="context/macros-comunitats/firstmonth"></block>
-      <span tal:content="item/connector" class="event-days event-days-connector">/</span>
+      <span class="event-days event-days-connector">―</span>
       <block metal:use-macro="context/macros-comunitats/lastday"></block>
       <span role="presentation" aria-hidden="true" class="event-months" tal:attributes="title item/lastmonth" tal:content="item/abbrlastmonth">ultimmes</span>
     </tal:difday_difmonth>
