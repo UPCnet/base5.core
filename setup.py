@@ -54,7 +54,8 @@ setup(
         'plone.app.mosaic',
         'collective.dexteritytextindexer',
         'Products.PloneLDAP',
-        'collective.z3cform.datagridfield'
+        'collective.z3cform.datagridfield',
+        'BeautifulSoup'
     ],
     extras_require={
         'test': [
