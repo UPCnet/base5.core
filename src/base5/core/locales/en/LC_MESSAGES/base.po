@@ -118,7 +118,7 @@ msgstr "Custom icon list for the TinyMCE editor"
 
 #: ../browser/views_templates/grid_events.pt:45
 msgid "Mes informacio"
-msgstr ""
+msgstr "More information"
 
 #: ../behaviors.zcml:14
 msgid "Optional open link in a new window"
