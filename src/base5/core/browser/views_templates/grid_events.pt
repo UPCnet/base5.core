@@ -42,7 +42,7 @@
                       <div class="flip-card-back">
                         <p tal:content="item/location"></p>
                         <p tal:content="item/descr"></p>
-                        <p class="more_info" i18n:translate="">Mes informacio</p>
+                        <p class="more_info" i18n:domain="base" i18n:translate="">Mes informacio</p>
                       </div>
                     </div>
                   </div>
