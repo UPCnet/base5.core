@@ -51,8 +51,7 @@ class GridEventsView(FolderView):
                     'title': abrevia(event.title, 60),
                     'descr': description,
                     'location': location,
-                    'showflip': location or description,
-                    'backinfo': location and description
+                    'showflip': location or description
                     }
             events.append(info)
         return events

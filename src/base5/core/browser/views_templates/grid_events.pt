@@ -24,12 +24,12 @@
         <div class="list-agenda row" metal:define-slot="entries">
           <tal:repeat repeat="item events" metal:define-macro="entries">
             <metal:block define-slot="entry">
-              <div class="col-md-3 col-sm-6 col-xs-12">
+              <div tal:define="flip_class python:'flip-card' if item.get('showflip') else 'no-flip-card'" class="col-md-3 col-sm-6 col-xs-12">
                 <a class="event-highlighted event-img" tal:attributes="href item/url">
-                  <div class="flip-card">
+                  <div tal:attributes="class python: flip_class">
                     <div class="flip-card-inner">
                       <div class="flip-card-front">
-                        <i class="event-flip fa fa-repeat" aria-hidden="true"></i>
+                        <i tal:condition="item/showflip" class="event-flip fa fa-repeat" aria-hidden="true"></i>
                         <span class="event-time">
                           <span class="event-time--wrap" tal:define="type python: view.dateType(item)">
                             <block metal:use-macro="context/macros-comunitats/sameday_samemonth"></block>
@@ -42,6 +42,7 @@
                       <div class="flip-card-back">
                         <p tal:content="item/location"></p>
                         <p tal:content="item/descr"></p>
+                        <p class="more_info" i18n:translate="">Mes informacio</p>
                       </div>
                     </div>
                   </div>
