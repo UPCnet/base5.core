@@ -50,3 +50,4 @@
       <span role="presentation" aria-hidden="true" class="event-months" tal:attributes="title item/lastmonth" tal:content="item/abbrlastmonth">ultimmes</span>
     </tal:difday_difmonth>
   </metal:block>
+</html>
