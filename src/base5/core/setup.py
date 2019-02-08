@@ -360,23 +360,21 @@ class reset_user_catalog(grok.View):
             return 'Error, you have to add the force parameter'
 
 
-
 class rebuild_user_catalog(grok.View):
     """ Rebuild the OMEGA13 repoze.catalog for user properties data
 
-        For default, we use the mutable_properties (users who have entered into communities)
+For default, we use the mutable_properties (users who have entered into communities)
 
-        Path directo del plugin:
-        acl_users/plugins/manage_plugins?plugin_type=IPropertiesPlugin
+Path directo del plugin:
+acl_users/plugins/manage_plugins?plugin_type=IPropertiesPlugin
 
-        En ACL_USERS / LDAP / Properties / Active Plugins ha de estar ordenado así:
-          mutable_properties / auto_group / ldapaspb
+En ACL_USERS / LDAP / Properties / Active Plugins ha de estar ordenado así:
+  mutable_properties / auto_group / ldapaspb
 
-        But really, we use the most preferent plugin
-        If the most preferent plugin is:
-           mutable_properties --> users who have entered into communities
-           ldap --> users in LDAP
-    """
+But really, we use the most preferent plugin
+If the most preferent plugin is:
+   mutable_properties --> users who have entered into communities
+   ldap --> users in LDAP  """
     grok.context(IPloneSiteRoot)
     grok.name('rebuild_user_catalog')
     grok.require('cmf.ManagePortal')
@@ -421,13 +419,11 @@ class rebuild_user_catalog(grok.View):
 class DeleteUserPropertiesCatalog(grok.View):
     """ Delete users in catalog not in LDAP.
 
-        Path directo del plugin:
-        acl_users/plugins/manage_plugins?plugin_type=IPropertiesPlugin
+Path directo del plugin:
+acl_users/plugins/manage_plugins?plugin_type=IPropertiesPlugin
 
-        En ACL_USERS / LDAP / Properties / Active Plugins ha de estar ordenado así:
-          mutable_properties / auto_group / ldapaspb
-
-    """
+En ACL_USERS / LDAP / Properties / Active Plugins ha de estar ordenado así:
+  mutable_properties / auto_group / ldapaspb """
     grok.context(IPloneSiteRoot)
     grok.name('delete_user_catalog')
     grok.require('cmf.ManagePortal')
