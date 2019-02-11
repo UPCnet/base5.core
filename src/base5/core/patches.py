@@ -26,7 +26,7 @@ from Products.PluggableAuthService.interfaces.authservice import IPluggableAuthS
 from Products.PlonePAS.interfaces.propertysheets import IMutablePropertySheet
 
 from base5.core.utils import get_safe_member_by_id, portal_url
-
+from Products.CMFPlone.PloneBatch import Batch
 
 import unicodedata
 import inspect
@@ -717,3 +717,13 @@ def deletePersonalPortrait(self, id=None):
     adapter(image, safe_id)
     # membertool = getToolByName(self, 'portal_memberdata')
     # return membertool._deletePortrait(safe_id)
+
+
+def batch(self):
+    batch = Batch(
+        self.results(),
+        size=self.b_size,
+        start=self.b_start,
+        orphan=0
+    )
+    return batch

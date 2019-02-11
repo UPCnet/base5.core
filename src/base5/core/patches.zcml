@@ -126,6 +126,12 @@
         replacement=".patches.enumerateUsers"
         />
 
+     <monkey:patch
+        description="Que no haya un batch huerfano"
+        module="plone.app.contenttypes.browser.folder.FolderView"
+        original="batch"
+        replacement=".patches.batch"
+        />
 
 
 </configure>
