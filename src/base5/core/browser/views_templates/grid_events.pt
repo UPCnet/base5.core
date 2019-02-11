@@ -24,7 +24,7 @@
         <div class="list-agenda row" metal:define-slot="entries">
           <tal:repeat repeat="item events" metal:define-macro="entries">
             <metal:block define-slot="entry">
-              <div tal:define="flip_class python:'flip-card' if item.get('showflip') else 'no-flip-card'" class="col-md-3 col-sm-6 col-xs-12">
+              <div tal:define="flip_class python:'flip-card' if item.get('showflip') else 'no-flip-card'" class="col-lg-3  col-md-4 col-sm-6 col-xs-12">
                 <a class="event-highlighted event-img" tal:attributes="href item/url">
                   <div tal:attributes="class python: flip_class">
                     <div class="flip-card-inner">
