@@ -2,11 +2,21 @@ Changelog
 =========
 
 
-0.15 (unreleased)
+0.15 (2019-02-11)
 -----------------
 
-- Nothing changed yet.
-
+* Añadir col-lg en la vista grid_events [Iago López Fernández]
+* print to logger.info [Iago López Fernández]
+* Clouseau: Formato documentación [Iago López Fernández]
+* Traducciones [Iago López Fernández]
+* Traducciones [Iago López Fernández]
+* Fix browser/views_templates/macros.pt [Iago López Fernández]
+* Refinar estils back vista esdeveniments [alberto.duran]
+* Estils vista esdeveniments [alberto.duran]
+* Añadir BeautifulSoup en install_requires [Iago López Fernández]
+* Add abrevia with beautifulsoup [alberto.duran]
+* Vista esdeveniments funcional, sense maquetar [alberto.duran]
+* Quitar activación del plugin fullpage de TinyMCE en la vista setuptinymce [Iago López Fernández]
 
 0.14 (2019-01-31)
 -----------------
