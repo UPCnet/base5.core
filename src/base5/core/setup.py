@@ -410,9 +410,9 @@ If the most preferent plugin is:
             if user_obj:
                 add_user_to_catalog(user_obj, user)
             else:
-                print('No user found in user repository (LDAP) {}'.format(user['id']))
+                logger.info('No user found in user repository (LDAP) {}'.format(user['id']))
 
-            print('Updated properties catalog for {}'.format(user['id']))
+            logger.info('Updated properties catalog for {}'.format(user['id']))
         return 'Done'
 
 
@@ -450,15 +450,15 @@ En ACL_USERS / LDAP / Properties / Active Plugins ha de estar ordenado así:
                 # For each user in catalog search user in ldap
                 user_obj = acl.getUserById(record[1].attrs['id'])
                 if not user_obj:
-                    print('No user found in user repository (LDAP) {}'.format(record[1].attrs['id']))
+                    logger.info('No user found in user repository (LDAP) {}'.format(record[1].attrs['id']))
                     soup.__delitem__(record[1])
-                    print('User delete soup {}'.format(record[1].attrs['id']))
+                    logger.info('User delete soup {}'.format(record[1].attrs['id']))
                     results.append('User delete soup: {}'.format(record[1].attrs['id']))
 
-            print('Finish rebuild_user_catalog')
+            logger.info('Finish rebuild_user_catalog')
             results.append('Finish rebuild_user_catalog')
             return '\n'.join([str(item) for item in results])
         except:
-            print('The order to the plugins in En ACL_USERS / LDAP / Properties / Active Plugins : mutable_properties / auto_group / ldapaspb')
+            logger.info('The order to the plugins in En ACL_USERS / LDAP / Properties / Active Plugins : mutable_properties / auto_group / ldapaspb')
             results.append('The order to the plugins in En ACL_USERS / LDAP / Properties / Active Plugins : mutable_properties / auto_group / ldapaspb')
             return 'Error: ' + '\n'.join([str(item) for item in results])
