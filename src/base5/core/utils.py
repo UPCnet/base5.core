@@ -93,7 +93,10 @@ def abrevia(summary, sumlenght):
         else:
             bb = summary
 
-        return BeautifulSoup(bb).prettify()
+        try:
+            return BeautifulSoup(bb.decode('utf-8', 'ignore')).prettify()
+        except:
+            return BeautifulSoup(bb).prettify()
 
 
 def pref_lang():
