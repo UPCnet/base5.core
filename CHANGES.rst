@@ -2,11 +2,11 @@ Changelog
 =========
 
 
-0.16 (unreleased)
+0.16 (2019-02-12)
 -----------------
 
-- Nothing changed yet.
-
+* Que no haya un batch huerfano [Pilar Marinas]
+* Arreglar codificacion abrevia [Pilar Marinas]
 
 0.15 (2019-02-11)
 -----------------
