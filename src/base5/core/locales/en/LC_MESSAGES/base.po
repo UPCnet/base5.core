@@ -294,7 +294,7 @@ msgstr "LDAP query for groups"
 #. Default: "LDAP groups query. Ex: (&(objectClass=groupOfNames))"
 #: ../controlpanel/core.py:111
 msgid "groups_query_help"
-msgstr "LDAP query for groups. Ex: (|(objectClass=groupOfNames)(objectClass=groupOfUniqueNames))"
+msgstr "LDAP query for groups. Ex: (&(objectClass=groupOfNames))"
 
 #. Default: "Configuracio de Base Core"
 #: ../controlpanel/core.py:135
@@ -355,7 +355,7 @@ msgstr "LDAP query for group users"
 #. Default: "LDAP user groups query. Ex: (&(objectClass=groupOfNames)(member=%s))"
 #: ../controlpanel/core.py:120
 msgid "user_groups_query_help"
-msgstr "LDAP query for group users. Ex:(&(objectClass=groupOfUniqueNames)(uniqueMember=%s))"
+msgstr "LDAP query for group users. Ex: (&(objectClass=groupOfNames)(member=%s))"
 
 #: ../directory/indexers.py:51
 msgid "username"

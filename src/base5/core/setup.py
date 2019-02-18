@@ -226,11 +226,11 @@ class setupLDAPExterns(grok.View):
             plugin.ZCacheable_setManagerId('RAMCache')
 
             #Configuracion por defecto de los grupos de LDAP de externs
-            groups_query = u'(&(objectClass=groupOfUniqueNames))'
-            user_groups_query = u'(&(objectClass=groupOfUniqueNames)(uniqueMember=%s))'
+            groups_query = u'(&(objectClass=groupOfNames))'
+            user_groups_query = u'(&(objectClass=groupOfNames)(member=%s))'
             api.portal.set_registry_record('base5.core.controlpanel.core.IBaseCoreControlPanelSettings.groups_query', groups_query)
             api.portal.set_registry_record('base5.core.controlpanel.core.IBaseCoreControlPanelSettings.user_groups_query', user_groups_query)
-            return 'Done. groupOfUniqueNames in LDAP Controlpanel Search'
+            return 'Done. groupOfNames in LDAP Controlpanel Search'
 
 
 class setupLDAP(grok.View):
