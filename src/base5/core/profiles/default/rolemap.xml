@@ -36,13 +36,14 @@
                 acquire="True">
       <role name="Editor"/>
       <role name="Manager"/>
-    <role name="Owner"/>
+      <role name="Owner"/>
       <role name="WebMaster"/>
     </permission>
     <permission name="Add portal content" acquire="True">
       <role name="Contributor"/>
       <role name="Manager"/>
       <role name="Owner"/>
+      <role name="WebMaster"/>
     </permission>
     <permission name="Add portal folders" acquire="True">
       <role name="Contributor"/>
@@ -104,6 +105,7 @@
       <role name="Editor"/>
       <role name="Manager"/>
       <role name="Owner"/>
+      <role name="WebMaster"/>
     </permission>
     <permission name="FTP access" acquire="True">
       <role name="Manager"/>
@@ -133,6 +135,7 @@
     <permission name="Modify portal content" acquire="True">
       <role name="Editor"/>
       <role name="Owner"/>
+      <role name="WebMaster"/>
     </permission>
     <permission name="Modify view template" acquire="True">
       <role name="Editor"/>
@@ -225,6 +228,61 @@
     <permission name="plone.portlet.static: Add static portlet"
                 acquire="False">
       <role name="Manager"/>
+      <role name="WebMaster"/>
+    </permission>
+    <permission name="plone.app.contenttypes: Add Collection" acquire="True">
+      <role name="Manager" />
+      <role name="Site Administrator" />
+      <role name="Owner"/>
+      <role name="Contributor"/>
+      <role name="WebMaster"/>
+    </permission>
+    <permission name="plone.app.contenttypes: Add Document" acquire="True">
+      <role name="Manager" />
+      <role name="Site Administrator" />
+      <role name="Owner"/>
+      <role name="Contributor"/>
+      <role name="WebMaster"/>
+    </permission>
+    <permission name="plone.app.contenttypes: Add Event" acquire="True">
+      <role name="Manager" />
+      <role name="Site Administrator" />
+      <role name="Owner"/>
+      <role name="Contributor"/>
+    </permission>
+    <permission name="plone.app.contenttypes: Add File" acquire="True">
+      <role name="Manager" />
+      <role name="Site Administrator" />
+      <role name="Owner"/>
+      <role name="Contributor"/>
+      <role name="WebMaster"/>
+    </permission>
+    <permission name="plone.app.contenttypes: Add Folder" acquire="True">
+      <role name="Manager" />
+      <role name="Site Administrator" />
+      <role name="Owner"/>
+      <role name="Contributor"/>
+      <role name="WebMaster"/>
+    </permission>
+    <permission name="plone.app.contenttypes: Add Image" acquire="True">
+      <role name="Manager" />
+      <role name="Site Administrator" />
+      <role name="Owner"/>
+      <role name="Contributor"/>
+      <role name="WebMaster"/>
+    </permission>
+    <permission name="plone.app.contenttypes: Add Link" acquire="True">
+      <role name="Manager" />
+      <role name="Site Administrator" />
+      <role name="Owner"/>
+      <role name="Contributor"/>
+      <role name="WebMaster"/>
+    </permission>
+    <permission name="plone.app.contenttypes: Add News Item" acquire="True">
+      <role name="Manager" />
+      <role name="Site Administrator" />
+      <role name="Owner"/>
+      <role name="Contributor"/>
       <role name="WebMaster"/>
     </permission>
   </permissions>
