@@ -2,11 +2,11 @@ Changelog
 =========
 
 
-0.17 (unreleased)
+0.17 (2019-03-18)
 -----------------
 
-- Nothing changed yet.
-
+* Revision permisos webmaster [Pilar Marinas]
+* bypass tests version conflict [Roberto Diaz]
 
 0.16 (2019-02-12)
 -----------------
