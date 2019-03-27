@@ -350,6 +350,10 @@ def add_user_to_catalog(user, properties={}, notlegit=False, overwrite=False):
                             if isinstance(value, list) or isinstance(value, tuple):
                                 value = ' '.join(value)
 
+                            # Value widget select multiple
+                            if value[0:2] == '[[' and value[-2:] == ']]':
+                                value = ' '.join(json.loads(value)[0])
+
                             if isinstance(value, unicode):
                                 user_record.attrs['searchable_text'] += ' ' + unicodedata.normalize('NFKD', value).encode('ascii', errors='ignore')
                             else:
