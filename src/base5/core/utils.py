@@ -179,7 +179,7 @@ def get_all_user_properties(user):
         # OJO revisar este if mas adelante, no estaba en plone4
         if attr != 'username':
             value = user.getProperty(attr)
-            if isinstance(value, str) or isinstance(value, unicode) or isinstance(value, bool):
+            if isinstance(value, str) or isinstance(value, unicode) or isinstance(value, bool) or isinstance(value, list) or isinstance(value, tuple):
                 mapping.update({attr: value})
 
     return mapping
@@ -347,6 +347,7 @@ def add_user_to_catalog(user, properties={}, notlegit=False, overwrite=False):
                         hasCheck = checkKey in extended_user_record.attrs
                         if not hasCheck or (hasCheck and extended_user_record.attrs[checkKey] != 'False'):
                             value = extended_user_record.attrs[key]
+
                             if isinstance(value, list) or isinstance(value, tuple):
                                 value = ' '.join(value)
 
