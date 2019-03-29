@@ -324,12 +324,20 @@ def add_user_to_catalog(user, properties={}, notlegit=False, overwrite=False):
                 extended_user_record.attrs['username'] = username
                 extended_user_record.attrs['id'] = username
 
+            property_different_value = False
             if properties:
                 for attr in extended_user_properties_utility.properties:
                     has_property_definition = attr in properties
                     property_empty_or_not_set = extended_user_record.attrs.get(attr, u'') == u''
+
+                    if has_property_definition:
+                        if isinstance(properties[attr], str):
+                            property_different_value = extended_user_record.attrs.get(attr, u'') != properties[attr].decode('utf-8')
+                        else:
+                            property_different_value = extended_user_record.attrs.get(attr, u'') != properties[attr]
+
                     # Only update it if user has already not property set or it's empty
-                    if has_property_definition and (property_empty_or_not_set or overwrite):
+                    if has_property_definition and (property_empty_or_not_set or overwrite or property_different_value):
                         if isinstance(properties[attr], str):
                             extended_user_record.attrs[attr] = properties[attr].decode('utf-8')
                         elif isinstance(properties[attr], bool):
@@ -369,13 +377,20 @@ def add_user_to_catalog(user, properties={}, notlegit=False, overwrite=False):
 
             # Save for free the extended properties in the main user_properties soup
             # for easy access with one query
+            property_different_value = False
             if properties:
                 for attr in extended_user_properties_utility.properties:
                     has_property_definition = attr in properties
                     property_empty_or_not_set = user_record.attrs.get(attr, u'') == u''
 
+                    if has_property_definition:
+                        if isinstance(properties[attr], str):
+                            property_different_value = user_record.attrs.get(attr, u'') != properties[attr].decode('utf-8')
+                        else:
+                            property_different_value = user_record.attrs.get(attr, u'') != properties[attr]
+
                     # Only update it if user has already not property set or it's empty
-                    if has_property_definition and (property_empty_or_not_set or overwrite):
+                    if has_property_definition and (property_empty_or_not_set or overwrite or property_different_value):
                         if isinstance(properties[attr], str):
                             user_record.attrs[attr] = properties[attr].decode('utf-8')
                         elif isinstance(properties[attr], bool):
