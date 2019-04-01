@@ -2,11 +2,12 @@ Changelog
 =========
 
 
-0.18 (unreleased)
+0.18 (2019-04-01)
 -----------------
 
-- Nothing changed yet.
-
+* Solucionar guardar extender_properties in soup ASPB to rebuild_user_catalog [Pilar Marinas]
+* Añadir list y tuplas en get_all_user_properties() [Iago López Fernández]
+* Normalizar valores del widget select multiple en el searchable_text [Iago López Fernández]
 
 0.17 (2019-03-18)
 -----------------
