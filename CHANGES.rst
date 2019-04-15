@@ -2,11 +2,10 @@ Changelog
 =========
 
 
-0.19 (unreleased)
+0.19 (2019-04-15)
 -----------------
 
-- Nothing changed yet.
-
+* Que al guardar el profile se borren y se anadan todos los campos en el view_user_catalog [root]
 
 0.18 (2019-04-01)
 -----------------
