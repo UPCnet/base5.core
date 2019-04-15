@@ -133,5 +133,13 @@
         replacement=".patches.batch"
         />
 
+     <monkey:patch
+        description="Que al guardar el profile se borren y se añadan todos los campos en el view_user_catalog"
+        module="plone.app.users.browser.account.AccountPanelForm"
+        original="_on_save"
+        replacement=".patches._on_save"
+        />
+
+
 
 </configure>

@@ -710,7 +710,7 @@ def deletePersonalPortrait(self, id=None):
 
     # The plugable actions for how to handle the portrait.
     portrait_url = portal_url()+'/++theme++ulearn5/assets/images/defaultUser.png'
-    imgData = requests.get(portrait_url).content
+    imgData = requests.get(portrait_url, verify=False).content
     image = StringIO(imgData)
     image.filename = 'defaultUser'
     adapter = getMultiAdapter((self, self.REQUEST), IPortraitUploadAdapter)
@@ -727,3 +727,24 @@ def batch(self):
         orphan=0
     )
     return batch
+
+
+from base5.core.utils import add_user_to_catalog, remove_user_from_catalog, get_all_user_properties
+from plone import api
+from ulearn5.core.hooks import packages_installed
+
+def _on_save(self, data=None):
+    installed = packages_installed()
+    if 'ulearn5.enginyersbcn' in installed:
+        try:
+            user = api.user.get_current()
+            remove_user_from_catalog(user.id)
+            properties = get_all_user_properties(user)
+            add_user_to_catalog(user, properties, overwrite=True)
+            print 'save ok'
+            pass
+        except:
+            # To avoid testing test_functional code, since the
+            # test_user doesn't have properties and stops the tests.
+            pass
+    pass

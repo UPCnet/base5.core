@@ -7,7 +7,7 @@ from plone import api
 from souper.soup import get_soup
 from zope.interface import alsoProvides
 
-from base5.core.utils import add_user_to_catalog
+from base5.core.utils import add_user_to_catalog,remove_user_from_catalog
 
 grok.templatedir('views_templates')
 
@@ -98,18 +98,13 @@ class removeUserPropertiesCatalog(grok.View):
             pass
 
         if 'users' in self.request.form:
-            portal = api.portal.get()
-            soup = get_soup('user_properties', portal)
-
             users = self.request.form['users'].split(',')
-            records = [r for r in soup.data.items() if r[1].attrs['id'] in users]
 
             msg = ''
-            for record in records:
-                # For each user in catalog search user in ldap
-                soup.__delitem__(record[1])
-                print(record[1].attrs['id']) + ': User deleted from catalog'
-                msg += record[1].attrs['id'] + ': Ok\n'
+            for username in users:
+                remove_user_from_catalog(username)
+                print('Delete properties catalog for ' + username)
+                msg += username + ': Ok\n'
 
             print('Finish remove_user_catalog')
             if msg != '':

@@ -8,7 +8,7 @@ from Products.PluggableAuthService.interfaces.events import IUserLoggedInEvent
 
 from base5.core.utils import get_all_user_properties
 from base5.core.utils import add_user_to_catalog
-
+from ulearn5.core.hooks import packages_installed
 
 @grok.subscribe(IPropertiedUser, IPrincipalCreatedEvent)
 def create_user_hook(user, event):
@@ -23,8 +23,9 @@ def update_user_properties_hook(user, event):
     """ This subscriber hooks on user creation and adds user properties to the
         soup-based catalog for later searches
     """
-
-    add_user_to_catalog(user, event.properties, overwrite=True)
+    installed = packages_installed()
+    if 'ulearn5.enginyersbcn' not in installed:
+        add_user_to_catalog(user, event.properties, overwrite=True)
 
 
 @grok.subscribe(IUserLoggedInEvent)
