@@ -55,7 +55,8 @@ setup(
         'collective.dexteritytextindexer',
         'Products.PloneLDAP',
         'collective.z3cform.datagridfield',
-        'BeautifulSoup'
+        'BeautifulSoup',
+        'ulearn5.core'
     ],
     extras_require={
         'test': [
