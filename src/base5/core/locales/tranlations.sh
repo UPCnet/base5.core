@@ -1,6 +1,6 @@
 #!/bin/bash
 
-DOMAINS="base base5.portlets plone z3c.form"
+DOMAINS="base base5.portlets plone z3c.form collective.easyform"
 LANGUAGES="ca es en"
 
 for domain in $DOMAINS
