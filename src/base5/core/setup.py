@@ -420,6 +420,8 @@ If the most preferent plugin is:
 
 class DeleteUserPropertiesCatalog(grok.View):
     """ Delete users in catalog not in LDAP.
+        Vista per esborrar del cataleg i que no apareguin al directori
+        els usuaris que no estan al LDAP
 
 Path directo del plugin:
 acl_users/plugins/manage_plugins?plugin_type=IPropertiesPlugin
@@ -467,6 +469,7 @@ En ACL_USERS / LDAP / Properties / Active Plugins ha de estar ordenado así:
 
 class delete_local_roles(grok.View):
     """ Delete local roles of specified members.
+        Vista per esborrar els permisos del site dels usuaris esborrats
     """
     grok.context(IPloneSiteRoot)
     grok.name('delete_local_roles')
@@ -507,7 +510,7 @@ class delete_local_roles(grok.View):
 
 class users_to_delete_local_roles(grok.View):
     """ Users to delete local roles of specified members.
-        Vista per veure els usuaris que estan pendents esborrar permisos site
+        Vista per veure els usuaris que estan esborrats pero pendents esborrar permisos site
     """
     grok.context(IPloneSiteRoot)
     grok.name('users_to_delete_local_roles')
