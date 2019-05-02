@@ -54,7 +54,7 @@ class UserPropertiesSoupCatalogFactory(object):
     directory_properties = ['email', 'location']
     directory_icons = {'email': 'fa fa-envelope', 'location': 'fa fa-building-o'}
 
- 
+
     def __call__(self, context):
         catalog = Catalog()
         idindexer = NodeAttributeIndexer('id')
@@ -117,3 +117,20 @@ class UserNewsSearchSoupCatalog(object):
 
 
 grok.global_utility(UserNewsSearchSoupCatalog, name='user_news_searches')
+
+
+@implementer(ICatalogFactory)
+class UsersDeleteLocalRoles(object):
+    """ Usuaris esborrats que falta esborrar el local roles
+        :index id: TextIndex - id_username = username
+    """
+
+    def __call__(self, context):
+        catalog = Catalog()
+        idindexer = NodeAttributeIndexer('id_username')
+        catalog['id_username'] = CatalogTextIndex(idindexer)
+
+        return catalog
+
+
+grok.global_utility(UsersDeleteLocalRoles, name="users_delete_local_roles")

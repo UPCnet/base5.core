@@ -13,6 +13,8 @@ from zope.component import getUtility
 from zope.component.hooks import getSite
 from zope.interface import Interface
 from zope.interface import alsoProvides
+from Products.CMFCore.utils import getToolByName
+from Products.CMFCore.interfaces import ISiteRoot
 
 from base5.core.utils import add_user_to_catalog
 from base5.core.utils import json_response
@@ -461,4 +463,79 @@ En ACL_USERS / LDAP / Properties / Active Plugins ha de estar ordenado así:
         except:
             logger.info('The order to the plugins in En ACL_USERS / LDAP / Properties / Active Plugins : mutable_properties / auto_group / ldapaspb')
             results.append('The order to the plugins in En ACL_USERS / LDAP / Properties / Active Plugins : mutable_properties / auto_group / ldapaspb')
+            return 'Error: ' + '\n'.join([str(item) for item in results])
+
+class delete_local_roles(grok.View):
+    """ Delete local roles of specified members.
+    """
+    grok.context(IPloneSiteRoot)
+    grok.name('delete_local_roles')
+    grok.require('cmf.ManagePortal')
+
+    def render(self):
+        try:
+            from plone.protect.interfaces import IDisableCSRFProtection
+            alsoProvides(self.request, IDisableCSRFProtection)
+        except:
+            pass
+
+        portal = api.portal.get()
+        soup_users_delete = get_soup('users_delete_local_roles', portal)
+        users = [r for r in soup_users_delete.data.items()]
+
+        result = {}
+        for user in users:
+            member_id = user[1].attrs['id_username']
+            if member_id:
+                if isinstance(member_id, basestring):
+                    member_ids = (member_id,)
+                    member_ids = list(member_ids)
+
+                mtool = getToolByName(self.context, 'portal_membership')
+
+                # Delete members' local roles.
+                mtool.deleteLocalRoles(getUtility(ISiteRoot), member_ids,
+                                   reindex=1, recursive=1)
+                logger.info('Eliminat usuari {} del local roles.'.format(member_id))
+
+                 # Delete members' del soup
+                del soup_users_delete[user[1]]
+                logger.info('Eliminat usuari {} del soup.'.format(member_id))
+
+
+        return 'Done'
+
+class users_to_delete_local_roles(grok.View):
+    """ Users to delete local roles of specified members.
+        Vista per veure els usuaris que estan pendents esborrar permisos site
+    """
+    grok.context(IPloneSiteRoot)
+    grok.name('users_to_delete_local_roles')
+    grok.require('cmf.ManagePortal')
+
+    def render(self):
+        try:
+            from plone.protect.interfaces import IDisableCSRFProtection
+            alsoProvides(self.request, IDisableCSRFProtection)
+        except:
+            pass
+
+        results = []
+        try:
+            portal = api.portal.get()
+            soup_users_delete = get_soup('users_delete_local_roles', portal)
+            users = [r for r in soup_users_delete.data.items()]
+
+            for user in users:
+                member_id = user[1].attrs['id_username']
+                if member_id:
+                    results.append('User to delete: {}'.format(member_id))
+                    logger.info('User to delete: {}'.format(member_id))
+
+            logger.info('Finish users_to_delete_local_roles')
+            results.append('Finish users_to_delete_local_roles')
+            return '\n'.join([str(item) for item in results])
+        except:
+            logger.info('Except Users to delete local roles')
+            results.append('Except Users to delete local roles')
             return 'Error: ' + '\n'.join([str(item) for item in results])
