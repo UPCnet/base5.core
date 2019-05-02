@@ -2,11 +2,14 @@ Changelog
 =========
 
 
-0.20 (unreleased)
+0.20 (2019-05-02)
 -----------------
 
-- Nothing changed yet.
-
+* Modify literals clouseau [Pilar Marinas]
+* Soup i vistes delete_local_roles [Pilar Marinas]
+* Traducción CA collective.easyform.po [Iago López Fernández]
+* require ulearn5.core [Pilar Marinas]
+* Solucionar test [Pilar Marinas]
 
 0.19 (2019-04-15)
 -----------------
