@@ -24,4 +24,4 @@ after_success:
   - coveralls
 notifications:
   email:
-    - pilar.marinas@upcnet.es
+    - plone.team@upcnet.es
