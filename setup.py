@@ -67,6 +67,7 @@ setup(
             'plone.testing>=5.0.0',
             'plone.app.contenttypes',
             'plone.app.robotframework[debug]',
+            'unittest2',
             'ulearn5.core',
         ],
     },
