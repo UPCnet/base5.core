@@ -175,22 +175,22 @@ msgstr "Validadors"
 #. Default: "Reset"
 #: collective/easyform/interfaces/easyform.py:48
 msgid "default_resetLabel"
-msgstr "Netejar"
+msgstr "Neteja"
 
 #. Default: "Submit"
 #: collective/easyform/interfaces/easyform.py:34
 msgid "default_submitLabel"
-msgstr "Enviar"
+msgstr "Envia"
 
 #. Default: "Thanks for your input."
 #: collective/easyform/interfaces/easyform.py:76
 msgid "default_thanksdescription"
-msgstr "Gràcies per el seu enviament"
+msgstr "Gràcies per la seva contribució"
 
 #. Default: "Thank You"
 #: collective/easyform/interfaces/easyform.py:62
 msgid "default_thankstitle"
-msgstr "Gràcias"
+msgstr "Gràcies"
 
 #. Default: "Mark this field as a value to be injected into the request form for use by action adapters and is not modifiable by or exposed to the client."
 #: collective/easyform/interfaces/fields.py:88
