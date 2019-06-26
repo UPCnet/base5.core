@@ -2,11 +2,15 @@ Changelog
 =========
 
 
-0.21 (unreleased)
+0.21 (2019-06-26)
 -----------------
 
-- Nothing changed yet.
-
+* Traducciones ca collective.polls [Iago López Fernández]
+* Traducción CA collective.easyform.po [Iago López Fernández]
+* Travis [Pilar Marinas]
+* Add package to test [Pilar Marinas]
+* travis [Pilar Marinas]
+* Travis [Pilar Marinas]
 
 0.20 (2019-05-02)
 -----------------
