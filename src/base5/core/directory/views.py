@@ -31,6 +31,14 @@ def get_ldap_config():
     return ALT_LDAP_URI, ALT_LDAP_DN, ALT_LDAP_PASSWORD, BASEDN, GROUPS_QUERY, USER_GROUPS_QUERY
 
 
+def get_create_group_type():
+    """ return type of group should be created on Ldap, the default is groupOfNames """
+    registry = queryUtility(IRegistry)
+    gw_settings = registry.forInterface(IBaseCoreControlPanelSettings)
+    CREATE_GROUP_TYPE = gw_settings.create_group_type if gw_settings.create_group_type is not None else os.environ.get('create_group_type', 'groupOfNames')
+    return CREATE_GROUP_TYPE
+
+
 def search_ldap_groups():
     ALT_LDAP_URI, ALT_LDAP_DN, ALT_LDAP_PASSWORD, BASEDN, GROUPS_QUERY, USER_GROUPS_QUERY = get_ldap_config()
     conn = ldap.initialize(ALT_LDAP_URI)

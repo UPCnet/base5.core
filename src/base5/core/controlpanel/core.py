@@ -43,7 +43,8 @@ class IBaseCoreControlPanelSettings(Interface):
                            'alt_bindpasswd',
                            'alt_base_dn',
                            'groups_query',
-                           'user_groups_query'])
+                           'user_groups_query',
+                           'create_group_type'])
 
     user_properties_extender = schema.Choice(
         title=_(u'User properties extender'),
@@ -123,7 +124,14 @@ class IBaseCoreControlPanelSettings(Interface):
         default=u'',
     )
 
-
+    create_group_type = schema.TextLine(
+        title=_(u"create_group_type",
+                default=u"create_group_type"),
+        description=_(u"Type of group to create on ldap",
+                      default=u"groupOfNames or groupOfUniqueNames"),
+        required=False,
+        default=u'groupOfNames',
+    )
 
 
 class BaseCoreControlPanelSettingsForm(controlpanel.RegistryEditForm):
