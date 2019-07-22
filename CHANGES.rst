@@ -2,11 +2,10 @@ Changelog
 =========
 
 
-0.22 (unreleased)
+0.22 (2019-07-22)
 -----------------
 
-- Nothing changed yet.
-
+* Ldap group creation parametre [Vicente Iranzo Maestre]
 
 0.21 (2019-06-26)
 -----------------
