@@ -73,4 +73,9 @@
        factory="base5.core.adapters.portrait.PortraitUploadAdapter"
        />
 
+  <browser:jbot
+      directory="templates"
+      layer=".interfaces.IBase5CoreLayer"
+  />
+
 </configure>
