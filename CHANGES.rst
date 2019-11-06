@@ -2,11 +2,10 @@ Changelog
 =========
 
 
-0.23 (unreleased)
+0.23 (2019-11-06)
 -----------------
 
-- Nothing changed yet.
-
+* Sobreescribir template de los enlace para añadir blink [Iago López Fernández]
 
 0.22 (2019-07-22)
 -----------------
