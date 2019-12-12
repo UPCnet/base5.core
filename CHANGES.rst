@@ -2,11 +2,11 @@ Changelog
 =========
 
 
-0.24 (unreleased)
+0.24 (2019-12-12)
 -----------------
 
-- Nothing changed yet.
-
+* Cambiar orden en la que se ven los eventos en la vista grid_events_view [Iago López Fernández]
+* Setup tiny -> forced_root_block: p [Iago López Fernández]
 
 0.23 (2019-11-06)
 -----------------
