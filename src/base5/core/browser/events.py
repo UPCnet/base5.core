@@ -28,7 +28,8 @@ class GridEventsView(FolderView):
         events = self.results(
             batch=True,
             object_provides=IEvent.__identifier__,
-            sort_on='getObjPositionInParent',
+            sort_order='descending',
+            sort_on='effective',
         )
         return events
 
