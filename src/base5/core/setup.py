@@ -82,7 +82,7 @@ class setupTinyMCEConfigPlone5(grok.View):
         settings.plugins.append('visualblocks')
         settings.toolbar = u'undo redo | styleselect formatselect | fullscreen | code | save | preview | template | cut copy  paste  pastetext | searchreplace  textpattern selectallltr |  removeformat | anchor |  inserttable tableprops deletetable cell row column | rtl |  bold italic underline strikethrough superscript subscript | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent | unlink plonelink ploneimage | forecolor backcolor |'
         settings.custom_plugins.append('template|+plone+static/components/tinymce-builded/js/tinymce/plugins/template')
-        settings.other_settings = u'{"forced_root_block": false, "cleanup": false, "valid_elements": "*[*]", "valid_children": "+a[img|div|h2|p]"}'
+        settings.other_settings = u'{"forced_root_block": "p", "cleanup": false, "valid_elements": "*[*]", "valid_children": "+a[img|div|h2|p]"}'
         transaction.commit()
 
         from Products.CMFPlone.interfaces import IMarkupSchema
