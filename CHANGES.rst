@@ -2,11 +2,10 @@ Changelog
 =========
 
 
-0.25 (unreleased)
+0.25 (2019-12-18)
 -----------------
 
-- Nothing changed yet.
-
+* grid_events_view: Visualizar por fecha de inicio descendente [Iago López Fernández]
 
 0.24 (2019-12-12)
 -----------------
