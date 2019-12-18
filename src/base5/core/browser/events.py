@@ -29,7 +29,7 @@ class GridEventsView(FolderView):
             batch=True,
             object_provides=IEvent.__identifier__,
             sort_order='descending',
-            sort_on='effective',
+            sort_on='start',
         )
         return events
 
