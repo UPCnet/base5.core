@@ -46,9 +46,11 @@ class GridEventsView(FolderView):
                     'firstday': event.start.day,
                     'firstmonth': PLMF(ts.month_msgid(event.start.month)),
                     'abbrfirstmonth': PLMF(ts.month_msgid(event.start.month)),
+                    'firstyear': event.start.year,
                     'lastday': event.end.day,
                     'lastmonth': PLMF(ts.month_msgid(event.end.month)),
                     'abbrlastmonth': PLMF(ts.month_msgid(event.end.month)),
+                    'lastyear': event.end.year,
                     'title': abrevia(event.title, 60),
                     'descr': description,
                     'location': location,
@@ -63,7 +65,9 @@ class GridEventsView(FolderView):
         endday = event['lastday']
         startmonth = event['firstmonth']
         endmonth = event['lastmonth']
-        if startmonth != endmonth:
+        startyear = event['firstyear']
+        endyear = event['lastyear']
+        if startmonth != endmonth or startyear != endyear:
             return 'difday_difmonth'
         elif startday != endday:
             return 'difday_samemonth'

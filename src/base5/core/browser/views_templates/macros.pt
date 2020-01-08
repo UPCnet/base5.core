@@ -13,7 +13,7 @@
     <time class='event-days' tal:define="day item/firstday; month item/firstmonth">
       <block metal:use-macro="context/macros-comunitats/time"></block>
     </time>
-  </metal:block>>
+  </metal:block>
 
   <metal:block metal:define-macro="lastday">
     <time class='event-days' tal:define="day item/lastday; month item/lastmonth">
@@ -25,10 +25,15 @@
     <span role="presentation" aria-hidden="true" class="event-months" tal:attributes="title item/firstmonth" tal:content="item/abbrfirstmonth">primermes</span>
   </metal:block>
 
+  <metal:block metal:define-macro="firstyear">
+    <span role="presentation" aria-hidden="true" class="event-years" tal:attributes="title item/firstyear" tal:content="item/firstyear">primerany</span>
+  </metal:block>
+
   <metal:block metal:define-macro="sameday_samemonth">
     <tal:sameday_samemonth condition="python: type == 'sameday_samemonth'">
       <block metal:use-macro="context/macros-comunitats/firstday"></block>
       <block metal:use-macro="context/macros-comunitats/firstmonth"></block>
+      <block metal:use-macro="context/macros-comunitats/firstyear"></block>
     </tal:sameday_samemonth>
   </metal:block>
 
@@ -38,6 +43,7 @@
       <span class='event-days event-days-connector'>―</span>
       <block metal:use-macro="context/macros-comunitats/lastday"></block>
       <block metal:use-macro="context/macros-comunitats/firstmonth"></block>
+      <block metal:use-macro="context/macros-comunitats/firstyear"></block>
     </tal:difday_samemonth>
   </metal:block>
 
@@ -45,9 +51,11 @@
     <tal:difday_difmonth condition="python: type == 'difday_difmonth'">
       <block metal:use-macro="context/macros-comunitats/firstday"></block>
       <block metal:use-macro="context/macros-comunitats/firstmonth"></block>
+      <block metal:use-macro="context/macros-comunitats/firstyear"></block>
       <span class="event-days event-days-connector">―</span>
       <block metal:use-macro="context/macros-comunitats/lastday"></block>
       <span role="presentation" aria-hidden="true" class="event-months" tal:attributes="title item/lastmonth" tal:content="item/abbrlastmonth">ultimmes</span>
+      <span role="presentation" aria-hidden="true" class="event-years" tal:attributes="title item/lastyear" tal:content="item/lastyear">primerany</span>
     </tal:difday_difmonth>
   </metal:block>
 </html>
