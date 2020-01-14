@@ -2,11 +2,10 @@ Changelog
 =========
 
 
-0.26 (unreleased)
+0.26 (2020-01-14)
 -----------------
 
-- Nothing changed yet.
-
+* Añadir año a la vista de los eventos [Iago López Fernández]
 
 0.25 (2019-12-18)
 -----------------
