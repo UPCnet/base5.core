@@ -32,19 +32,19 @@ msgstr "Add field to mark a link to open in a new window when clicked."
 msgid "Adds searchable richtext behavior"
 msgstr "Adds searchable richtext behavior"
 
-#: ../controlpanel/core.py:134
+#: ../controlpanel/core.py:142
 msgid "Base settings"
 msgstr "Base settings"
 
-#: ../controlpanel/core.py:57
+#: ../controlpanel/core.py:58
 msgid "Cada línia és una fila d'icones. Si es deixa en blanc s'agafen els valors per defecte. Han d'omplir-se fins a 4 files obligatòriament."
 msgstr "Each line is a row of icons. If left blank the default values are taken. Must fill up to 4 rows obligatory."
 
-#: ../controlpanel/core.py:159
+#: ../controlpanel/core.py:167
 msgid "Cancel"
 msgstr "Cancel"
 
-#: ../controlpanel/core.py:156
+#: ../controlpanel/core.py:164
 msgid "Changes saved"
 msgstr "Changes saved"
 
@@ -56,7 +56,7 @@ msgstr "Description of the portlet"
 msgid "Edit Collection Portlet"
 msgstr "Edit Collection Portlet"
 
-#: ../controlpanel/core.py:161
+#: ../controlpanel/core.py:169
 msgid "Edit cancelled"
 msgstr "Edit cancelled"
 
@@ -112,7 +112,7 @@ msgstr "Limit"
 msgid "Link to display in the footer, leave empty to hide it"
 msgstr "Link to display in the footer, leave empty to hide it"
 
-#: ../controlpanel/core.py:56
+#: ../controlpanel/core.py:57
 msgid "Llista personalitzada d'icones per l'editor TinyMCE"
 msgstr "Custom icon list for the TinyMCE editor"
 
@@ -144,7 +144,7 @@ msgstr "Portlet view to use"
 msgid "Renders the header"
 msgstr "Renders the header"
 
-#: ../controlpanel/core.py:144
+#: ../controlpanel/core.py:152
 msgid "Save"
 msgstr "Save"
 
@@ -208,51 +208,56 @@ msgstr "This portlet displays a listing of items from a Collection."
 msgid "Title of the rendered portlet"
 msgstr "Title of the rendered portlet"
 
+#. Default: "groupOfNames or groupOfUniqueNames"
+#: ../controlpanel/core.py:130
+msgid "Type of group to create on ldap"
+msgstr ""
+
 #: ../configure.zcml:63
 msgid "Uninstalls the base5.core add-on."
 msgstr "Uninstalls the base5.core add-on."
 
-#: ../controlpanel/core.py:49
+#: ../controlpanel/core.py:50
 msgid "User properties extender"
 msgstr "User properties extender"
 
 #. Default: "alt_base_dn"
-#: ../controlpanel/core.py:100
+#: ../controlpanel/core.py:101
 msgid "alt_base_dn"
 msgstr "LDAP base dn"
 
 #. Default: "LDAP base dn"
-#: ../controlpanel/core.py:102
+#: ../controlpanel/core.py:103
 msgid "alt_base_dn_help"
 msgstr "LDAP base dn"
 
 #. Default: "alt_bind_dn"
-#: ../controlpanel/core.py:82
+#: ../controlpanel/core.py:83
 msgid "alt_bind_dn"
 msgstr "LDAP bind dn"
 
 #. Default: "LDAP bind dn"
-#: ../controlpanel/core.py:84
+#: ../controlpanel/core.py:85
 msgid "alt_bind_dn_help"
 msgstr "LDAP bind dn"
 
 #. Default: "alt_bindpasswd"
-#: ../controlpanel/core.py:91
+#: ../controlpanel/core.py:92
 msgid "alt_bindpasswd"
 msgstr "LDAP bind password"
 
 #. Default: "LDAP bind password"
-#: ../controlpanel/core.py:93
+#: ../controlpanel/core.py:94
 msgid "alt_bindpasswd_help"
 msgstr "LDAP bind password"
 
 #. Default: "alt_ldap_uri"
-#: ../controlpanel/core.py:73
+#: ../controlpanel/core.py:74
 msgid "alt_ldap_uri"
 msgstr "LDAP uri"
 
 #. Default: "URL del servidor ldap per aquest site"
-#: ../controlpanel/core.py:75
+#: ../controlpanel/core.py:76
 msgid "alt_ldap_uri_help"
 msgstr "URL del servidor LDAP per aquest lloc"
 
@@ -264,17 +269,27 @@ msgstr "base5.core"
 msgid "base5.core (uninstall)"
 msgstr "base5.core (uninstall)"
 
+#. Default: "create_group_type"
+#: ../controlpanel/core.py:128
+msgid "create_group_type"
+msgstr ""
+
 #: ../directory/indexers.py:51
 msgid "description"
 msgstr "Biography"
 
+#. Default: "There are currently no events in this folder."
+#: ../browser/events.py:23
+msgid "description_no_events_in_folder"
+msgstr "There are currently no events in this folder."
+
 #. Default: "ElasticSearch"
-#: ../controlpanel/core.py:64
+#: ../controlpanel/core.py:65
 msgid "elasticsearch"
 msgstr "ElasticSearch"
 
 #. Default: "URL del servidor d'ElasticSearch per aquest site"
-#: ../controlpanel/core.py:66
+#: ../controlpanel/core.py:67
 msgid "elasticsearch_help"
 msgstr "ElasticSearch server URL for this site"
 
@@ -287,17 +302,17 @@ msgid "fullname"
 msgstr "Fullname"
 
 #. Default: "groups_query"
-#: ../controlpanel/core.py:109
+#: ../controlpanel/core.py:110
 msgid "groups_query"
 msgstr "LDAP query for groups"
 
 #. Default: "LDAP groups query. Ex: (&(objectClass=groupOfNames))"
-#: ../controlpanel/core.py:111
+#: ../controlpanel/core.py:112
 msgid "groups_query_help"
 msgstr "LDAP query for groups. Ex: (|(objectClass=groupOfNames)(objectClass=groupOfUniqueNames))"
 
 #. Default: "Configuracio de Base Core"
-#: ../controlpanel/core.py:135
+#: ../controlpanel/core.py:143
 msgid "help_base_core_settings_editform"
 msgstr "Base Core configuration"
 
@@ -348,12 +363,12 @@ msgid "open_link_in_new_window"
 msgstr "Open in a new window?"
 
 #. Default: "user_groups_query"
-#: ../controlpanel/core.py:118
+#: ../controlpanel/core.py:119
 msgid "user_groups_query"
 msgstr "LDAP query for group users"
 
 #. Default: "LDAP user groups query. Ex: (&(objectClass=groupOfNames)(member=%s))"
-#: ../controlpanel/core.py:120
+#: ../controlpanel/core.py:121
 msgid "user_groups_query_help"
 msgstr "LDAP query for group users. Ex:(&(objectClass=groupOfUniqueNames)(uniqueMember=%s))"
 

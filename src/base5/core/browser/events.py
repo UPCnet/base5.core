@@ -8,6 +8,8 @@ from Products.CMFCore.utils import getToolByName
 from Products.CMFPlone import PloneMessageFactory as pmf
 from zope.i18nmessageid import MessageFactory
 
+from base5.core import _
+
 
 PLMF = MessageFactory('plonelocales')
 
@@ -18,7 +20,7 @@ class GridEventsView(FolderView):
     @property
     def no_items_message(self):
         """Translate custom message for no events in this folder."""
-        return pmf(
+        return _(
             'description_no_events_in_folder',
             default=u'There are currently no events in this folder.'
         )

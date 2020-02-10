@@ -4,7 +4,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
-"POT-Creation-Date: 2019-02-07 12:19+0000\n"
+"POT-Creation-Date: 2020-02-10 10:08+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI +ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -33,19 +33,19 @@ msgstr ""
 msgid "Adds searchable richtext behavior"
 msgstr ""
 
-#: ../controlpanel/core.py:134
+#: ../controlpanel/core.py:142
 msgid "Base settings"
 msgstr ""
 
-#: ../controlpanel/core.py:57
+#: ../controlpanel/core.py:58
 msgid "Cada línia és una fila d'icones. Si es deixa en blanc s'agafen els valors per defecte. Han d'omplir-se fins a 4 files obligatòriament."
 msgstr ""
 
-#: ../controlpanel/core.py:159
+#: ../controlpanel/core.py:167
 msgid "Cancel"
 msgstr ""
 
-#: ../controlpanel/core.py:156
+#: ../controlpanel/core.py:164
 msgid "Changes saved"
 msgstr ""
 
@@ -63,7 +63,7 @@ msgstr ""
 msgid "Edit Collection Portlet"
 msgstr ""
 
-#: ../controlpanel/core.py:161
+#: ../controlpanel/core.py:169
 msgid "Edit cancelled"
 msgstr ""
 
@@ -119,7 +119,7 @@ msgstr ""
 msgid "Link to display in the footer, leave empty to hide it"
 msgstr ""
 
-#: ../controlpanel/core.py:56
+#: ../controlpanel/core.py:57
 msgid "Llista personalitzada d'icones per l'editor TinyMCE"
 msgstr ""
 
@@ -151,7 +151,7 @@ msgstr ""
 msgid "Renders the header"
 msgstr ""
 
-#: ../controlpanel/core.py:144
+#: ../controlpanel/core.py:152
 msgid "Save"
 msgstr ""
 
@@ -215,51 +215,56 @@ msgstr ""
 msgid "Title of the rendered portlet"
 msgstr ""
 
+#. Default: "groupOfNames or groupOfUniqueNames"
+#: ../controlpanel/core.py:130
+msgid "Type of group to create on ldap"
+msgstr ""
+
 #: ../configure.zcml:63
 msgid "Uninstalls the base5.core add-on."
 msgstr ""
 
-#: ../controlpanel/core.py:49
+#: ../controlpanel/core.py:50
 msgid "User properties extender"
 msgstr ""
 
 #. Default: "alt_base_dn"
-#: ../controlpanel/core.py:100
+#: ../controlpanel/core.py:101
 msgid "alt_base_dn"
 msgstr ""
 
 #. Default: "LDAP base dn"
-#: ../controlpanel/core.py:102
+#: ../controlpanel/core.py:103
 msgid "alt_base_dn_help"
 msgstr ""
 
 #. Default: "alt_bind_dn"
-#: ../controlpanel/core.py:82
+#: ../controlpanel/core.py:83
 msgid "alt_bind_dn"
 msgstr ""
 
 #. Default: "LDAP bind dn"
-#: ../controlpanel/core.py:84
+#: ../controlpanel/core.py:85
 msgid "alt_bind_dn_help"
 msgstr ""
 
 #. Default: "alt_bindpasswd"
-#: ../controlpanel/core.py:91
+#: ../controlpanel/core.py:92
 msgid "alt_bindpasswd"
 msgstr ""
 
 #. Default: "LDAP bind password"
-#: ../controlpanel/core.py:93
+#: ../controlpanel/core.py:94
 msgid "alt_bindpasswd_help"
 msgstr ""
 
 #. Default: "alt_ldap_uri"
-#: ../controlpanel/core.py:73
+#: ../controlpanel/core.py:74
 msgid "alt_ldap_uri"
 msgstr ""
 
 #. Default: "URL del servidor ldap per aquest site"
-#: ../controlpanel/core.py:75
+#: ../controlpanel/core.py:76
 msgid "alt_ldap_uri_help"
 msgstr ""
 
@@ -271,17 +276,27 @@ msgstr ""
 msgid "base5.core (uninstall)"
 msgstr ""
 
+#. Default: "create_group_type"
+#: ../controlpanel/core.py:128
+msgid "create_group_type"
+msgstr ""
+
 #: ../directory/indexers.py:51
 msgid "description"
 msgstr ""
 
+#. Default: "There are currently no events in this folder."
+#: ../browser/events.py:23
+msgid "description_no_events_in_folder"
+msgstr ""
+
 #. Default: "ElasticSearch"
-#: ../controlpanel/core.py:64
+#: ../controlpanel/core.py:65
 msgid "elasticsearch"
 msgstr ""
 
 #. Default: "URL del servidor d'ElasticSearch per aquest site"
-#: ../controlpanel/core.py:66
+#: ../controlpanel/core.py:67
 msgid "elasticsearch_help"
 msgstr ""
 
@@ -294,17 +309,17 @@ msgid "fullname"
 msgstr ""
 
 #. Default: "groups_query"
-#: ../controlpanel/core.py:109
+#: ../controlpanel/core.py:110
 msgid "groups_query"
 msgstr ""
 
 #. Default: "LDAP groups query. Ex: (&(objectClass=groupOfNames))"
-#: ../controlpanel/core.py:111
+#: ../controlpanel/core.py:112
 msgid "groups_query_help"
 msgstr ""
 
 #. Default: "Configuracio de Base Core"
-#: ../controlpanel/core.py:135
+#: ../controlpanel/core.py:143
 msgid "help_base_core_settings_editform"
 msgstr ""
 
@@ -355,12 +370,12 @@ msgid "open_link_in_new_window"
 msgstr ""
 
 #. Default: "user_groups_query"
-#: ../controlpanel/core.py:118
+#: ../controlpanel/core.py:119
 msgid "user_groups_query"
 msgstr ""
 
 #. Default: "LDAP user groups query. Ex: (&(objectClass=groupOfNames)(member=%s))"
-#: ../controlpanel/core.py:120
+#: ../controlpanel/core.py:121
 msgid "user_groups_query_help"
 msgstr ""
 
