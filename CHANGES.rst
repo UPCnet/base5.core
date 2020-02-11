@@ -2,11 +2,12 @@ Changelog
 =========
 
 
-0.27 (unreleased)
+0.27 (2020-02-11)
 -----------------
 
-- Nothing changed yet.
-
+* Turn off email notifications entirely [pilar.marinas]
+* Traducción grid_events_view [Iago López Fernández]
+* Quitar notificacion travis [pilar.marinas]
 
 0.26 (2020-01-14)
 -----------------
