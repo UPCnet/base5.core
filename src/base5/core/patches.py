@@ -737,7 +737,10 @@ def _on_save(self, data=None):
     installed = packages_installed()
     if 'ulearn5.enginyersbcn' in installed:
         try:
-            user = api.user.get_current()
+            if '@@user-information' in self.request["ACTUAL_URL"]:
+                user = api.user.get(username=self.request.form["userid"])
+            else:
+                user = api.user.get_current()
             remove_user_from_catalog(user.id)
             properties = get_all_user_properties(user)
             add_user_to_catalog(user, properties, overwrite=True)
