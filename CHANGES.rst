@@ -2,11 +2,10 @@ Changelog
 =========
 
 
-0.28 (unreleased)
+0.28 (2020-02-19)
 -----------------
 
-- Nothing changed yet.
-
+* Guardar datos en el soup enginyersbcn al guardar datos usuario desde usuarios y grupos [pilar.marinas]
 
 0.27 (2020-02-11)
 -----------------
