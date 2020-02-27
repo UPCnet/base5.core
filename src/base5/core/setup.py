@@ -415,6 +415,9 @@ If the most preferent plugin is:
                 logger.info('No user found in user repository (LDAP) {}'.format(user['id']))
 
             logger.info('Updated properties catalog for {}'.format(user['id']))
+
+        logger.info('Finish rebuild_user_catalog portal {}'.format(portal))
+
         return 'Done'
 
 
@@ -459,7 +462,7 @@ En ACL_USERS / LDAP / Properties / Active Plugins ha de estar ordenado así:
                     logger.info('User delete soup {}'.format(record[1].attrs['id']))
                     results.append('User delete soup: {}'.format(record[1].attrs['id']))
 
-            logger.info('Finish delete_user_catalog')
+            logger.info('Finish delete_user_catalog portal {}'.format(portal))
             results.append('Finish delete_user_catalog')
             return '\n'.join([str(item) for item in results])
         except:
@@ -506,6 +509,7 @@ class delete_local_roles(grok.View):
                 del soup_users_delete[user[1]]
                 logger.info('Eliminat usuari {} del soup.'.format(member_id))
 
+        logger.info('Finish delete_local_roles portal {}'.format(portal))
 
         return 'Done'
 
@@ -536,7 +540,7 @@ class users_to_delete_local_roles(grok.View):
                     results.append('User to delete: {}'.format(member_id))
                     logger.info('User to delete: {}'.format(member_id))
 
-            logger.info('Finish users_to_delete_local_roles')
+            logger.info('Finish users_to_delete_local_roles portal {}'.format(portal))
             results.append('Finish users_to_delete_local_roles')
             return '\n'.join([str(item) for item in results])
         except:
