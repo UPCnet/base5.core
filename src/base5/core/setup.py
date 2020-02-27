@@ -459,13 +459,14 @@ En ACL_USERS / LDAP / Properties / Active Plugins ha de estar ordenado así:
                     logger.info('User delete soup {}'.format(record[1].attrs['id']))
                     results.append('User delete soup: {}'.format(record[1].attrs['id']))
 
-            logger.info('Finish rebuild_user_catalog')
-            results.append('Finish rebuild_user_catalog')
+            logger.info('Finish delete_user_catalog')
+            results.append('Finish delete_user_catalog')
             return '\n'.join([str(item) for item in results])
         except:
             logger.info('The order to the plugins in En ACL_USERS / LDAP / Properties / Active Plugins : mutable_properties / auto_group / ldapaspb')
             results.append('The order to the plugins in En ACL_USERS / LDAP / Properties / Active Plugins : mutable_properties / auto_group / ldapaspb')
             return 'Error: ' + '\n'.join([str(item) for item in results])
+
 
 class delete_local_roles(grok.View):
     """ Delete local roles of specified members.
