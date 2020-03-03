@@ -2,11 +2,11 @@ Changelog
 =========
 
 
-0.29 (unreleased)
+0.29 (2020-03-03)
 -----------------
 
-- Nothing changed yet.
-
+* Add info logger [pilar.marinas]
+* Log delete_user_catalog [Iago López Fernández]
 
 0.28 (2020-02-19)
 -----------------
