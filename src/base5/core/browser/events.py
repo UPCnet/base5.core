@@ -1,15 +1,16 @@
 # -*- coding: utf-8 -*-
-from base5.core.utils import abrevia
-from base5.core.utils import pref_lang
+from Products.CMFCore.utils import getToolByName
+from Products.CMFPlone import PloneMessageFactory as pmf
+
+from plone import api
 from plone.app.contenttypes.browser.folder import FolderView
 from plone.app.contenttypes.interfaces import IEvent
 from plone.memoize.instance import memoize
-from Products.CMFCore.utils import getToolByName
-from Products.CMFPlone import PloneMessageFactory as pmf
 from zope.i18nmessageid import MessageFactory
 
 from base5.core import _
-
+from base5.core.utils import abrevia
+from base5.core.utils import pref_lang
 
 PLMF = MessageFactory('plonelocales')
 
@@ -41,21 +42,25 @@ class GridEventsView(FolderView):
         events = []
         ts = getToolByName(self.context, 'translation_service')
         results = self._query_events()
+        timezone = pytz.timezone(api.user.get_current().getProperty('timezone', api.portal.get_registry_record('plone.portal_timezone')))
         for event in results:
             description = abrevia(event.description, 100) if event.description else None
+            start = event.start.astimezone(timezone)
+            end = event.end.astimezone(timezone)
             location = event.location if event.location else None
             info = {'url': event.getURL(),
-                    'firstday': event.start.day,
-                    'firstmonth': PLMF(ts.month_msgid(event.start.month)),
-                    'abbrfirstmonth': PLMF(ts.month_msgid(event.start.month)),
-                    'firstyear': event.start.year,
-                    'lastday': event.end.day,
-                    'lastmonth': PLMF(ts.month_msgid(event.end.month)),
-                    'abbrlastmonth': PLMF(ts.month_msgid(event.end.month)),
-                    'lastyear': event.end.year,
+                    'firstday': start.day,
+                    'firstmonth': PLMF(ts.month_msgid(start.month)),
+                    'abbrfirstmonth': PLMF(ts.month_msgid(start.month)),
+                    'firstyear': start.year,
+                    'lastday': end.day,
+                    'lastmonth': PLMF(ts.month_msgid(end.month)),
+                    'abbrlastmonth': PLMF(ts.month_msgid(end.month)),
+                    'lastyear': end.year,
                     'title': abrevia(event.title, 60),
                     'descr': description,
                     'location': location,
+                    'timezone': event.timezone,
                     'showflip': location or description
                     }
             events.append(info)

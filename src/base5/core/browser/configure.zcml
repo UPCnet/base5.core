@@ -29,6 +29,15 @@
       class=".events.GridEventsView"
       layer="..interfaces.IBase5CoreLayer"
       permission="zope2.View"
-    />
+      />
+
+    <adapter
+      name="formatted_date_user_timezone"
+      provides="zope.contentprovider.interfaces.IContentProvider"
+      for="zope.interface.Interface
+           zope.publisher.interfaces.browser.IBrowserRequest
+           zope.publisher.interfaces.browser.IBrowserView"
+      factory=".formatted_date_user_timezone.FormattedDateUserTimezoneProvider"
+      />
 
 </configure>
