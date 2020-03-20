@@ -2,11 +2,11 @@ Changelog
 =========
 
 
-0.30 (unreleased)
+0.30 (2020-03-20)
 -----------------
 
-- Nothing changed yet.
-
+* Arreglar error timezone pytz [Iago López Fernández]
+* Ver evento con la timezone del usuario [Iago López Fernández]
 
 0.29 (2020-03-03)
 -----------------
