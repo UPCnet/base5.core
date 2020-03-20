@@ -1,8 +1,6 @@
 # -*- coding: utf-8 -*-
 from Products.CMFCore.utils import getToolByName
-from Products.CMFPlone import PloneMessageFactory as pmf
 
-from plone import api
 from plone.app.contenttypes.browser.folder import FolderView
 from plone.app.contenttypes.interfaces import IEvent
 from plone.memoize.instance import memoize
@@ -10,7 +8,7 @@ from zope.i18nmessageid import MessageFactory
 
 from base5.core import _
 from base5.core.utils import abrevia
-from base5.core.utils import pref_lang
+from ulearn5.core.utils import getUserPytzTimezone
 
 PLMF = MessageFactory('plonelocales')
 
@@ -42,7 +40,7 @@ class GridEventsView(FolderView):
         events = []
         ts = getToolByName(self.context, 'translation_service')
         results = self._query_events()
-        timezone = pytz.timezone(api.user.get_current().getProperty('timezone', api.portal.get_registry_record('plone.portal_timezone')))
+        timezone = getUserPytzTimezone()
         for event in results:
             description = abrevia(event.description, 100) if event.description else None
             start = event.start.astimezone(timezone)

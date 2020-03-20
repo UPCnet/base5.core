@@ -2,14 +2,13 @@
 from Acquisition import Explicit
 from Products.Five.browser.pagetemplatefile import ViewPageTemplateFile
 
-from plone import api
 from plone.app.event.base import DT
 from plone.app.event.base import ulocalized_time
 from plone.event.interfaces import IEventAccessor
 from plone.event.utils import is_same_day
 from plone.event.utils import is_same_time
 
-import pytz
+from ulearn5.core.utils import getUserPytzTimezone
 
 
 class FormattedDateUserTimezoneProvider(Explicit):
@@ -86,7 +85,7 @@ def dates_for_display_user_timezone(occurrence):
         # Eventually optional start/end dates from a potentially Event.
         return None
 
-    timezone = pytz.timezone(api.user.get_current().getProperty('timezone', api.portal.get_registry_record('plone.portal_timezone')))
+    timezone = getUserPytzTimezone()
 
     start = acc.start.astimezone(timezone)
     end = acc.end.astimezone(timezone)
