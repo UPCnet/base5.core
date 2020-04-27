@@ -2,11 +2,10 @@ Changelog
 =========
 
 
-0.31 (unreleased)
+0.31 (2020-04-27)
 -----------------
 
-- Nothing changed yet.
-
+* Modify format time events for user [Pilar Marinas]
 
 0.30 (2020-03-20)
 -----------------
