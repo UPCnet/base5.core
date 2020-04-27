@@ -9,6 +9,8 @@ from plone.event.utils import is_same_day
 from plone.event.utils import is_same_time
 
 from ulearn5.core.utils import getUserPytzTimezone
+from plone import api
+from datetime import datetime
 
 
 class FormattedDateUserTimezoneProvider(Explicit):
@@ -93,6 +95,13 @@ def dates_for_display_user_timezone(occurrence):
     # this needs to separate date and time as ulocalized_time does
     DT_start = DT(start)
     DT_end = DT(end)
+
+    current_user = api.user.get_current()
+    try:
+        format_time = current_user.getProperty('format_time')
+    except:
+        format_time = ''
+
     start_date = ulocalized_time(
         DT_start, long_format=False, time_only=None, context=occurrence
     )
@@ -119,6 +128,21 @@ def dates_for_display_user_timezone(occurrence):
         or start.isoformat()
     end_iso = acc.whole_day and end.date().isoformat()\
         or end.isoformat()
+
+    if format_time != None and format_time != '':
+        if 'PM' in start_time or 'AM' in start_time or 'pm' in start_time or 'am' in start_time:
+            DT_start_time = datetime.strptime(str(start_time), '%I:%M %p')
+            DT_end_time = datetime.strptime(str(end_time), '%I:%M %p')
+        else:
+            DT_start_time = datetime.strptime(str(start_time), '%H:%M')
+            DT_end_time = datetime.strptime(str(end_time), '%H:%M')
+
+        if 'hh:i A' in format_time:
+            start_time = DT_start_time.strftime('%I:%M %p')
+            end_time = DT_end_time.strftime('%I:%M %p')
+        else:
+            start_time = DT_start_time.strftime('%H:%M')
+            end_time = DT_end_time.strftime('%H:%M')
 
     return dict(
         # Start
