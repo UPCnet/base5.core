@@ -2,11 +2,10 @@ Changelog
 =========
 
 
-0.32 (unreleased)
+0.32 (2020-04-28)
 -----------------
 
-- Nothing changed yet.
-
+* Solucionar si evento es de todo el dia o sin hora fin [Pilar Marinas]
 
 0.31 (2020-04-27)
 -----------------
