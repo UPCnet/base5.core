@@ -130,19 +130,27 @@ def dates_for_display_user_timezone(occurrence):
         or end.isoformat()
 
     if format_time != None and format_time != '':
-        if 'PM' in start_time or 'AM' in start_time or 'pm' in start_time or 'am' in start_time:
-            DT_start_time = datetime.strptime(str(start_time), '%I:%M %p')
-            DT_end_time = datetime.strptime(str(end_time), '%I:%M %p')
-        else:
-            DT_start_time = datetime.strptime(str(start_time), '%H:%M')
-            DT_end_time = datetime.strptime(str(end_time), '%H:%M')
+        if start_time != None:
+            if 'PM' in start_time or 'AM' in start_time or 'pm' in start_time or 'am' in start_time:
+                DT_start_time = datetime.strptime(str(start_time), '%I:%M %p')
+            else:
+                DT_start_time = datetime.strptime(str(start_time), '%H:%M')
 
-        if 'hh:i A' in format_time:
-            start_time = DT_start_time.strftime('%I:%M %p')
-            end_time = DT_end_time.strftime('%I:%M %p')
-        else:
-            start_time = DT_start_time.strftime('%H:%M')
-            end_time = DT_end_time.strftime('%H:%M')
+            if 'hh:i A' in format_time:
+                start_time = DT_start_time.strftime('%I:%M %p')
+            else:
+                start_time = DT_start_time.strftime('%H:%M')
+
+        if end_time != None:
+            if 'PM' in end_time or 'AM' in end_time or 'pm' in end_time or 'am' in end_time:
+                DT_end_time = datetime.strptime(str(end_time), '%I:%M %p')
+            else:
+                DT_end_time = datetime.strptime(str(end_time), '%H:%M')
+
+            if 'hh:i A' in format_time:
+                end_time = DT_end_time.strftime('%I:%M %p')
+            else:
+                end_time = DT_end_time.strftime('%H:%M')
 
     return dict(
         # Start
