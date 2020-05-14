@@ -8,6 +8,7 @@ from zope.i18nmessageid import MessageFactory
 
 from base5.core import _
 from base5.core.utils import abrevia
+from ulearn5.core.hooks import packages_installed
 from ulearn5.core.utils import getUserPytzTimezone
 
 PLMF = MessageFactory('plonelocales')
@@ -37,6 +38,12 @@ class GridEventsView(FolderView):
     @memoize
     def get_events(self):
         """Customize which properties we want to show in pt."""
+
+        installed = packages_installed()
+        if 'ulearn5.miranza' in installed:
+            from ulearn5.miranza.patches import get_events as get_events_miranza
+            return get_events_miranza(self)
+
         events = []
         ts = getToolByName(self.context, 'translation_service')
         results = self._query_events()
