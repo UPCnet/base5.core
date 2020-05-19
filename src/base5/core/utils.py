@@ -172,8 +172,8 @@ def get_all_user_properties(user):
     if extender_name:
         if extender_name in [a[0] for a in getUtilitiesFor(ICatalogFactory)]:
             extended_user_properties_utility = getUtility(ICatalogFactory, name=extender_name)
-            attributes = attributes + extended_user_properties_utility.properties
-
+            #attributes_antiguo = attributes + extended_user_properties_utility.properties
+            attributes.extend([element for element in extended_user_properties_utility.properties if element not in attributes])
     mapping = {}
     for attr in attributes:
         # OJO revisar este if mas adelante, no estaba en plone4
