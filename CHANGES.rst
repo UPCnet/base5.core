@@ -2,11 +2,12 @@ Changelog
 =========
 
 
-0.33 (unreleased)
+0.33 (2020-06-09)
 -----------------
 
-- Nothing changed yet.
-
+* Quitar u daba error [root]
+* API Cornestone perfil usuario [Pilar Marinas]
+* get_events [Iago López Fernández]
 
 0.32 (2020-04-28)
 -----------------
