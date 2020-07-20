@@ -34,8 +34,9 @@ def UpdateUserPropertiesOnLogin(event):
     try:
         installed = packages_installed()
         if 'ulearn5.medichem' in installed:
-            from ulearn5.medichem.overrides import get_all_user_properties_medichem
-            properties = get_all_user_properties_medichem(user)
+            # from ulearn5.medichem.overrides import get_all_user_properties_medichem
+            # properties = get_all_user_properties_medichem(user)
+            pass
         else:
             properties = get_all_user_properties(user)
         add_user_to_catalog(user, properties, overwrite=True)

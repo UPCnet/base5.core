@@ -178,9 +178,14 @@ def get_all_user_properties(user):
     for attr in attributes:
         # OJO revisar este if mas adelante, no estaba en plone4
         if attr != 'username':
-            value = user.getProperty(attr)
-            if isinstance(value, str) or isinstance(value, unicode) or isinstance(value, bool) or isinstance(value, list) or isinstance(value, tuple):
-                mapping.update({attr: value})
+            try:
+                value = user.getProperty(attr)
+                if isinstance(value, str) or isinstance(value, unicode) or isinstance(value, bool) or isinstance(value, list) or isinstance(value, tuple):
+                    mapping.update({attr: value})
+            except:
+                portal = api.portal.get()
+                logger.error('ERROR PROPERTY {} in USER_PROPERTIES {} ALL_ATTRIBUTES {} EXTENDED_PROPERTIES {} PORTAL {} '.format(attr, extender_name, attributes, extended_user_properties_utility.properties, portal))
+                pass
 
     return mapping
 
