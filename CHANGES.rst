@@ -2,11 +2,10 @@ Changelog
 =========
 
 
-0.34 (unreleased)
+0.34 (2020-07-20)
 -----------------
 
-- Nothing changed yet.
-
+* No actualizar datos usuario Medichem en login [Pilar Marinas]
 
 0.33 (2020-06-09)
 -----------------
