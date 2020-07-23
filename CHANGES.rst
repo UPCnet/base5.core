@@ -2,11 +2,10 @@ Changelog
 =========
 
 
-0.35 (unreleased)
+0.35 (2020-07-23)
 -----------------
 
-- Nothing changed yet.
-
+* Modificar permiso WebMaster pueda cambiar vista carpeta y restricciones tipo contenido carpeta [Pilar Marinas]
 
 0.34 (2020-07-20)
 -----------------
