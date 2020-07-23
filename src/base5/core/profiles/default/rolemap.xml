@@ -132,6 +132,10 @@
       <role name="Manager"/>
       <role name="Owner"/>
     </permission>
+    <permission name="Modify constrain types" acquire="True">
+      <role name="Manager"/>
+      <role name="WebMaster"/>
+    </permission>
     <permission name="Modify portal content" acquire="True">
       <role name="Editor"/>
       <role name="Owner"/>
@@ -141,6 +145,7 @@
       <role name="Editor"/>
       <role name="Manager"/>
       <role name="Owner"/>
+      <role name="WebMaster"/>
     </permission>
     <permission name="Portlets: Manage own portlets"
                 acquire="False">
