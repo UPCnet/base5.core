@@ -2,11 +2,10 @@ Changelog
 =========
 
 
-0.36 (unreleased)
+0.36 (2020-09-08)
 -----------------
 
-- Nothing changed yet.
-
+* Quitar que se actulicen los datos de cornestone en el primer login medichem [Pilar Marinas]
 
 0.35 (2020-07-23)
 -----------------
