@@ -127,6 +127,20 @@
         />
 
      <monkey:patch
+        description="Solucionar usuarios con accento en el campo DN del LDAP"
+        module="Products.LDAPUserFolder.LDAPUserFolder.LDAPUserFolder"
+        original="getUserDetails"
+        replacement=".patches.getUserDetails"
+        />
+
+     <monkey:patch
+        description="Solucionar permisos del sharing cuando un usuario con el CN = DN con acento esta dentro de un grupo"
+        module="Products.LDAPUserFolder.LDAPUserFolder.LDAPUser"
+        original="getUserDN"
+        replacement=".patches.getUserDN"
+        />
+
+     <monkey:patch
         description="Que no haya un batch huerfano"
         module="plone.app.contenttypes.browser.folder.FolderView"
         original="batch"

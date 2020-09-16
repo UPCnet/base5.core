@@ -635,7 +635,10 @@ def enumerateUsers(self,
                 # END PATCH
                 l_res['pluginid'] = plugin_id
                 try:
-                    quoted_dn = quote_plus(l_res['dn'])
+                    #Esto es lo que habia antes de solucionar los usuarios del AD LDAP MEDICHEM con accentos en el DN
+                    #Si no se modifica no funciona el rebuild_user_catalog para los usuarios con accento
+                    #quoted_dn = quote_plus(l_res['dn'])
+                    quoted_dn = quote_plus(l_res['dn'].encode('utf-8'))
                     l_res['editurl'] = '%s?user_dn=%s' % (edit_url, quoted_dn)
                     result.append(l_res)
                     seen.append(l_res['dn'])
@@ -751,3 +754,57 @@ def _on_save(self, data=None):
             # test_user doesn't have properties and stops the tests.
             pass
     pass
+
+from Products.LDAPUserFolder.utils import to_utf8
+import urllib
+
+def getUserDetails(self, encoded_dn, format=None, attrs=()):
+    """ Return all attributes for a given DN """
+    #He tenido que quitar el to_utf8 porque si el CN - DN del usuario tenia acentos no te devolvia en el manage users los datos del usuario
+    #lo hemos visto al buscar un usuario en MEDICHEM que tiene el CN y DN con acento.
+    #dn = to_utf8(urllib.unquote(encoded_dn))
+    dn = urllib.unquote(encoded_dn)
+
+    if not attrs:
+        attrs = self.getSchemaConfig().keys()
+
+    res = self._delegate.search( base=dn
+                               , scope=self._delegate.BASE
+                               , attrs=attrs
+                               )
+
+    if res['exception']:
+        if format == None:
+            result = ((res['exception'], res),)
+        elif format == 'dictionary':
+            result = { 'cn': '###Error: %s' % res['exception'] }
+    elif res['size'] > 0:
+        value_dict = res['results'][0]
+
+        if format == None:
+            result = value_dict.items()
+            result.sort()
+        elif format == 'dictionary':
+            result = value_dict
+    else:
+        if format == None:
+            result = ()
+        elif format == 'dictionary':
+            result = {}
+
+    return result
+
+from Products.LDAPUserFolder.utils import encoding
+
+def getUserDN(self):
+    """ Return the user's full Distinguished Name """
+    if isinstance(self._dn, unicode):
+        # Por defecto Plone hace el encode en latin1 
+        # y si hay un usuario con accento dentro de un grupo no le funciona el sharing y no tiene permisos para visualizar
+        # esto lo hemos visto al añadir a MEDICHEM que tiene usuarios con el CN y DN con acento.
+        try:
+            return self._dn.encode('utf-8')
+        except:
+            return self._dn.encode(encoding)
+
+    return self._dn
