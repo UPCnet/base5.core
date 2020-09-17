@@ -2,11 +2,10 @@ Changelog
 =========
 
 
-0.37 (unreleased)
+0.37 (2020-09-17)
 -----------------
 
-- Nothing changed yet.
-
+* Parches para solucionar los usuarios con acento en el CN - DN de MEDICHEM [root]
 
 0.36 (2020-09-08)
 -----------------
