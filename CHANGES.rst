@@ -2,11 +2,10 @@ Changelog
 =========
 
 
-0.38 (unreleased)
+0.38 (2020-09-29)
 -----------------
 
-- Nothing changed yet.
-
+* Rendimiento: Portlet Media -> reducir la imagen a mini [Iago López Fernández]
 
 0.37 (2020-09-17)
 -----------------
