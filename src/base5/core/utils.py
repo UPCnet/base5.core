@@ -25,6 +25,16 @@ import logging
 import unicodedata
 
 
+from OFS.Image import Image
+from mrs5.max.utilities import IMAXClient
+from OFS.Image import Image
+from time import time
+import urllib
+import PIL
+from PIL import ImageOps
+from cStringIO import StringIO
+
+
 logger = logging.getLogger(__name__)
 
 PLMF = MessageFactory('plonelocales')
@@ -441,3 +451,74 @@ def json_response(func):
             return json.dumps(result.get('data', result), indent=2, sort_keys=True)
 
     return decorator
+
+
+def convertSquareImage(image_file):
+    CONVERT_SIZE = (250, 250)
+    try:
+        image = PIL.Image.open(image_file)
+    except:
+        portrait_url = portal_url() + '/++theme++ulearn5/assets/images/defaultUser.png'
+        imgData = requests.get(portrait_url).content
+        image = PIL.Image.open(io.BytesIO(imgData))
+        image.filename = 'defaultUser'
+
+    format = image.format
+    mimetype = 'image/%s' % format.lower()
+
+    result = ImageOps.fit(image, CONVERT_SIZE, method=PIL.Image.ANTIALIAS, centering=(0.5, 0.5))
+
+    # Bypass CMYK problem in conversion
+    if result.mode not in ["1", "L", "P", "RGB", "RGBA"]:
+        result = result.convert("RGB")
+
+    new_file = StringIO()
+    result.save(new_file, format, quality=88)
+    new_file.seek(0)
+
+    return new_file, mimetype
+
+def add_portrait_user(user):
+    """ Esta función le pide al max la foto de perfil del usuario
+        la añade al portrait de plone y guarda en un soup si es la de por defecto o no
+    """
+    id = user.id
+    maxclient, settings = getUtility(IMAXClient)()
+    foto = maxclient.people[id].avatar
+    imageUrl = foto.uri + '/large'
+
+    portrait = urllib.urlretrieve(imageUrl)
+
+    scaled, mimetype = convertSquareImage(portrait[0])
+    portrait = Image(id=id, file=scaled, title=id)
+
+    portal = api.portal.get()
+    membertool = getToolByName(portal, 'portal_memberdata')
+    membertool._setPortrait(portrait, str(id))
+    import transaction
+    transaction.commit()
+
+    member_info = get_safe_member_by_id(id)
+    if member_info.get('fullname', False) \
+       and member_info.get('fullname', False) != id \
+       and member_info.get('email', False) \
+       and isinstance(portrait, Image) and portrait.size != 3566 and portrait.size != 6186:
+        portrait_user = True
+        # 3566 is the size of defaultUser.png I don't know how get image
+        # title. This behavior is reproduced in profile portlet. Ahora tambien 6186
+    else:
+        portrait_user = False
+
+    soup_users_portrait = get_soup('users_portrait', portal)
+    exist = [r for r in soup_users_portrait.query(Eq('id_username', id))]
+    if exist:
+        user_record = exist[0]
+        user_record.attrs['id_username'] = id
+        user_record.attrs['portrait'] = portrait_user
+    else:
+        record = Record()
+        record_id = soup_users_portrait.add(record)
+        user_record = soup_users_portrait.get(record_id)
+        user_record.attrs['id_username'] = id
+        user_record.attrs['portrait'] = portrait_user
+    soup_users_portrait.reindex(records=[user_record])

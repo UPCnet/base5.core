@@ -134,3 +134,23 @@ class UsersDeleteLocalRoles(object):
 
 
 grok.global_utility(UsersDeleteLocalRoles, name="users_delete_local_roles")
+
+
+@implementer(ICatalogFactory)
+class UsersPortrait(object):
+    """ Usuaris si tenen la foto del perfil o no DefaultImage
+        :index id: TextIndex - id_username = username
+        :index portrait: FieldIndex - Boolean, if the username has portrait
+    """
+
+    def __call__(self, context):
+        catalog = Catalog()
+        idindexer = NodeAttributeIndexer('id_username')
+        catalog['id_username'] = CatalogTextIndex(idindexer)
+        portrait = NodeAttributeIndexer('portrait')
+        catalog['portrait'] = CatalogFieldIndex(portrait)
+
+        return catalog
+
+
+grok.global_utility(UsersDeleteLocalRoles, name="users_portrait")

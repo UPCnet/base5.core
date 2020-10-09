@@ -8,7 +8,9 @@ from Products.PluggableAuthService.interfaces.plugins import IUserAdderPlugin
 from five import grok
 from plone import api
 from plone.registry.interfaces import IRegistry
+from repoze.catalog.query import Eq
 from souper.soup import get_soup
+from souper.soup import Record
 from zope.component import getUtility
 from zope.component.hooks import getSite
 from zope.interface import Interface
@@ -19,7 +21,14 @@ from Products.CMFCore.interfaces import ISiteRoot
 from base5.core.utils import add_user_to_catalog
 from base5.core.utils import json_response
 from base5.core.utils import reset_user_catalog
+from base5.core.utils import get_safe_member_by_id, convertSquareImage
 
+from mrs5.max.utilities import IMAXClient
+# from ulearn5.core.adapters.portrait import convertSquareImage
+from OFS.Image import Image
+from time import time
+
+import urllib
 import logging
 import os
 import pkg_resources
@@ -547,3 +556,107 @@ class users_to_delete_local_roles(grok.View):
             logger.info('Except Users to delete local roles')
             results.append('Except Users to delete local roles')
             return 'Error: ' + '\n'.join([str(item) for item in results])
+
+class rebuild_users_portrait(grok.View):
+    """ Users portrait
+        Vista per actualitzar soup dels usuaris per dir si tenen la foto canviada True o la de per defecte False
+    """
+    grok.context(IPloneSiteRoot)
+    grok.name('rebuild_users_portrait')
+    grok.require('cmf.ManagePortal')
+
+    def render(self):
+        try:
+            from plone.protect.interfaces import IDisableCSRFProtection
+            alsoProvides(self.request, IDisableCSRFProtection)
+        except:
+            pass
+        portal = api.portal.get()
+        soup_users_portrait = get_soup('users_portrait', portal)
+        plugins = portal.acl_users.plugins.listPlugins(IPropertiesPlugin)
+        # We use the most preferent plugin
+        # If the most preferent plugin is:
+        #    mutable_properties --> users who have entered into communities
+        #    ldap --> users in LDAP
+        pplugin = plugins[0][1]
+        all_user_properties = pplugin.enumerateUsers()
+
+        for user in all_user_properties:
+            user_obj = api.user.get(user['id'])
+
+            if user_obj:
+                id = user['id']
+                maxclient, settings = getUtility(IMAXClient)()
+                foto = maxclient.people[id].avatar
+                imageUrl = foto.uri + '/large'
+
+                portrait = urllib.urlretrieve(imageUrl)
+
+                scaled, mimetype = convertSquareImage(portrait[0])
+                portrait = Image(id=id, file=scaled, title=id)
+
+                # membertool = getToolByName(self, 'portal_memberdata')
+                # membertool._setPortrait(portrait, str(id))
+                # import transaction
+                # transaction.commit()
+                member_info = get_safe_member_by_id(id)
+                if member_info.get('fullname', False) \
+                   and member_info.get('fullname', False) != id \
+                   and member_info.get('email', False) \
+                   and isinstance(portrait, Image) and portrait.size != 3566 and portrait.size != 6186:
+                    portrait_user = True
+                    # 3566 is the size of defaultUser.png I don't know how get image
+                    # title. This behavior is reproduced in profile portlet. Ahora tambien 6186
+                else:
+                    portrait_user = False
+
+                exist = [r for r in soup_users_portrait.query(Eq('id_username', id))]
+                if exist:
+                    user_record = exist[0]
+                    # Just in case that a user became a legit one and previous was a nonlegit
+                    user_record.attrs['id_username'] = id
+                    user_record.attrs['portrait'] = portrait_user
+                else:
+                    record = Record()
+                    record_id = soup_users_portrait.add(record)
+                    user_record = soup_users_portrait.get(record_id)
+                    user_record.attrs['id_username'] = id
+                    user_record.attrs['portrait'] = portrait_user
+                soup_users_portrait.reindex(records=[user_record])
+            else:
+                logger.info('No user found in user repository (LDAP) {}'.format(user['id']))
+
+            logger.info('Updated portrait user for {}'.format(user['id']))
+
+        logger.info('Finish rebuild_user_portrait portal {}'.format(portal))
+        return 'Done'
+
+
+class view_users_portrait(grok.View):
+    """ Users portrait
+        Vista per veure soup dels usuaris per dir si tenen la foto canviada True o la de per defecte False
+    """
+    grok.context(IPloneSiteRoot)
+    grok.name('view_users_portrait')
+    grok.require('cmf.ManagePortal')
+
+    @json_response
+    def render(self):
+        try:
+            from plone.protect.interfaces import IDisableCSRFProtection
+            alsoProvides(self.request, IDisableCSRFProtection)
+        except:
+            pass
+        portal = api.portal.get()
+        soup = get_soup('users_portrait', portal)
+        records = [r for r in soup.data.items()]
+
+        result = {}
+        for record in records:
+            item = {}
+            for key in record[1].attrs:
+                item[key] = record[1].attrs[key]
+
+            result[record[1].attrs['id_username']] = item
+
+        return result

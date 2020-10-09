@@ -9,6 +9,7 @@ from Products.PluggableAuthService.interfaces.events import IUserLoggedInEvent
 from base5.core.utils import get_all_user_properties
 from base5.core.utils import add_user_to_catalog
 from ulearn5.core.hooks import packages_installed
+from base5.core.utils import add_portrait_user
 
 @grok.subscribe(IPropertiedUser, IPrincipalCreatedEvent)
 def create_user_hook(user, event):
@@ -36,10 +37,12 @@ def UpdateUserPropertiesOnLogin(event):
         if 'ulearn5.medichem' in installed:
             # from ulearn5.medichem.overrides import get_all_user_properties_medichem
             # properties = get_all_user_properties_medichem(user)
+            add_portrait_user(user)
             pass
         else:
             properties = get_all_user_properties(user)
         add_user_to_catalog(user, properties, overwrite=True)
+        add_portrait_user(user)
     except:
         # To avoid testing test_functional code, since the
         # test_user doesn't have properties and stops the tests.
