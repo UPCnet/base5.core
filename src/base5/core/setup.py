@@ -602,7 +602,6 @@ class rebuild_users_portrait(grok.View):
                 member_info = get_safe_member_by_id(id)
                 if member_info.get('fullname', False) \
                    and member_info.get('fullname', False) != id \
-                   and member_info.get('email', False) \
                    and isinstance(portrait, Image) and portrait.size != 3566 and portrait.size != 6186:
                     portrait_user = True
                     # 3566 is the size of defaultUser.png I don't know how get image
