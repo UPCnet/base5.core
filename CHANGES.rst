@@ -2,11 +2,11 @@ Changelog
 =========
 
 
-0.39 (unreleased)
+0.39 (2020-10-13)
 -----------------
 
-- Nothing changed yet.
-
+* Que el campo mail no se mire para el badget de la foto [Pilar Marinas]
+* Modificar codigo para el badget de la imagen lo mire del soup y no actualize siempre foto [Pilar Marinas]
 
 0.38 (2020-09-29)
 -----------------
