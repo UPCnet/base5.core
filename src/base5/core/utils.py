@@ -23,6 +23,8 @@ from zope.i18nmessageid import MessageFactory
 import json
 import logging
 import unicodedata
+import requests
+import io
 
 
 from OFS.Image import Image
