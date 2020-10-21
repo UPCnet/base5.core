@@ -4,5 +4,6 @@
     <column value="news_image_filename"/>
     <column value="is_important"/>
     <column value="favoritedBy"/>
+    <column value="notNotifyPushBy"/>
     <column value="get_size"/>
 </object>

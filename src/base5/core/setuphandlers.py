@@ -13,10 +13,12 @@ INDEXES = (('is_important', 'BooleanIndex'),
            ('is_outoflist', 'BooleanIndex'),
            ('is_inapp', 'BooleanIndex'),
            ('favoritedBy', 'KeywordIndex'),
+           ('notNotifyPushBy', 'KeywordIndex'),
            ('exclude_from_nav', 'FieldIndex'),
            ('news_image_filename', 'FieldIndex'),
            ('gwuuid', 'UUIDIndex')
            )
+
 
 @implementer(INonInstallable)
 class HiddenProfiles(object):
@@ -36,6 +38,7 @@ def post_install(context):
 def uninstall(context):
     """Uninstall script"""
     # Do something at the end of the uninstallation of this package.
+
 
 # Afegit creació d'indexos programàticament i controladament per:
 # http://maurits.vanrees.org/weblog/archive/2009/12/catalog
