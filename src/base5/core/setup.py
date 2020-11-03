@@ -1,4 +1,5 @@
 # -*- coding: utf-8 -*-
+from Products.CMFPlone.interfaces import IFilterSchema
 from Products.CMFPlone.interfaces import IPloneSiteRoot
 from Products.CMFPlone.interfaces import ITinyMCESchema
 from Products.PlonePAS.interfaces.group import IGroupManagement
@@ -92,6 +93,17 @@ class setupTinyMCEConfigPlone5(grok.View):
         settings.toolbar = u'undo redo | styleselect formatselect | fullscreen | code | save | preview | template | cut copy  paste  pastetext | searchreplace  textpattern selectallltr |  removeformat | anchor |  inserttable tableprops deletetable cell row column | rtl |  bold italic underline strikethrough superscript subscript | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent | unlink plonelink ploneimage | forecolor backcolor |'
         settings.custom_plugins.append('template|+plone+static/components/tinymce-builded/js/tinymce/plugins/template')
         settings.other_settings = u'{"forced_root_block": "p", "cleanup": false, "valid_elements": "*[*]", "valid_children": "+a[img|div|h2|p]"}'
+
+        filter_settings = getUtility(IRegistry).forInterface(
+            IFilterSchema,
+            prefix="plone",
+            check=False
+        )
+
+        filter_settings.nasty_tags = [u'object', u'embed', u'applet', u'script', u'meta']
+        filter_settings.valid_tags = [u'a', u'abbr', u'acronym', u'address', u'article', u'aside', u'audio', u'b', u'bdo', u'big', u'blockquote', u'body', u'br', u'canvas', u'caption', u'cite', u'code', u'col', u'colgroup', u'command', u'datalist', u'dd', u'del', u'details', u'dfn', u'dialog', u'div', u'dl', u'dt', u'em', u'figure', u'footer', u'h1', u'h2', u'h3', u'h4', u'h5', u'h6', u'head', u'header', u'hgroup', u'html', u'i', u'iframe', u'img', u'ins', u'kbd', u'keygen', u'li', u'map', u'mark', u'meter', u'nav', u'ol', u'output', u'p', u'pre', u'progress', u'q', u'rp', u'rt', u'ruby', u'samp', u'section', u'small', u'source', u'span', u'strong', u'sub', u'sup', u'table', u'tbody', u'td', u'tfoot', u'th', u'thead', u'time', u'title', u'tr', u'tt', u'u', u'ul', u'var', u'video', u'script']
+        filter_settings.custom_attributes = [u'data-height', u'style']
+
         transaction.commit()
 
         from Products.CMFPlone.interfaces import IMarkupSchema
