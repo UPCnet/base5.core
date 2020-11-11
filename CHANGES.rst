@@ -2,11 +2,13 @@ Changelog
 =========
 
 
-0.40 (unreleased)
+0.40 (2020-11-11)
 -----------------
 
-- Nothing changed yet.
-
+* Quitar actualizar foto en login para medichem se hace en el rebuild_user_catalog [Pilar Marinas]
+* Solucionar error UpdateUserPropertiesOnLogin [Pilar Marinas]
+* Setup tinymce añadir atributos validos [Iago López Fernández]
+* Imports que faltan [Pilar Marinas]
 
 0.39 (2020-10-13)
 -----------------
