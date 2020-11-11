@@ -37,7 +37,7 @@ def UpdateUserPropertiesOnLogin(event):
         if 'ulearn5.medichem' in installed:
             # from ulearn5.medichem.overrides import get_all_user_properties_medichem
             # properties = get_all_user_properties_medichem(user)
-            add_portrait_user(user)
+            # add_portrait_user(user)
             pass
         else:
             properties = get_all_user_properties(user)
