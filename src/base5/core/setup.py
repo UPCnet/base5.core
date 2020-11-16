@@ -25,6 +25,9 @@ from base5.core.utils import reset_user_catalog
 from base5.core.utils import get_safe_member_by_id, convertSquareImage
 
 from mrs5.max.utilities import IMAXClient
+from ulearn5.core.patches import deleteMembers
+from base5.core.utils import remove_user_from_catalog
+from ulearn5.core.gwuuid import IGWUUID
 # from ulearn5.core.adapters.portrait import convertSquareImage
 from OFS.Image import Image
 from time import time
@@ -441,6 +444,178 @@ If the most preferent plugin is:
 
         return 'Done'
 
+class UserMaxNotLDAP(grok.View):
+    """ Users in MAX not in LDAP.
+        Vista per veure quins usuaris estan en el MAX i no al LDAP abans esborrar
+
+        Path directo del plugin:
+        acl_users/plugins/manage_plugins?plugin_type=IPropertiesPlugin
+
+        En ACL_USERS / LDAP / Properties / Active Plugins ha de estar ordenado así:
+        mutable_properties / auto_group / ldapexterns
+    """
+    grok.context(IPloneSiteRoot)
+    grok.name('users_max_not_ldap')
+    grok.require('cmf.ManagePortal')
+
+    def render(self):
+        try:
+            from plone.protect.interfaces import IDisableCSRFProtection
+            alsoProvides(self.request, IDisableCSRFProtection)
+        except:
+            pass
+
+        portal = api.portal.get()
+        plugins = portal.acl_users.plugins.listPlugins(IPropertiesPlugin)
+        # We use the ldap plugin
+        pplugin = plugins[2][1]
+        results = []
+
+        query = self.request.form.get('q', '')
+
+        maxclient, settings = getUtility(IMAXClient)()
+        maxclient.setActor(settings.max_restricted_username)
+        maxclient.setToken(settings.max_restricted_token)
+
+        # Todos los usuarios que estan en el MAX
+        fulluserinfo = maxclient.people.get(qs={'limit': 0, 'username': query})
+
+        # Usuarios admin que no podemos borrar
+        admin_users = maxclient.admin.security.users()
+        list_admin_users = []
+
+        for user in admin_users:
+            list_admin_users.append(str(user['username']))
+
+        try:
+            acl = pplugin._getLDAPUserFolder()
+            for user in fulluserinfo:
+                if str(user['username']) in list_admin_users:
+                    pass
+                else:
+                    user_obj = acl.getUserById(user['username'])
+                    if not user_obj:
+                        logger.info('No user found in user repository (LDAP) {}'.format(user['username']))
+                        results.append('User for delete: {}'.format(user['username']))
+
+
+            logger.info('Finish users_max_not_ldap portal {}'.format(portal))
+            results.append('Finish users_max_not_ldap')
+            return '\n'.join([str(item) for item in results])
+        except:
+            logger.info('The order to the plugins in En ACL_USERS / LDAP / Properties / Active Plugins : mutable_properties / auto_group / ldapaspb')
+            results.append('The order to the plugins in En ACL_USERS / LDAP / Properties / Active Plugins : mutable_properties / auto_group / ldapaspb')
+            return 'Error: ' + '\n'.join([str(item) for item in results])
+
+class DeleteUserMaxNotLDAP(grok.View):
+    """ Delete users in MAX not in LDAP.
+        Vista per esborrar del cataleg i que no apareguin al directori
+        els usuaris que no estan al LDAP
+
+        Path directo del plugin:
+        acl_users/plugins/manage_plugins?plugin_type=IPropertiesPlugin
+
+        En ACL_USERS / LDAP / Properties / Active Plugins ha de estar ordenado así:
+        mutable_properties / auto_group / ldapexterns
+    """
+    grok.context(IPloneSiteRoot)
+    grok.name('delete_users_max_not_ldap')
+    grok.require('cmf.ManagePortal')
+
+    def render(self):
+        try:
+            from plone.protect.interfaces import IDisableCSRFProtection
+            alsoProvides(self.request, IDisableCSRFProtection)
+        except:
+            pass
+
+        portal = api.portal.get()
+        plugins = portal.acl_users.plugins.listPlugins(IPropertiesPlugin)
+        # We use the ldap plugin
+        pplugin = plugins[2][1]
+        results = []
+
+        query = self.request.form.get('q', '')
+
+        maxclient, settings = getUtility(IMAXClient)()
+        maxclient.setActor(settings.max_restricted_username)
+        maxclient.setToken(settings.max_restricted_token)
+
+        # Todos los usuarios que estan en el MAX
+        fulluserinfo = maxclient.people.get(qs={'limit': 0, 'username': query})
+
+        # Usuarios admin que no podemos borrar
+        admin_users = maxclient.admin.security.users()
+        list_admin_users = []
+
+        for user in admin_users:
+            list_admin_users.append(str(user['username']))
+
+        try:
+            acl = pplugin._getLDAPUserFolder()
+
+            for user in fulluserinfo:
+                if str(user['username']) in list_admin_users:
+                    pass
+                else:
+                    user_obj = acl.getUserById(user['username'])
+                    if not user_obj:
+                        logger.info('No user found in user repository (LDAP) {}'.format(user['username']))
+                        deleteMembers(self, user['username'])
+                        member_id = str(user['username'])
+                        remove_user_from_catalog(member_id.lower())
+                        logger.info('Eliminat usuari {} del catalog.'.format(member_id.lower()))
+                        pc = api.portal.get_tool(name='portal_catalog')
+
+                        communities_subscription = maxclient.people[member_id].subscriptions.get()
+
+                        if communities_subscription != []:
+
+                            for num, community_subscription in enumerate(communities_subscription):
+                                community = pc.unrestrictedSearchResults(portal_type="ulearn.community", community_hash=community_subscription['hash'])
+                                try:
+                                    obj = community[0]._unrestrictedGetObject()
+                                    logger.info('Processant {} de {}. Comunitat {}'.format(num, len(communities_subscription), obj))
+                                    gwuuid = IGWUUID(obj).get()
+                                    portal = api.portal.get()
+                                    soup = get_soup('communities_acl', portal)
+
+                                    records = [r for r in soup.query(Eq('gwuuid', gwuuid))]
+
+                                    # Save ACL into the communities_acl soup
+                                    if records:
+                                        acl_record = records[0]
+                                        acl = acl_record.attrs['acl']
+                                        exist = [a for a in acl['users'] if a['id'] == unicode(member_id)]
+                                        if exist:
+                                            acl['users'].remove(exist[0])
+                                            acl_record.attrs['acl'] = acl
+                                            soup.reindex(records=[acl_record])
+                                            adapter = obj.adapted()
+                                            adapter.remove_acl_atomic(member_id)
+                                            adapter.set_plone_permissions(adapter.get_acl())
+                                            # Communicate the change in the community subscription to the uLearnHub
+                                            adapter.update_hub_subscriptions()
+
+                                            if ((obj.notify_activity_via_mail == True) and (obj.type_notify == 'Automatic')):
+                                                adapter.update_mails_users(obj, acl)
+
+                                except:
+                                    continue
+
+                        # Lo borramos del MAX
+                        maxclient.people[member_id].delete()
+
+                        logger.info('User delete {}'.format(user['username']))
+                        results.append('User delete: {}'.format(user['username']))
+
+            logger.info('Finish delete_users_max_not_ldap portal {}'.format(portal))
+            results.append('Finish delete_users_max_not_ldap')
+            return '\n'.join([str(item) for item in results])
+        except:
+            logger.info('The order to the plugins in En ACL_USERS / LDAP / Properties / Active Plugins : mutable_properties / auto_group / ldapaspb')
+            results.append('The order to the plugins in En ACL_USERS / LDAP / Properties / Active Plugins : mutable_properties / auto_group / ldapaspb')
+            return 'Error: ' + '\n'.join([str(item) for item in results])
 
 class DeleteUserPropertiesCatalog(grok.View):
     """ Delete users in catalog not in LDAP.
