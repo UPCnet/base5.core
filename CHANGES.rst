@@ -2,11 +2,10 @@ Changelog
 =========
 
 
-0.41 (unreleased)
+0.41 (2020-11-16)
 -----------------
 
-- Nothing changed yet.
-
+* Vistas para ver y borrar usuarios que estan en el MAX pero no en el LDAP [Pilar Marinas]
 
 0.40 (2020-11-11)
 -----------------
