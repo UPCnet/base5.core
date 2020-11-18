@@ -2,11 +2,10 @@ Changelog
 =========
 
 
-0.42 (unreleased)
+0.42 (2020-11-18)
 -----------------
 
-- Nothing changed yet.
-
+* Merge remote-tracking branch 'origin/notificaciones' into develop [pilar.marinas]
 
 0.41 (2020-11-16)
 -----------------
