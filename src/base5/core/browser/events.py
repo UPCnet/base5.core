@@ -1,9 +1,8 @@
 # -*- coding: utf-8 -*-
-from Products.CMFCore.utils import getToolByName
-
 from plone.app.contenttypes.browser.folder import FolderView
 from plone.app.contenttypes.interfaces import IEvent
 from plone.memoize.instance import memoize
+from plone import api
 from zope.i18nmessageid import MessageFactory
 
 from base5.core import _
@@ -45,7 +44,7 @@ class GridEventsView(FolderView):
             return get_events_miranza(self)
 
         events = []
-        ts = getToolByName(self.context, 'translation_service')
+        ts = api.portal.get_tool(name='translation_service')
         results = self._query_events()
         timezone = getUserPytzTimezone()
         for event in results:

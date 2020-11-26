@@ -16,7 +16,6 @@ from zope.component import getUtility
 from zope.component.hooks import getSite
 from zope.interface import Interface
 from zope.interface import alsoProvides
-from Products.CMFCore.utils import getToolByName
 from Products.CMFCore.interfaces import ISiteRoot
 
 from base5.core.utils import add_user_to_catalog
@@ -694,7 +693,7 @@ class delete_local_roles(grok.View):
                     member_ids = (member_id,)
                     member_ids = list(member_ids)
 
-                mtool = getToolByName(self.context, 'portal_membership')
+                mtool = api.portal.get_tool(name='portal_membership')
 
                 # Delete members' local roles.
                 mtool.deleteLocalRoles(getUtility(ISiteRoot), member_ids,
@@ -782,7 +781,7 @@ class rebuild_users_portrait(grok.View):
                 scaled, mimetype = convertSquareImage(portrait[0])
                 portrait = Image(id=id, file=scaled, title=id)
 
-                # membertool = getToolByName(self, 'portal_memberdata')
+                # membertool = api.portal.get_tool(name='portal_memberdata')
                 # membertool._setPortrait(portrait, str(id))
                 # import transaction
                 # transaction.commit()

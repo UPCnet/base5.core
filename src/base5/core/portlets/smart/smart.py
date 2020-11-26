@@ -1,10 +1,10 @@
 # -*- coding: utf-8 -*-
 from Acquisition import aq_inner
 from Acquisition import aq_parent
-from Products.CMFCore.utils import getToolByName
 
 from zope.schema.interfaces import ICollection
 #from plone.app.collection.interfaces import ICollection
+from plone import api
 from plone.app.portlets.portlets import base
 from plone.app.querystring.querybuilder import QueryBuilder
 from plone.directives import form
@@ -150,7 +150,7 @@ class Renderer(base.Renderer):
     def __init__(self, *args):
         base.Renderer.__init__(self, *args)
         self.plone_view = getMultiAdapter((self.context, self.request), name='plone')
-        self.ptypes = getToolByName(self.context, 'portal_types')
+        self.ptypes = api.portal.get_tool(name='portal_types')
 
     def render(self):
         renderer = getAdapter(self, IPortletContainerRenderer, name=self.data.container_view)
@@ -232,7 +232,7 @@ class Renderer(base.Renderer):
         return results
 
     def isUlearn(self):
-        qi = getToolByName(self.context, 'portal_quickinstaller')
+        qi = api.portal.get_tool(name='portal_quickinstaller')
         prods = qi.listInstallableProducts(skipInstalled=False)
         for prod in prods:
             if (prod['id'] == 'ulearn5.theme') and (prod['status'] == 'installed'):

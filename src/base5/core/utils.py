@@ -7,7 +7,6 @@ from base5.core.directory import METADATA_USER_ATTRS
 from BeautifulSoup import BeautifulSoup
 from plone import api
 from plone.registry.interfaces import IRegistry
-from Products.CMFCore.utils import getToolByName
 from Products.PlonePAS.plugins.ufactory import PloneUser
 from Products.PlonePAS.tools.memberdata import MemberData
 from repoze.catalog.query import Eq
@@ -54,7 +53,7 @@ def base_config():
 def havePermissionAtRoot():
     """Funcio que retorna si es Editor a l'arrel"""
     proot = portal()
-    pm = getToolByName(proot, 'portal_membership')
+    pm = api.portal.get_tool(name='portal_membership')
     sm = getSecurityManager()
     user = pm.getAuthenticatedMember()
 
@@ -113,7 +112,7 @@ def abrevia(summary, sumlenght):
 
 def pref_lang():
     """ Extracts the current language for the current user. """
-    lt = getToolByName(portal(), 'portal_languages')
+    lt = api.portal.get_tool(name='portal_languages')
     return lt.getPreferredLanguage()
 
 
@@ -495,7 +494,7 @@ def add_portrait_user(user):
     portrait = Image(id=id, file=scaled, title=id)
 
     portal = api.portal.get()
-    membertool = getToolByName(portal, 'portal_memberdata')
+    membertool = api.portal.get_tool(name='portal_memberdata')
     membertool._setPortrait(portrait, str(id))
     import transaction
     transaction.commit()

@@ -1,11 +1,13 @@
+# -*- coding: utf-8 -*-
 from five import grok
 from OFS.Image import Image
-from Products.CMFCore.utils import getToolByName
 from Products.PlonePAS.interfaces.membership import IMembershipTool
 from Products.PlonePAS.utils import scale_image
 from zope.interface import Interface
 from zope.interface import implements
 from zope.component import adapts
+from plone import api
+
 
 class IPortraitUploadAdapter(Interface):
     """ The marker interface for the portrait upload adapter used for implement
@@ -27,5 +29,5 @@ class PortraitUploadAdapter(object):
         if portrait and portrait.filename:
             scaled, mimetype = scale_image(portrait)
             portrait = Image(id=safe_id, file=scaled, title='')
-            membertool = getToolByName(self.context, 'portal_memberdata')
+            membertool = api.portal.get_tool(name='portal_memberdata')
             membertool._setPortrait(portrait, safe_id)

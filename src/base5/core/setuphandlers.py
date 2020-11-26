@@ -1,8 +1,9 @@
 # -*- coding: utf-8 -*-
 from Products.CMFPlone.interfaces import INonInstallable
+
+from plone import api
 from zope.interface import implementer
 
-from Products.CMFCore.utils import getToolByName
 import logging
 
 
@@ -62,10 +63,10 @@ def add_catalog_indexes(context, logger=None):
     # code makes this method usable as upgrade step as well.  Note that
     # this silently does nothing when there is no catalog.xml, so it
     # is quite safe.
-    setup = getToolByName(context, 'portal_setup')
+    setup = api.portal.get_tool(name='portal_setup')
     setup.runImportStepFromProfile(PROFILE_ID, 'catalog')
 
-    catalog = getToolByName(context, 'portal_catalog')
+    catalog = api.portal.get_tool(name='portal_catalog')
     indexes = catalog.indexes()
 
     indexables = []

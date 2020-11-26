@@ -12,7 +12,6 @@ from Products.CMFPlone.browser.search import EVER
 from plone.memoize.instance import memoize
 
 from Products.PlonePAS.utils import safe_unicode
-from Products.CMFCore.utils import getToolByName
 from Products.CMFPlone.browser.navtree import getNavigationRoot
 from Products.PluggableAuthService.PropertiedUser import PropertiedUser
 from Products.LDAPUserFolder.LDAPUser import NonexistingUser
@@ -122,7 +121,7 @@ def generate_user_id(self, data):
 
 def filter_query(self, query):
     request = self.request
-    catalog = getToolByName(self.context, 'portal_catalog')
+    catalog = api.portal.get_tool(name='portal_catalog')
     valid_indexes = tuple(catalog.indexes())
     valid_keys = self.valid_keys + valid_indexes
     text = query.get('SearchableText', None)
@@ -718,7 +717,7 @@ def deletePersonalPortrait(self, id=None):
     image.filename = 'defaultUser'
     adapter = getMultiAdapter((self, self.REQUEST), IPortraitUploadAdapter)
     adapter(image, safe_id)
-    # membertool = getToolByName(self, 'portal_memberdata')
+    # membertool = api.portal.get_tool(name='portal_memberdata')
     # return membertool._deletePortrait(safe_id)
 
 
@@ -799,7 +798,7 @@ from Products.LDAPUserFolder.utils import encoding
 def getUserDN(self):
     """ Return the user's full Distinguished Name """
     if isinstance(self._dn, unicode):
-        # Por defecto Plone hace el encode en latin1 
+        # Por defecto Plone hace el encode en latin1
         # y si hay un usuario con accento dentro de un grupo no le funciona el sharing y no tiene permisos para visualizar
         # esto lo hemos visto al añadir a MEDICHEM que tiene usuarios con el CN y DN con acento.
         try:
