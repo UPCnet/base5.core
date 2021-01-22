@@ -31,6 +31,13 @@
       permission="zope2.View"
       />
 
+    <browser:page
+        name="download_files"
+        for="plone.app.contenttypes.interfaces.IFolder"
+        permission="cmf.ModifyPortalContent"
+        class=".folders.DownloadFiles"
+        />
+
     <adapter
       name="formatted_date_user_timezone"
       provides="zope.contentprovider.interfaces.IContentProvider"
