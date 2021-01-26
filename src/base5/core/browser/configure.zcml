@@ -31,6 +31,15 @@
       permission="zope2.View"
       />
 
+    <browser:page
+      name="grid_future_events_view"
+      for="*"
+      template="views_templates/grid_future_events.pt"
+      class=".events.GridEventsView"
+      layer="..interfaces.IBase5CoreLayer"
+      permission="zope2.View"
+      />
+
     <adapter
       name="formatted_date_user_timezone"
       provides="zope.contentprovider.interfaces.IContentProvider"

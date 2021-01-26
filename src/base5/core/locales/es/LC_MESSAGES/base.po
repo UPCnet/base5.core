@@ -117,6 +117,7 @@ msgid "Llista personalitzada d'icones per l'editor TinyMCE"
 msgstr "Lista personalizada de iconos para el editor TinyMCE"
 
 #: ../browser/views_templates/grid_events.pt:45
+#: ../browser/views_templates/grid_future_events.pt:51
 msgid "Mes informacio"
 msgstr "Más información"
 
@@ -279,7 +280,7 @@ msgid "description"
 msgstr "Biografía"
 
 #. Default: "There are currently no events in this folder."
-#: ../browser/events.py:23
+#: ../browser/events.py:29
 msgid "description_no_events_in_folder"
 msgstr "Actualmente no hay eventos en esta carpeta."
 

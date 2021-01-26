@@ -9,6 +9,11 @@
       <span tal:content="month" class="sr-only">novembre</span>
   </metal:block>
 
+  <metal:block metal:define-macro="starttime">
+    <div role="presentation" aria-hidden="true" class="event-years" tal:attributes="title item/starttime" tal:content="item/starttime">horainici</div>
+  </metal:block>
+
+
   <metal:block metal:define-macro="firstday">
     <time class='event-days' tal:define="day item/firstday; month item/firstmonth">
       <block metal:use-macro="context/macros-comunitats/time"></block>

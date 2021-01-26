@@ -4,7 +4,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
-"POT-Creation-Date: 2020-02-10 10:08+0000\n"
+"POT-Creation-Date: 2021-01-26 13:14+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI +ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -124,6 +124,7 @@ msgid "Llista personalitzada d'icones per l'editor TinyMCE"
 msgstr ""
 
 #: ../browser/views_templates/grid_events.pt:45
+#: ../browser/views_templates/grid_future_events.pt:51
 msgid "Mes informacio"
 msgstr ""
 
@@ -286,7 +287,7 @@ msgid "description"
 msgstr ""
 
 #. Default: "There are currently no events in this folder."
-#: ../browser/events.py:23
+#: ../browser/events.py:29
 msgid "description_no_events_in_folder"
 msgstr ""
 

@@ -4,11 +4,18 @@ from plone.app.contenttypes.interfaces import IEvent
 from plone.memoize.instance import memoize
 from plone import api
 from zope.i18nmessageid import MessageFactory
+from plone.app.event.base import localized_now, get_events
+from plone.app.event.base import RET_MODE_OBJECTS
+from plone.app.event.base import DT
+from plone.app.event.base import ulocalized_time
 
 from base5.core import _
 from base5.core.utils import abrevia
 from ulearn5.core.hooks import packages_installed
 from ulearn5.core.utils import getUserPytzTimezone
+from plone.event.interfaces import IEventAccessor
+from datetime import datetime
+
 
 PLMF = MessageFactory('plonelocales')
 
@@ -26,6 +33,7 @@ class GridEventsView(FolderView):
 
     def _query_events(self):
         """Get all events from this folder."""
+
         events = self.results(
             batch=True,
             object_provides=IEvent.__identifier__,
@@ -33,6 +41,17 @@ class GridEventsView(FolderView):
             sort_on='start',
         )
         return events
+
+    def _query_future_events(self):
+        """Get all future events from this folder."""
+        now = localized_now()
+
+        future_events = get_events(context=self.context,
+                                   start=now,
+                                   ret_mode=RET_MODE_OBJECTS, expand=True,
+                                   sort_on='start')
+        return future_events
+
 
     @memoize
     def get_events(self):
@@ -66,6 +85,69 @@ class GridEventsView(FolderView):
                     'location': location,
                     'timezone': event.timezone,
                     'showflip': location or description
+                    }
+            events.append(info)
+        return events
+
+    @memoize
+    def get_future_events(self):
+        """Customize which properties we want to show in pt."""
+
+        events = []
+        ts = api.portal.get_tool(name='translation_service')
+        results = self._query_future_events()
+        timezone = getUserPytzTimezone()
+        for event in results:
+            start = event.start.astimezone(timezone)
+            end = event.end.astimezone(timezone)
+            if event.portal_type == 'Occurrence':
+                ocurrence = event
+                event = IEventAccessor(ocurrence)
+                event_url = event.url
+            else:
+                event_url = event.absolute_url()
+
+            current_user = api.user.get_current()
+            try:
+                format_time = current_user.getProperty('format_time')
+            except:
+                format_time = ''
+
+            DT_start = DT(start)
+
+            start_time = ulocalized_time(
+                DT_start, long_format=False, time_only=True, context=event
+            )
+
+            if format_time != None and format_time != '':
+                if start_time != None:
+                    if 'PM' in start_time or 'AM' in start_time or 'pm' in start_time or 'am' in start_time:
+                        DT_start_time = datetime.strptime(str(start_time), '%I:%M %p')
+                    else:
+                        DT_start_time = datetime.strptime(str(start_time), '%H:%M')
+
+                    if 'hh:i A' in format_time:
+                        start_time = DT_start_time.strftime('%I:%M %p')
+                    else:
+                        start_time = DT_start_time.strftime('%H:%M')
+
+            description = abrevia(event.description, 100) if event.description else None
+            location = event.location if event.location else None
+            info = {'url': event_url,
+                    'firstday': start.day,
+                    'firstmonth': PLMF(ts.month_msgid(start.month)),
+                    'abbrfirstmonth': PLMF(ts.month_msgid(start.month)),
+                    'firstyear': start.year,
+                    'lastday': end.day,
+                    'lastmonth': PLMF(ts.month_msgid(end.month)),
+                    'abbrlastmonth': PLMF(ts.month_msgid(end.month)),
+                    'lastyear': end.year,
+                    'title': abrevia(event.title, 60),
+                    'descr': description,
+                    'location': location,
+                    'timezone': event.timezone,
+                    'showflip': location or description,
+                    'starttime': start_time
                     }
             events.append(info)
         return events

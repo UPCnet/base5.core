@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: BaseUPC\n"
-"POT-Creation-Date: 2020-02-10 10:08+0000\n"
+"POT-Creation-Date: 2021-01-26 13:14+0000\n"
 "PO-Revision-Date: 2018-02-05 10:53+0100\n"
 "Last-Translator: \n"
 "Language-Team: Plone Team@UPCnet <plone.team@upcnet.es>\n"
