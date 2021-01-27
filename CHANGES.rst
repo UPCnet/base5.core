@@ -2,11 +2,10 @@ Changelog
 =========
 
 
-0.45 (unreleased)
+0.45 (2021-01-27)
 -----------------
 
-- Nothing changed yet.
-
+* Add path in view future events [Pilar Marinas]
 
 0.44 (2021-01-27)
 -----------------
