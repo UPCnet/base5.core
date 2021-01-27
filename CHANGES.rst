@@ -2,11 +2,10 @@ Changelog
 =========
 
 
-0.44 (unreleased)
+0.44 (2021-01-27)
 -----------------
 
-- Nothing changed yet.
-
+* View future events [Pilar Marinas]
 
 0.43 (2020-11-26)
 -----------------
