@@ -45,8 +45,10 @@ class GridEventsView(FolderView):
     def _query_future_events(self):
         """Get all future events from this folder."""
         now = localized_now()
+        path = '/'.join(self.context.getPhysicalPath())
 
         future_events = get_events(context=self.context,
+                                   path=path,
                                    start=now,
                                    ret_mode=RET_MODE_OBJECTS, expand=True,
                                    sort_on='start')
