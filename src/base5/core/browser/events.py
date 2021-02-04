@@ -117,21 +117,24 @@ class GridEventsView(FolderView):
 
             DT_start = DT(start)
 
-            start_time = ulocalized_time(
-                DT_start, long_format=False, time_only=True, context=event
-            )
+            if event.whole_day:
+                start_time = ''
+            else:
+                start_time = ulocalized_time(
+                    DT_start, long_format=False, time_only=True, context=event
+                )
 
-            if format_time != None and format_time != '':
-                if start_time != None:
-                    if 'PM' in start_time or 'AM' in start_time or 'pm' in start_time or 'am' in start_time:
-                        DT_start_time = datetime.strptime(str(start_time), '%I:%M %p')
-                    else:
-                        DT_start_time = datetime.strptime(str(start_time), '%H:%M')
+                if format_time != None and format_time != '':
+                    if start_time != None:
+                        if 'PM' in start_time or 'AM' in start_time or 'pm' in start_time or 'am' in start_time:
+                            DT_start_time = datetime.strptime(str(start_time), '%I:%M %p')
+                        else:
+                            DT_start_time = datetime.strptime(str(start_time), '%H:%M')
 
-                    if 'hh:i A' in format_time:
-                        start_time = DT_start_time.strftime('%I:%M %p')
-                    else:
-                        start_time = DT_start_time.strftime('%H:%M')
+                        if 'hh:i A' in format_time:
+                            start_time = DT_start_time.strftime('%I:%M %p')
+                        else:
+                            start_time = DT_start_time.strftime('%H:%M')
 
             description = abrevia(event.description, 100) if event.description else None
             location = event.location if event.location else None
