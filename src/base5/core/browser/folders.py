@@ -21,22 +21,26 @@ class DownloadFiles(BrowserView):
         if not form or 'file_type' not in form:
             return self.template()
 
-        items = query_items_in_natural_sort_order(self.context, [])
+        items = query_items_in_natural_sort_order(self.context, {'portal_type' : ('File', 'Image')})
         if not items:
             IStatusMessage(self.request).addStatusMessage(u"No files found!", "info")
             return self.template()
         
         today = datetime.today().strftime("%Y-%m-%d")
+        plone_id = 'export-{0}'.format(self.context.id)
         exp_path = 'export-{0}-{1}'.format(self.context.id, today)
+
         if os.path.exists(exp_path):
             os.system('rm -rf {}'.format(exp_path))
+        if plone_id in self.context:
+            api.content.delete(obj=self.context[plone_id])
 
-        items = query_items_in_natural_sort_order(self.context, [])
+        items = query_items_in_natural_sort_order(self.context, {'portal_type' : ('Folder', 'File', 'Image')})
 
         os.mkdir(exp_path)
         from_path = '/'.join(self.context.getPhysicalPath())
         folders = {
-            exp_path: from_path
+            plone_id: from_path
         }
 
         for item in items:
@@ -67,11 +71,10 @@ class DownloadFiles(BrowserView):
 
         os.system('zip -r {0}.zip {0}'.format(exp_path))
         os.system('rm -rf {}'.format(exp_path))
-        if exp_path in self.context:
-            api.content.delete(obj=self.context[exp_path])
         zip_file = api.content.create(
             type='File',
             title=exp_path,
+            id=plone_id,
             container=self.context,
         )
         zip_file.file = NamedBlobFile(
