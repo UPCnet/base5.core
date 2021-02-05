@@ -2,11 +2,10 @@ Changelog
 =========
 
 
-0.46 (unreleased)
+0.46 (2021-02-05)
 -----------------
 
-- Nothing changed yet.
-
+* Quitar hora inicio en eventos de todo el dia [Pilar Marinas]
 
 0.45 (2021-01-27)
 -----------------
