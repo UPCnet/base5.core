@@ -11,6 +11,9 @@ from Products.CMFPlone.browser.search import quote_chars
 from Products.CMFPlone.browser.search import EVER
 from plone.memoize.instance import memoize
 
+from AccessControl.SecurityManagement import getSecurityManager
+from Products.LDAPUserFolder.SharedResource import getResource
+
 from Products.PlonePAS.utils import safe_unicode
 from Products.CMFPlone.browser.navtree import getNavigationRoot
 from Products.PluggableAuthService.PropertiedUser import PropertiedUser
@@ -33,6 +36,8 @@ import logging
 import requests
 from StringIO import StringIO
 from cgi import escape
+from time import time
+import ldap
 
 
 logger = logging.getLogger('event.LDAPUserFolder')
@@ -452,6 +457,96 @@ def getThreads(self, start=0, size=None, root=0, depth=None):
                     yield value
 
 
+def connect(self, bind_dn='', bind_pwd=''):
+    """ initialize an ldap server connection """
+    conn = None
+    conn_string = ''
+
+    if bind_dn != '':
+        user_dn = bind_dn
+        user_pwd = bind_pwd or '~'
+    elif self.binduid_usage == 1:
+        user_dn = self.bind_dn
+        user_pwd = self.bind_pwd
+    else:
+        user = getSecurityManager().getUser()
+        if isinstance(user, LDAPUser):
+            user_dn = user.getUserDN()
+            user_pwd = user._getPassword()
+            if not user_pwd or user_pwd == 'undef':
+                # This user object did not result from a login
+                user_dn = user_pwd = ''
+        else:
+            user_dn = user_pwd = ''
+
+    e = None
+
+    conn = getResource('%s-connection' % self._hash, str, ())
+    if (conn._type() != str):
+        try:
+            logger.error('Consulta a LDAP')
+            msg = 'Consulta LDAP user_dn: "%s" user_pwd: "%s" search self.u_base: "%s"' % (user_dn, user_pwd, self.u_base)
+            logger.error(msg)
+            start_time = time()
+            conn.simple_bind_s(user_dn, user_pwd)
+            conn.search_s(self.u_base, self.BASE, '(objectClass=*)')
+            elapsed_time = time() - start_time
+            logger.error('Tiempo consulta: "%s"' %(elapsed_time))
+            return conn
+        except ( AttributeError
+               , ldap.SERVER_DOWN
+               , ldap.NO_SUCH_OBJECT
+               , ldap.TIMEOUT
+               , ldap.INVALID_CREDENTIALS
+               ), e:
+            pass
+
+    #e = ldap.SERVER_DOWN({'desc': u'Server down'},)
+
+    if e == None or (e is not None and e.message != {'desc': u'Invalid credentials'}):
+        for server in self._servers:
+            conn_string = self._createConnectionString(server)
+            try:
+                logger.error('Nueva conexion conn LDAP')
+                msg = 'Nueva conexion conn_string: "%s" user_dn: "%s" user_pwd: "%s"' % (conn_string, user_dn, user_pwd)
+                logger.error(msg)
+                start_time = time()
+                newconn = self._connect( conn_string
+                                       , user_dn
+                                       , user_pwd
+                                       , conn_timeout=server['conn_timeout']
+                                       , op_timeout=server['op_timeout']
+                                       )
+                elapsed_time = time() - start_time
+                logger.error('Tiempo conexion: "%s"' %(elapsed_time))
+                return newconn
+            except ( ldap.SERVER_DOWN
+                   , ldap.TIMEOUT
+                   , ldap.INVALID_CREDENTIALS
+                   ), e:
+                continue
+
+    # If we get here it means either there are no servers defined or we
+    # tried them all. Try to produce a meaningful message and raise
+    # an exception.
+    if len(self._servers) == 0:
+        logger.critical('No servers defined')
+    else:
+        if e is not None:
+            msg_supplement = str(e)
+        else:
+            msg_supplement = 'n/a'
+
+        err_msg = 'Failure connecting, last attempted server: %s (%s)' % (
+                    conn_string, msg_supplement )
+        logger.critical(err_msg, exc_info=1)
+
+    if e is not None:
+        raise e
+
+    return None
+
+
 def getUserByAttr(self, name, value, pwd=None, cache=0):
     """
         Get a user based on a name/value pair representing an
@@ -541,6 +636,8 @@ def getUserByAttr(self, name, value, pwd=None, cache=0):
     if cache:
         self._cache(cache_type).set(value, user_obj)
 
+    msg = 'User obj LDAP: "%s" ' % (user_obj)
+    logger.error(msg)
     return user_obj
 
 

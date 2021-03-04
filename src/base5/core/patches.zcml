@@ -113,6 +113,13 @@
 
 <!-- LDAP and user objects related patches -->
      <monkey:patch
+        description="Que el LDAP no haga consulta dos veces si la primera vez el usuario devuelve Invalid credentials"
+        module="Products.LDAPUserFolder.LDAPDelegate.LDAPDelegate"
+        original="connect"
+        replacement=".patches.connect"
+        />
+
+     <monkey:patch
         description="Force LDAP plugin authenticate to normalize userids and usernames to lowercase"
         module="Products.LDAPUserFolder.LDAPUserFolder.LDAPUserFolder"
         original="getUserByAttr"
