@@ -27,6 +27,15 @@ from Products.CMFCore.MemberDataTool import MemberData as BaseMemberData
 from Products.PluggableAuthService.interfaces.authservice import IPluggableAuthService
 from Products.PlonePAS.interfaces.propertysheets import IMutablePropertySheet
 
+from Products.PluggableAuthService.PluggableAuthService import _SWALLOWABLE_PLUGIN_EXCEPTIONS
+from Products.PluggableAuthService.PluggableAuthService import DumbHTTPExtractor
+from Products.PluggableAuthService import PluggableAuthService
+from Products.PluggableAuthService.interfaces.plugins import IExtractionPlugin
+from Products.PluggableAuthService.interfaces.plugins import IAuthenticationPlugin
+from Products.PluggableAuthService.utils import createViewName
+from Products.PluggableAuthService.utils import createKeywords
+from Products.PluggableAuthService.utils import classImplements
+
 from base5.core.utils import get_safe_member_by_id, portal_url
 from Products.CMFPlone.PloneBatch import Batch
 
@@ -484,14 +493,15 @@ def connect(self, bind_dn='', bind_pwd=''):
     conn = getResource('%s-connection' % self._hash, str, ())
     if (conn._type() != str):
         try:
-            logger.error('Consulta a LDAP')
-            msg = 'Consulta LDAP user_dn: "%s" user_pwd: "%s" search self.u_base: "%s"' % (user_dn, user_pwd, self.u_base)
-            logger.error(msg)
-            start_time = time()
+            # Mensajes para calcular tiempos LDAP
+            # logger.error('Consulta a LDAP')
+            # msg = 'Consulta LDAP user_dn: "%s" user_pwd: "%s" search self.u_base: "%s"' % (user_dn, user_pwd, self.u_base)
+            # logger.error(msg)
+            # start_time = time()
             conn.simple_bind_s(user_dn, user_pwd)
             conn.search_s(self.u_base, self.BASE, '(objectClass=*)')
-            elapsed_time = time() - start_time
-            logger.error('Tiempo consulta: "%s"' %(elapsed_time))
+            # elapsed_time = time() - start_time
+            # logger.error('Tiempo consulta: "%s"' %(elapsed_time))
             return conn
         except ( AttributeError
                , ldap.SERVER_DOWN
@@ -501,24 +511,26 @@ def connect(self, bind_dn='', bind_pwd=''):
                ), e:
             pass
 
+    # Prueba para ver que ocurre si el servidor esta caido
     #e = ldap.SERVER_DOWN({'desc': u'Server down'},)
 
     if e == None or (e is not None and e.message != {'desc': u'Invalid credentials'}):
         for server in self._servers:
             conn_string = self._createConnectionString(server)
             try:
-                logger.error('Nueva conexion conn LDAP')
-                msg = 'Nueva conexion conn_string: "%s" user_dn: "%s" user_pwd: "%s"' % (conn_string, user_dn, user_pwd)
-                logger.error(msg)
-                start_time = time()
+                # Mensajes para calcular tiempos LDAP
+                # logger.error('Nueva conexion conn LDAP')
+                # msg = 'Nueva conexion conn_string: "%s" user_dn: "%s" user_pwd: "%s"' % (conn_string, user_dn, user_pwd)
+                # logger.error(msg)
+                # start_time = time()
                 newconn = self._connect( conn_string
                                        , user_dn
                                        , user_pwd
                                        , conn_timeout=server['conn_timeout']
                                        , op_timeout=server['op_timeout']
                                        )
-                elapsed_time = time() - start_time
-                logger.error('Tiempo conexion: "%s"' %(elapsed_time))
+                # elapsed_time = time() - start_time
+                # logger.error('Tiempo conexion: "%s"' %(elapsed_time))
                 return newconn
             except ( ldap.SERVER_DOWN
                    , ldap.TIMEOUT
@@ -546,6 +558,122 @@ def connect(self, bind_dn='', bind_pwd=''):
 
     return None
 
+
+def _extractUserIds( self, request, plugins ):
+    """ request -> [ validated_user_id ]
+
+    o For each set of extracted credentials, try to authenticate
+      a user;  accumulate a list of the IDs of such users over all
+      our authentication and extraction plugins.
+    """
+    try:
+        extractors = plugins.listPlugins( IExtractionPlugin )
+    except _SWALLOWABLE_PLUGIN_EXCEPTIONS:
+        logger.debug('Extractor plugin listing error', exc_info=True)
+        extractors = ()
+
+    if not extractors:
+        extractors = ( ( 'default', DumbHTTPExtractor() ), )
+
+    try:
+        authenticators = plugins.listPlugins( IAuthenticationPlugin )
+    except _SWALLOWABLE_PLUGIN_EXCEPTIONS:
+        logger.debug('Authenticator plugin listing error', exc_info=True)
+        authenticators = ()
+
+    result = []
+
+    for extractor_id, extractor in extractors:
+
+        try:
+            credentials = extractor.extractCredentials( request )
+        except _SWALLOWABLE_PLUGIN_EXCEPTIONS:
+            PluggableAuthService.reraise(extractor)
+            logger.debug( 'ExtractionPlugin %s error' % extractor_id
+                        , exc_info=True
+                        )
+            continue
+
+        if credentials:
+
+            try:
+                credentials[ 'extractor' ] = extractor_id # XXX: in key?
+                # Test if ObjectCacheEntries.aggregateIndex would work
+                items = credentials.items()
+                items.sort()
+            except _SWALLOWABLE_PLUGIN_EXCEPTIONS:
+                # XXX: would reraise be good here, and which plugin to ask
+                # whether not to swallow the exception - the extractor?
+                logger.debug( 'Credentials error: %s' % credentials
+                            , exc_info=True
+                            )
+                continue
+
+            # First try to authenticate against the emergency
+            # user and return immediately if authenticated
+            user_id, name = self._tryEmergencyUserAuthentication(
+                                                        credentials )
+
+            if user_id is not None:
+                return [ ( user_id, name ) ]
+
+            # Now see if the user ids can be retrieved from the cache
+            credentials['login'] = self.applyTransform( credentials.get('login') )
+            view_name = createViewName('_extractUserIds',
+                                       credentials.get('login'))
+            keywords = createKeywords(**credentials)
+            user_ids = self.ZCacheable_get( view_name=view_name
+                                          , keywords=keywords
+                                          , default=None
+                                          )
+            if user_ids is None:
+                user_ids = []
+
+                for authenticator_id, auth in authenticators:
+
+                    try:
+                        uid_and_info = auth.authenticateCredentials(
+                            credentials )
+
+                        # logger.info('plugin: %s' % str(auth.id))
+                        # logger.info('uid_and_info: %s' % str(uid_and_info))
+
+                        # Modificamos este codigo para que si la respuesta del oauthTokenRetriever mrs5.max.auth.py es BadUsernameOrPasswordError
+                        # no continue mirando los siguientes plugins de Authentication Plugins
+                        if auth.id == 'paspreauth' and uid_and_info == 'BadUsernameOrPasswordError' :
+                            break
+
+                        if uid_and_info is None:
+                            continue
+
+                        user_id, info = uid_and_info
+
+                    except _SWALLOWABLE_PLUGIN_EXCEPTIONS:
+                        PluggableAuthService.reraise(auth)
+                        msg = 'AuthenticationPlugin %s error' % (
+                                authenticator_id, )
+                        logger.debug(msg, exc_info=True)
+                        continue
+
+                    if user_id is not None:
+                        user_ids.append( (user_id, info) )
+
+                if user_ids:
+                    self.ZCacheable_set( user_ids
+                                       , view_name=view_name
+                                       , keywords=keywords
+                                       )
+
+            result.extend( user_ids )
+
+    # Emergency user via HTTP basic auth always wins
+    user_id, name = self._tryEmergencyUserAuthentication(
+            DumbHTTPExtractor().extractCredentials( request ) )
+
+    if user_id is not None:
+        return [ ( user_id, name ) ]
+
+    return result
 
 def getUserByAttr(self, name, value, pwd=None, cache=0):
     """
@@ -636,8 +764,6 @@ def getUserByAttr(self, name, value, pwd=None, cache=0):
     if cache:
         self._cache(cache_type).set(value, user_obj)
 
-    msg = 'User obj LDAP: "%s" ' % (user_obj)
-    logger.error(msg)
     return user_obj
 
 

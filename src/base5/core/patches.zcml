@@ -119,6 +119,13 @@
         replacement=".patches.connect"
         />
 
+    <monkey:patch
+        description="Para que si el osiris devuelve BadUsernameOrPasswordError no siga validando los plugins de autenticacion"
+        module="Products.PluggableAuthService.PluggableAuthService.PluggableAuthService"
+        original="_extractUserIds"
+        replacement=".patches._extractUserIds"
+        />
+
      <monkey:patch
         description="Force LDAP plugin authenticate to normalize userids and usernames to lowercase"
         module="Products.LDAPUserFolder.LDAPUserFolder.LDAPUserFolder"
