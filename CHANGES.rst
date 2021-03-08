@@ -2,11 +2,11 @@ Changelog
 =========
 
 
-0.47 (unreleased)
+0.47 (2021-03-08)
 -----------------
 
-- Nothing changed yet.
-
+* Si osiris devuelve BadUsernameOrPasswordError no continua mirando plugins autenticacion [Pilar Marinas]
+* Que el LDAP no haga consulta dos veces si la primera vez el usuario devuelve Invalid credentials [Pilar Marinas]
 
 0.46 (2021-02-05)
 -----------------
