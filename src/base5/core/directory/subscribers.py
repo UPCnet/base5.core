@@ -42,7 +42,8 @@ def UpdateUserPropertiesOnLogin(event):
         else:
             properties = get_all_user_properties(user)
             add_user_to_catalog(user, properties, overwrite=True)
-            add_portrait_user(user)
+            #Por ahora comentamos el modificar la imagen en el login porque da conflict error en el ZEO si entran a la vez
+            #add_portrait_user(user)
     except:
         # To avoid testing test_functional code, since the
         # test_user doesn't have properties and stops the tests.
