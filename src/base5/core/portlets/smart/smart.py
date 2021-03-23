@@ -22,6 +22,10 @@ from base5.core import _
 from base5.core.portlets.smart.renderers.interfaces import IPortletContainerRenderer
 from base5.core.portlets.smart.renderers.interfaces import IPortletItemRenderer
 
+from ulearn5.core.hooks import packages_installed
+from plone.memoize import ram
+from time import time
+
 import random
 import sys
 
@@ -231,12 +235,11 @@ class Renderer(base.Renderer):
             results = random.sample(results, self.data.limit)
         return results
 
+    @ram.cache(lambda *args: time() // (60 * 60))
     def isUlearn(self):
-        qi = api.portal.get_tool(name='portal_quickinstaller')
-        prods = qi.listInstallableProducts(skipInstalled=False)
-        for prod in prods:
-            if (prod['id'] == 'ulearn5.theme') and (prod['status'] == 'installed'):
-                return True
+        installed = packages_installed()
+        if 'ulearn5.theme' in installed:
+            return True
         return False
 
 
