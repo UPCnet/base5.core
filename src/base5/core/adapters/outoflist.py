@@ -8,6 +8,7 @@ from plone.indexer import indexer
 
 from Products.Archetypes.interfaces import IBaseObject
 from plone.dexterity.interfaces import IDexterityContent
+from plone.app.contenttypes.interfaces import INewsItem
 
 from base5.core import _
 
@@ -51,7 +52,7 @@ class OutOfListMarker(grok.Adapter):
     is_outoflist = property(get_outoflist, set_outoflist)
 
 
-@indexer(IDexterityContent)
+@indexer(INewsItem)
 def outoflistIndexer(context):
     """Create a catalogue indexer, registered as an adapter for DX content. """
     return IOutOfList(context).is_outoflist

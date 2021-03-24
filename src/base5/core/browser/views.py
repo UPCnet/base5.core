@@ -22,6 +22,7 @@ from zope.component import getMultiAdapter
 from zope.component import queryUtility
 from zope.component.hooks import getSite
 from zope.interface import Interface
+from plone.app.contenttypes.interfaces import INewsItem
 
 import json
 
@@ -47,7 +48,7 @@ class gwToggleIsImportant(grok.View):
 
 
 class gwToggleIsFlash(grok.View):
-    grok.context(IDexterityContent)
+    grok.context(INewsItem)
     grok.name('toggle_flash')
     grok.require('cmf.ModifyPortalContent')
     grok.layer(IBase5CoreLayer)
@@ -67,7 +68,7 @@ class gwToggleIsFlash(grok.View):
 
 
 class gwToggleIsOutoflist(grok.View):
-    grok.context(IDexterityContent)
+    grok.context(INewsItem)
     grok.name('toggle_outoflist')
     grok.require('cmf.ModifyPortalContent')
     grok.layer(IBase5CoreLayer)

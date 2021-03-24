@@ -8,6 +8,7 @@ from plone.indexer import indexer
 
 from Products.Archetypes.interfaces import IBaseObject
 from plone.dexterity.interfaces import IDexterityContent
+from plone.app.contenttypes.interfaces import INewsItem
 
 from base5.core import _
 
@@ -51,7 +52,7 @@ class FlashMarker(grok.Adapter):
     is_flash = property(get_flash, set_flash)
 
 
-@indexer(IDexterityContent)
+@indexer(INewsItem)
 def flashIndexer(context):
     """Create a catalogue indexer, registered as an adapter for DX content. """
     return IFlash(context).is_flash
