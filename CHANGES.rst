@@ -2,11 +2,12 @@ Changelog
 =========
 
 
-0.48 (unreleased)
+0.48 (2021-03-25)
 -----------------
 
-- Nothing changed yet.
-
+* Index is_flash and is_outoflist only INewsItem not IDexterityContent [Pilar Marinas]
+* Optimizar codigo portlet media [Pilar Marinas]
+* Comentamos el modificar la imagen en el login porque da conflict error en el ZEO [Pilar Marinas]
 
 0.47 (2021-03-08)
 -----------------
