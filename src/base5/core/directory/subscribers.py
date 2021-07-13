@@ -1,3 +1,5 @@
+from datetime import date
+from datetime import datetime
 from five import grok
 from plone import api
 from Products.PlonePAS.interfaces.events import IUserInitialLoginInEvent
@@ -8,8 +10,11 @@ from Products.PluggableAuthService.interfaces.events import IUserLoggedInEvent
 
 from base5.core.utils import get_all_user_properties
 from base5.core.utils import add_user_to_catalog
-from ulearn5.core.hooks import packages_installed
 from base5.core.utils import add_portrait_user
+from ulearn5.core.hooks import packages_installed
+from ulearn5.core.utils import getAnnotationNotifyPopup
+from ulearn5.core.utils import isBirthdayInProfile
+
 
 @grok.subscribe(IPropertiedUser, IPrincipalCreatedEvent)
 def create_user_hook(user, event):
@@ -42,12 +47,35 @@ def UpdateUserPropertiesOnLogin(event):
         else:
             properties = get_all_user_properties(user)
             add_user_to_catalog(user, properties, overwrite=True)
-            #Por ahora comentamos el modificar la imagen en el login porque da conflict error en el ZEO si entran a la vez
-            #add_portrait_user(user)
+            # Por ahora comentamos el modificar la imagen en el login porque da conflict error en el ZEO si entran a la vez
+            # add_portrait_user(user)
     except:
         # To avoid testing test_functional code, since the
         # test_user doesn't have properties and stops the tests.
         pass
+
+
+@grok.subscribe(IUserLoggedInEvent)
+def UpdateNotifyBirthday(event):
+    aNotify = getAnnotationNotifyPopup()
+    if isBirthdayInProfile():
+        today = date.today()
+        user = api.user.get_current()
+        try:
+            birthday = user.getProperty('birthday')
+            if "/" in birthday:
+                birthday = datetime.strptime(birthday, '%d/%m/%Y')
+            elif "-" in birthday:
+                birthday = datetime.strptime(birthday, '%d-%m-%Y')
+
+            if today.strftime("%d/%m") == birthday.strftime('%d/%m') and user.id not in aNotify['users_birthday']:
+                aNotify['users_birthday'].append(user.id)
+            else:
+                if user.id in aNotify['users_birthday']:
+                    aNotify['users_birthday'].remove(user.id)
+        except:
+            pass
+
 
 @grok.subscribe(IUserInitialLoginInEvent)
 def UpdateUserPropertiesOnFirstLogin(event):
