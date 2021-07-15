@@ -2,11 +2,10 @@ Changelog
 =========
 
 
-0.49 (unreleased)
+0.49 (2021-07-15)
 -----------------
 
-- Nothing changed yet.
-
+* Subscribe UpdateNotifyBirthday [Iago López Fernández]
 
 0.48 (2021-03-25)
 -----------------
