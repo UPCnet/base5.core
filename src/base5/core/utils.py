@@ -80,34 +80,50 @@ def portal():
 
 
 def abrevia(summary, sumlenght):
-        """ Retalla contingut de cadenes
-        """
-        bb = ''
+    """ Retalla contingut de cadenes
+    """
+    bb = ''
 
-        if sumlenght < len(summary):
-            bb = summary[:sumlenght]
+    if sumlenght < len(summary):
+        bb = summary[:sumlenght]
 
-            lastspace = bb.rfind(' ')
-            cutter = lastspace
-            precut = bb[0:cutter]
+        lastspace = bb.rfind(' ')
+        cutter = lastspace
+        precut = bb[0:cutter]
 
-            if precut.count('<b>') > precut.count('</b>'):
-                cutter = summary.find('</b>', lastspace) + 4
-            elif precut.count('<strong>') > precut.count('</strong>'):
-                cutter = summary.find('</strong>', lastspace) + 9
-            bb = summary[0:cutter]
+        if precut.count('<b>') > precut.count('</b>'):
+            cutter = summary.find('</b>', lastspace) + 4
+        elif precut.count('<strong>') > precut.count('</strong>'):
+            cutter = summary.find('</strong>', lastspace) + 9
+        bb = summary[0:cutter]
 
-            if bb.count('<p') > precut.count('</p'):
-                bb += '...</p>'
-            else:
-                bb = bb + '...'
+        if bb.count('<p') > precut.count('</p'):
+            bb += '...</p>'
         else:
-            bb = summary
+            bb = bb + '...'
+    else:
+        bb = summary
 
-        try:
-            return BeautifulSoup(bb.decode('utf-8', 'ignore')).prettify()
-        except:
-            return BeautifulSoup(bb).prettify()
+    try:
+        return BeautifulSoup(bb.decode('utf-8', 'ignore')).prettify()
+    except:
+        return BeautifulSoup(bb).prettify()
+
+
+def abreviaPlainText(summary, sumlenght):
+    """ Retalla contingut de cadenes
+    """
+    bb = ''
+
+    if sumlenght < len(summary):
+        bb = summary[:sumlenght]
+
+        lastspace = bb.rfind(' ')
+        bb = bb[0:lastspace]
+    else:
+        bb = summary
+
+    return bb
 
 
 def pref_lang():

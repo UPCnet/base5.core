@@ -11,6 +11,7 @@ from plone.app.event.base import ulocalized_time
 
 from base5.core import _
 from base5.core.utils import abrevia
+from base5.core.utils import abreviaPlainText
 from ulearn5.core.hooks import packages_installed
 from ulearn5.core.utils import getUserPytzTimezone
 from plone.event.interfaces import IEventAccessor
@@ -82,7 +83,7 @@ class GridEventsView(FolderView):
                     'lastmonth': PLMF(ts.month_msgid(end.month)),
                     'abbrlastmonth': PLMF(ts.month_msgid(end.month)),
                     'lastyear': end.year,
-                    'title': abrevia(event.title, 60),
+                    'title': abreviaPlainText(event.title, 60),
                     'descr': description,
                     'location': location,
                     'timezone': event.timezone,
@@ -147,7 +148,7 @@ class GridEventsView(FolderView):
                     'lastmonth': PLMF(ts.month_msgid(end.month)),
                     'abbrlastmonth': PLMF(ts.month_msgid(end.month)),
                     'lastyear': end.year,
-                    'title': abrevia(event.title, 60),
+                    'title': abreviaPlainText(event.title, 60),
                     'descr': description,
                     'location': location,
                     'timezone': event.timezone,
