@@ -57,11 +57,11 @@ def UpdateUserPropertiesOnLogin(event):
 
 @grok.subscribe(IUserLoggedInEvent)
 def UpdateNotifyBirthday(event):
-    aNotify = getAnnotationNotifyPopup()
     if isBirthdayInProfile():
         today = date.today()
         user = api.user.get_current()
         try:
+            aNotify = getAnnotationNotifyPopup()
             birthday = user.getProperty('birthday')
             if "/" in birthday:
                 birthday = datetime.strptime(birthday, '%d/%m/%Y')
