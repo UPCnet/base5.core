@@ -1,5 +1,6 @@
 from datetime import date
 from datetime import datetime
+from DateTime.DateTime import DateTime
 from five import grok
 from plone import api
 from Products.PlonePAS.interfaces.events import IUserInitialLoginInEvent
@@ -7,12 +8,12 @@ from Products.PluggableAuthService.interfaces.authservice import IPropertiedUser
 from Products.PluggableAuthService.interfaces.events import IPrincipalCreatedEvent
 from Products.PluggableAuthService.interfaces.events import IPropertiesUpdatedEvent
 from Products.PluggableAuthService.interfaces.events import IUserLoggedInEvent
+from zope.globalrequest import getRequest
 
 from base5.core.utils import get_all_user_properties
 from base5.core.utils import add_user_to_catalog
 from base5.core.utils import add_portrait_user
 from ulearn5.core.hooks import packages_installed
-from ulearn5.core.utils import getAnnotationNotifyPopup
 from ulearn5.core.utils import isBirthdayInProfile
 
 
@@ -61,18 +62,24 @@ def UpdateNotifyBirthday(event):
         today = date.today()
         user = api.user.get_current()
         try:
-            aNotify = getAnnotationNotifyPopup()
             birthday = user.getProperty('birthday')
             if "/" in birthday:
                 birthday = datetime.strptime(birthday, '%d/%m/%Y')
             elif "-" in birthday:
                 birthday = datetime.strptime(birthday, '%d-%m-%Y')
 
-            if today.strftime("%d/%m") == birthday.strftime('%d/%m') and user.id not in aNotify['users_birthday']:
-                aNotify['users_birthday'].append(user.id)
+            request = getRequest()
+            if today.strftime("%d/%m") == birthday.strftime('%d/%m'):
+                if not bool(request.cookies.get('popup_birthday', '')):
+                    request.response.setCookie(
+                        'popup_birthday',
+                        '0',
+                        expires=(DateTime(today.strftime('%Y/%d/%m')) + 1).toZone('GMT').rfc822(),
+                        quoted=False,
+                        path='/')
             else:
-                if user.id in aNotify['users_birthday']:
-                    aNotify['users_birthday'].remove(user.id)
+                if bool(request.cookies.get('popup_birthday', '')):
+                    request.response.expireCookie('popup_birthday')
         except:
             pass
 
