@@ -2,11 +2,12 @@ Changelog
 =========
 
 
-0.50 (unreleased)
+0.50 (2021-07-28)
 -----------------
 
-- Nothing changed yet.
-
+* Quitar annotation popup aniversario y hacer control con cookie [Iago López Fernández]
+* mejora UpdateNotifyBirthday [Iago López Fernández]
+* abreviaPlainText [Iago López Fernández]
 
 0.49 (2021-07-15)
 -----------------
