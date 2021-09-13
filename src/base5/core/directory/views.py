@@ -97,7 +97,7 @@ class SyncLDAPGroups(grok.View):
 
             logger.info('[SYNCLDAPGROUPS]: {}'.format(to_print))
             api.portal.send_email(
-                recipient='UPCnet.ServOp.WaCS@llistes.upcnet.es',
+                recipient='email.tomatic@upcnet.es',
                 sender='noreply@ulearn.upcnet.es',
                 subject='[uLearn] OK! Import LDAP groups: ' + self.context.absolute_url(),
                 body='OK - Sync LDAP groups to communities. URL: ' + self.context.absolute_url(),
@@ -106,7 +106,7 @@ class SyncLDAPGroups(grok.View):
             return 'Ok, groups imported.'
         else:
             api.portal.send_email(
-                recipient='UPCnet.ServOp.WaCS@llistes.upcnet.es',
+                recipient='email.tomatic@upcnet.es',
                 sender='noreply@ulearn.upcnet.es',
                 subject='[uLearn] FAIL! Import LDAP groups: ' + self.context.absolute_url(),
                 body='KO - No groups found syncing LDAP groups to communities. URL: ' + self.context.absolute_url(),
