@@ -2,11 +2,10 @@ Changelog
 =========
 
 
-0.51 (unreleased)
+0.51 (2021-09-13)
 -----------------
 
-- Nothing changed yet.
-
+* Change email SYNCLDAPGROUPS [Pilar Marinas]
 
 0.50 (2021-07-28)
 -----------------
