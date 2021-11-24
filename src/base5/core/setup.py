@@ -419,6 +419,11 @@ If the most preferent plugin is:
         pplugin = plugins[0][1]
         all_user_properties = pplugin.enumerateUsers()
 
+        results = []
+        maxclient, settings = getUtility(IMAXClient)()
+        maxclient.setActor(settings.max_restricted_username)
+        maxclient.setToken(settings.max_restricted_token)
+
         for user in all_user_properties:
             user.update(dict(username=user['id']))
             if 'title' in user:
@@ -433,6 +438,20 @@ If the most preferent plugin is:
             user_obj = api.user.get(user['id'])
 
             if user_obj:
+                #Si el usuario existe en el MAX actualizamos el displayName si lo han cambiado
+                #Si no existe en el MAX lo creamos
+                try:
+                    result = maxclient.people[user['id']].get()
+                    if result['displayName'] != user['fullname']:
+                        properties = dict(displayName=user['fullname'])
+                        maxclient.people[user['id']].put(**properties)
+                        logger.info('Update user in MAX: {}'.format(user['id']))
+                        results.append('Update user in MAX: {}'.format(user['id']))
+                except:
+                    properties = dict(displayName=user['fullname'])
+                    maxclient.people[user['id']].post(**properties)
+                    logger.info('Create user in MAX: {}'.format(user['id']))
+                    results.append('Create user in MAX: {}'.format(user['id']))
                 add_user_to_catalog(user_obj, user)
             else:
                 logger.info('No user found in user repository (LDAP) {}'.format(user['id']))
