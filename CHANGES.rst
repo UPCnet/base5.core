@@ -2,11 +2,10 @@ Changelog
 =========
 
 
-0.52 (unreleased)
+0.52 (2021-11-26)
 -----------------
 
-- Nothing changed yet.
-
+* Modificar rebuild_user_catalog para actualizar el displayName en el MAX [Pilar Marinas]
 
 0.51 (2021-09-13)
 -----------------
