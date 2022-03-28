@@ -2,11 +2,10 @@ Changelog
 =========
 
 
-0.53 (unreleased)
+0.53 (2022-03-28)
 -----------------
 
-- Nothing changed yet.
-
+* Download Files [Pilar Marinas]
 
 0.52 (2021-11-26)
 -----------------
