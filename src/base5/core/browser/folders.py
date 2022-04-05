@@ -1,4 +1,5 @@
-from __future__ import print_function
+# -*- coding: utf-8 -*-
+from Products.CMFPlone.interfaces.constrains import ISelectableConstrainTypes
 
 from datetime import datetime
 from plone import api
@@ -9,6 +10,7 @@ from Products.statusmessages.interfaces import IStatusMessage
 
 import os
 import transaction
+import unicodedata
 
 
 class DownloadFiles(BrowserView):
@@ -18,13 +20,26 @@ class DownloadFiles(BrowserView):
     def __init__(self, context, request):
         self.context = context
         self.request = request
+
+    def options(self):
+        return ['File', 'Image', 'News Item', 'Document']
     
     def __call__(self):
         form = self.request.form
         if not form or 'file_type' not in form:
             return self.template()
 
-        items = query_items_in_natural_sort_order(self.context, {'portal_type': ('Folder', 'privateFolder', 'File', 'Image')})
+        query = {'portal_type': []}
+        options = self.options()
+        if 'all' in form['file_type']:
+            query['portal_type'] = ['Folder', 'privateFolder'] + options
+        else:
+            query['portal_type'] = ['Folder', 'privateFolder']
+            for option in options:
+                if option in form['file_type']:
+                    query['portal_type'].append(option)
+
+        items = query_items_in_natural_sort_order(self.context, query)
         if not items:
             IStatusMessage(self.request).addStatusMessage(u"No files found!", "info")
             return self.template()
@@ -38,8 +53,7 @@ class DownloadFiles(BrowserView):
         if plone_id in self.context:
             api.content.delete(obj=self.context[plone_id])
 
-        items = query_items_in_natural_sort_order(self.context, {'portal_type': ('Folder', 'privateFolder', 'File', 'Image')})
-
+        items = query_items_in_natural_sort_order(self.context, query)
         os.mkdir(exp_path)
         from_path = '/'.join(self.context.getPhysicalPath())
         folders = {
@@ -59,9 +73,10 @@ class DownloadFiles(BrowserView):
                     test_path = folders[x] + '/' + obj.id
                     if test_path == item.getPath():
                         f = open(zip_path, 'wb')
+
                 f.write(obj.file.data)
                 f.close()
-                print(("Saved {}".format(zip_path)))
+                print("Saved {}".format(zip_path))
             elif item.portal_type == 'Image':
                 obj = item.getObject()
                 for x in folders:
@@ -70,10 +85,42 @@ class DownloadFiles(BrowserView):
                         f = open(zip_path, 'wb')
                 f.write(obj.image.data)
                 f.close()
-                print(("Saved {}".format(zip_path)))
+                print("Saved {}".format(zip_path))
+            elif item.portal_type in ['News Item', 'Document']:
+                obj = item.getObject()
+                for x in folders:
+                    test_path = folders[x] + '/' + obj.id
+                    if test_path == item.getPath():
+                        f = open(zip_path + '.txt', 'wb')
+
+                f.write(obj.Title())
+                f.write('\n\n')
+                f.write(obj.Description())
+                f.write('\n\n')
+
+                if obj.text:
+                    f.write(obj.text.raw.encode('utf-8'))
+
+                f.close()
+                print("Saved {}".format(zip_path + '.txt'))
+
+                if item.portal_type == 'News Item' and obj.image:
+                    filename = unicodedata.normalize('NFKD', obj.image.filename).encode('ASCII', 'ignore').lower().replace(' ', '-')
+                    f = open(zip_path + '-' + filename, 'wb')
+                    f.write(obj.image.data)
+                    f.close()
+                    print("Saved {}-{}".format(zip_path, filename))
 
         os.system('zip -r {0}.zip {0}'.format(exp_path))
         os.system('rm -rf {}'.format(exp_path))
+
+        allowed_types = [ct.id for ct in self.context.allowedContentTypes()]
+        disable_file = False
+        if 'File' not in allowed_types:
+            disable_file = True
+            behavior = ISelectableConstrainTypes(self.context)
+            behavior.setLocallyAllowedTypes(list(allowed_types + ['File']))
+
         zip_file = api.content.create(
             type='File',
             title=exp_path,
@@ -85,6 +132,10 @@ class DownloadFiles(BrowserView):
             filename=u'{}.zip'.format(exp_path),
             contentType='application/zip'
         )
+
+        if disable_file:
+            behavior.setLocallyAllowedTypes(list(allowed_types))
+
         zip_file.reindexObject()
         transaction.commit()
         self.request.response.redirect(zip_file.absolute_url() + '/view')
