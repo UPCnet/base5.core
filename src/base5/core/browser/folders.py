@@ -9,6 +9,7 @@ from Products.Five.browser.pagetemplatefile import ViewPageTemplateFile
 from Products.statusmessages.interfaces import IStatusMessage
 
 import os
+import pdfkit
 import transaction
 import unicodedata
 
@@ -22,7 +23,7 @@ class DownloadFiles(BrowserView):
         self.request = request
 
     def options(self):
-        return ['File', 'Image', 'News Item', 'Document']
+        return ['File', 'Image', 'News Item', 'Document', 'Event']
     
     def __call__(self):
         form = self.request.form
@@ -60,6 +61,8 @@ class DownloadFiles(BrowserView):
             plone_id: from_path
         }
 
+        options_pdf = {'cookie': [('__ac', self.request.cookies['__ac']),]}
+
         for item in items:
             relative_path = os.path.relpath(item.getPath(), from_path)  # diff between item path and root path
             zip_path = os.path.join(exp_path, relative_path)
@@ -86,30 +89,17 @@ class DownloadFiles(BrowserView):
                 f.write(obj.image.data)
                 f.close()
                 print("Saved {}".format(zip_path))
-            elif item.portal_type in ['News Item', 'Document']:
+            elif item.portal_type in ['News Item', 'Document', 'Event']:
                 obj = item.getObject()
                 for x in folders:
                     test_path = folders[x] + '/' + obj.id
                     if test_path == item.getPath():
-                        f = open(zip_path + '.txt', 'wb')
+                        f = open(zip_path + '.pdf', 'wb')
 
-                f.write(obj.Title())
-                f.write('\n\n')
-                f.write(obj.Description())
-                f.write('\n\n')
-
-                if obj.text:
-                    f.write(obj.text.raw.encode('utf-8'))
-
+                pdfkit.from_url(obj.absolute_url(), '/tmp/' + exp_path + '.pdf', options=options_pdf)
+                f.write(open('/tmp/' + exp_path + '.pdf', 'rb').read())
                 f.close()
-                print("Saved {}".format(zip_path + '.txt'))
-
-                if item.portal_type == 'News Item' and obj.image:
-                    filename = unicodedata.normalize('NFKD', obj.image.filename).encode('ASCII', 'ignore').lower().replace(' ', '-')
-                    f = open(zip_path + '-' + filename, 'wb')
-                    f.write(obj.image.data)
-                    f.close()
-                    print("Saved {}-{}".format(zip_path, filename))
+                print("Saved {}".format(zip_path + '.pdf'))
 
         os.system('zip -r {0}.zip {0}'.format(exp_path))
         os.system('rm -rf {}'.format(exp_path))

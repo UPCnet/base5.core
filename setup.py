@@ -56,6 +56,7 @@ setup(
         'Products.PloneLDAP',
         'collective.z3cform.datagridfield',
         'BeautifulSoup',
+        'pdfkit',
         'ulearn5.core'
     ],
     extras_require={
