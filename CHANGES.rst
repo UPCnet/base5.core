@@ -2,11 +2,11 @@ Changelog
 =========
 
 
-0.54 (unreleased)
+0.54 (2022-07-06)
 -----------------
 
-- Nothing changed yet.
-
+* download_files pasar a PDF [Iago López]
+* download_files añadir noticias y documentos [Iago López]
 
 0.53 (2022-03-28)
 -----------------
