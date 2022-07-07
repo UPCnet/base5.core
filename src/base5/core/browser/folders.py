@@ -23,7 +23,7 @@ class DownloadFiles(BrowserView):
         self.request = request
 
     def options(self):
-        return ['File', 'Image', 'News Item', 'Document', 'Event']
+        return ['File', 'Image', 'Document']
     
     def __call__(self):
         form = self.request.form
@@ -89,14 +89,14 @@ class DownloadFiles(BrowserView):
                 f.write(obj.image.data)
                 f.close()
                 print("Saved {}".format(zip_path))
-            elif item.portal_type in ['News Item', 'Document', 'Event']:
+            elif item.portal_type == 'Document':
                 obj = item.getObject()
                 for x in folders:
                     test_path = folders[x] + '/' + obj.id
                     if test_path == item.getPath():
                         f = open(zip_path + '.pdf', 'wb')
 
-                pdfkit.from_url(obj.absolute_url(), '/tmp/' + exp_path + '.pdf', options=options_pdf)
+                pdfkit.from_url(obj.absolute_url() + "/print_document_view", '/tmp/' + exp_path + '.pdf', options=options_pdf)
                 f.write(open('/tmp/' + exp_path + '.pdf', 'rb').read())
                 f.close()
                 print("Saved {}".format(zip_path + '.pdf'))

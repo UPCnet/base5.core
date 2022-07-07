@@ -41,6 +41,22 @@
       />
 
     <browser:page
+      name="blank_template"
+      for="*"
+      layer="..interfaces.IBase5CoreLayer"
+      permission="zope.Public"
+      template="views_templates/blank_template.pt"
+      />
+
+    <browser:page
+      name="print_document_view"
+      for="plone.app.contenttypes.interfaces.IDocument"
+      layer="..interfaces.IBase5CoreLayer"
+      permission="zope2.View"
+      template="views_templates/print_document_view.pt"
+      />
+
+    <browser:page
       name="download_files"
       for="plone.app.contenttypes.interfaces.IFolder"
       permission="cmf.ModifyPortalContent"
