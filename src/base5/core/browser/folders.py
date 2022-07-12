@@ -70,23 +70,25 @@ class DownloadFiles(BrowserView):
                 print(("Saved {}".format(zip_path)))
             elif item.portal_type == 'File':
                 obj = item.getObject()
-                for x in folders:
-                    test_path = folders[x] + '/' + obj.id
-                    if test_path == item.getPath():
-                        f = open(zip_path, 'wb')
+                if obj.file:
+                    for x in folders:
+                        test_path = folders[x] + '/' + obj.id
+                        if test_path == item.getPath():
+                            f = open(zip_path, 'wb')
 
-                f.write(obj.file.data)
-                f.close()
-                print("Saved {}".format(zip_path))
+                    f.write(obj.file.data)
+                    f.close()
+                    print("Saved {}".format(zip_path))
             elif item.portal_type == 'Image':
                 obj = item.getObject()
-                for x in folders:
-                    test_path = folders[x] + '/' + obj.id
-                    if test_path == item.getPath():
-                        f = open(zip_path, 'wb')
-                f.write(obj.image.data)
-                f.close()
-                print("Saved {}".format(zip_path))
+                if obj.image:
+                    for x in folders:
+                        test_path = folders[x] + '/' + obj.id
+                        if test_path == item.getPath():
+                            f = open(zip_path, 'wb')
+                    f.write(obj.image.data)
+                    f.close()
+                    print("Saved {}".format(zip_path))
             elif item.portal_type == 'Document':
                 obj = item.getObject()
                 for x in folders:
