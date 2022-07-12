@@ -61,8 +61,6 @@ class DownloadFiles(BrowserView):
             plone_id: from_path
         }
 
-        options_pdf = {'cookie': [('__ac', self.request.cookies['__ac']),]}
-
         for item in items:
             relative_path = os.path.relpath(item.getPath(), from_path)  # diff between item path and root path
             zip_path = os.path.join(exp_path, relative_path)
@@ -95,6 +93,10 @@ class DownloadFiles(BrowserView):
                     test_path = folders[x] + '/' + obj.id
                     if test_path == item.getPath():
                         f = open(zip_path + '.pdf', 'wb')
+
+                options_pdf = {'cookie': [('__ac', self.request.cookies['__ac']), ],
+                               'disable-javascript': True,
+                               'minimum-font-size': 12}
 
                 pdfkit.from_url(obj.absolute_url() + "/print_document_view", '/tmp/' + exp_path + '.pdf', options=options_pdf)
                 f.write(open('/tmp/' + exp_path + '.pdf', 'rb').read())

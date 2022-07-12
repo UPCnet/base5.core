@@ -14,7 +14,8 @@
       <p tal:content="structure view/context/description"></p>
     </div>
 
-    <tal:block tal:content="structure view/context/text/output"></tal:block>
+    <tal:block tal:condition="view/context/text"
+               tal:content="structure view/context/text/output"></tal:block>
 
   </metal:main>
 </body>
