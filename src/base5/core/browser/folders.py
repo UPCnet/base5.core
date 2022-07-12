@@ -100,7 +100,11 @@ class DownloadFiles(BrowserView):
                                'disable-javascript': True,
                                'minimum-font-size': 12}
 
-                pdfkit.from_url(obj.absolute_url() + "/print_document_view", '/tmp/' + exp_path + '.pdf', options=options_pdf)
+                try:
+                    pdfkit.from_url(obj.absolute_url() + "/print_document_view", '/tmp/' + exp_path + '.pdf', options=options_pdf)
+                except:
+                    pass
+
                 f.write(open('/tmp/' + exp_path + '.pdf', 'rb').read())
                 f.close()
                 print("Saved {}".format(zip_path + '.pdf'))
