@@ -2,11 +2,13 @@ Changelog
 =========
 
 
-0.55 (unreleased)
+0.55 (2022-07-20)
 -----------------
 
-- Nothing changed yet.
-
+* Fix print_document_view [Iago López]
+* Fix print_document_view [Iago López]
+* print_document_view [Iago López]
+* print_document_view [Iago López]
 
 0.54 (2022-07-06)
 -----------------
