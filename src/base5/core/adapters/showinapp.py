@@ -1,13 +1,11 @@
-from five import grok
-
+# -*- coding: utf-8 -*-
 from zope import schema
 from zope.interface import Interface
 from zope.annotation.interfaces import IAnnotations
-
 from plone.indexer import indexer
-
-from Products.Archetypes.interfaces import IBaseObject
 from plone.dexterity.interfaces import IDexterityContent
+from zope.component import adapts
+from zope.interface import implementer
 
 from base5.core import _
 
@@ -24,13 +22,13 @@ class IShowInApp(Interface):
     )
 
 
-class inappMarker(grok.Adapter):
+@implementer(IShowInApp)
+class ShowInAppMarker(object):
     """ Adapts all non folderish AT objects (IBaseContent) to have
         the inapp attribute (Boolean) as an annotation.
         It is available through Iinapp adapter.
     """
-    grok.provides(IShowInApp)
-    grok.context(Interface)
+    adapts(Interface)
 
     def __init__(self, context):
         self.context = context
@@ -55,17 +53,3 @@ class inappMarker(grok.Adapter):
 def showinappIndexer(context):
     """Create a catalogue indexer, registered as an adapter for DX content. """
     return IShowInApp(context).is_inapp
-
-
-grok.global_adapter(showinappIndexer, name='is_inapp')
-
-
-@indexer(IBaseObject)
-def showinappIndexer(context):
-    """Create a catalogue indexer, registered as an adapter, which can
-    populate the ``in_app`` index.
-    """
-    return IShowInApp(context).is_inapp
-
-
-grok.global_adapter(showinappIndexer, name='is_inapp')

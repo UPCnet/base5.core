@@ -1,13 +1,11 @@
-from five import grok
-
-from zope import schema
-from zope.interface import Interface
-from zope.annotation.interfaces import IAnnotations
-
-from plone.indexer import indexer
-
-from Products.Archetypes.interfaces import IBaseObject
+# -*- coding: utf-8 -*-
 from plone.dexterity.interfaces import IDexterityContent
+from plone.indexer import indexer
+from zope import schema
+from zope.annotation.interfaces import IAnnotations
+from zope.component import adapts
+from zope.interface import Interface
+from zope.interface import implementer
 
 from base5.core import _
 
@@ -24,13 +22,13 @@ class IImportant(Interface):
     )
 
 
-class ImportantMarker(grok.Adapter):
+@implementer(IImportant)
+class ImportantMarker(object):
     """ Adapts all non folderish AT objects (IBaseContent) to have
         the important attribute (Boolean) as an annotation.
         It is available through IImportant adapter.
     """
-    grok.provides(IImportant)
-    grok.context(Interface)
+    adapts(Interface)
 
     def __init__(self, context):
         self.context = context
@@ -55,13 +53,3 @@ class ImportantMarker(grok.Adapter):
 def importantIndexer(context):
     """Create a catalogue indexer, registered as an adapter for DX content. """
     return IImportant(context).is_important
-grok.global_adapter(importantIndexer, name='is_important')
-
-
-@indexer(IBaseObject)
-def importantIndexerAT(context):
-    """Create a catalogue indexer, registered as an adapter, which can
-    populate the ``is_important`` index.
-    """
-    return IImportant(context).is_important
-grok.global_adapter(importantIndexerAT, name='is_important')

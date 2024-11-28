@@ -1,10 +1,9 @@
-from five import grok
-from zope.interface import Interface
-
-from plone.indexer import indexer
+# -*- coding: utf-8 -*-
 from plone.dexterity.interfaces import IDexterityContent
-
-from Products.Archetypes.interfaces import IBaseObject
+from plone.indexer import indexer
+from zope.component import adapts
+from zope.interface import Interface
+from zope.interface import implementer
 
 ATTRIBUTE_NAME = '_notNotifyPushBy'
 
@@ -22,9 +21,9 @@ class INotNotifyPush(Interface):
         """ Remove the username """
 
 
-class NotNotifyPush(grok.Adapter):
-    grok.provides(INotNotifyPush)
-    grok.context(Interface)
+@implementer(INotNotifyPush)
+class NotNotifyPush(object):
+    adapts(Interface)
 
     def __init__(self, context):
         self.context = context
@@ -55,15 +54,3 @@ class NotNotifyPush(grok.Adapter):
 def notNotifyPushIndexer(context):
     """Create a catalogue indexer, registered as an adapter for DX content. """
     return INotNotifyPush(context).get()
-
-
-grok.global_adapter(notNotifyPushIndexer, name='notNotifyPushBy')
-
-
-@indexer(IBaseObject)
-def notNotifyPushIndexerAT(context):
-    """Create a catalogue indexer, registered as an adapter for AT content. """
-    return INotNotifyPush(context).get()
-
-
-grok.global_adapter(notNotifyPushIndexerAT, name='notNotifyPushBy')

@@ -18,6 +18,7 @@
   <i18n:registerTranslations directory="locales" />
   <includeDependencies package="." />
 
+  <include package=".adapters" />
   <include package=".controlpanel" />
   <include package=".browser" />
   <include package=".portlets" />

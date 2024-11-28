@@ -1,12 +1,12 @@
 # -*- coding: utf-8 -*-
-from five import grok
 from OFS.Image import Image
 from Products.PlonePAS.interfaces.membership import IMembershipTool
 from Products.PlonePAS.utils import scale_image
+
+from plone import api
+from zope.component import adapts
 from zope.interface import Interface
 from zope.interface import implements
-from zope.component import adapts
-from plone import api
 
 
 class IPortraitUploadAdapter(Interface):

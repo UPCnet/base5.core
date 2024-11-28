@@ -1,10 +1,9 @@
-from five import grok
-from zope.interface import Interface
-
-from plone.indexer import indexer
+# -*- coding: utf-8 -*-
 from plone.dexterity.interfaces import IDexterityContent
-
-from Products.Archetypes.interfaces import IBaseObject
+from plone.indexer import indexer
+from zope.component import adapts
+from zope.interface import Interface
+from zope.interface import implementer
 
 ATTRIBUTE_NAME = '_favoritedBy'
 
@@ -22,9 +21,9 @@ class IFavorite(Interface):
         """ Remove the username """
 
 
-class Favorite(grok.Adapter):
-    grok.provides(IFavorite)
-    grok.context(Interface)
+@implementer(IFavorite)
+class Favorite(object):
+    adapts(Interface)
 
     def __init__(self, context):
         self.context = context
@@ -55,11 +54,3 @@ class Favorite(grok.Adapter):
 def favoriteIndexer(context):
     """Create a catalogue indexer, registered as an adapter for DX content. """
     return IFavorite(context).get()
-grok.global_adapter(favoriteIndexer, name='favoritedBy')
-
-
-@indexer(IBaseObject)
-def favoriteIndexerAT(context):
-    """Create a catalogue indexer, registered as an adapter for AT content. """
-    return IFavorite(context).get()
-grok.global_adapter(favoriteIndexerAT, name='favoritedBy')

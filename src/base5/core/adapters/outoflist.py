@@ -1,14 +1,11 @@
-from five import grok
-
-from zope import schema
-from zope.interface import Interface
-from zope.annotation.interfaces import IAnnotations
-
-from plone.indexer import indexer
-
-from Products.Archetypes.interfaces import IBaseObject
-from plone.dexterity.interfaces import IDexterityContent
+# -*- coding: utf-8 -*-
 from plone.app.contenttypes.interfaces import INewsItem
+from plone.indexer import indexer
+from zope import schema
+from zope.annotation.interfaces import IAnnotations
+from zope.component import adapts
+from zope.interface import Interface
+from zope.interface import implementer
 
 from base5.core import _
 
@@ -25,13 +22,13 @@ class IOutOfList(Interface):
     )
 
 
-class OutOfListMarker(grok.Adapter):
+@implementer(IOutOfList)
+class OutOfListMarker(object):
     """ Adapts all non folderish AT objects (IBaseContent) to have
         the outoflist attribute (Boolean) as an annotation.
         It is available through IOutOfList adapter.
     """
-    grok.provides(IOutOfList)
-    grok.context(Interface)
+    adapts(Interface)
 
     def __init__(self, context):
         self.context = context
@@ -56,13 +53,3 @@ class OutOfListMarker(grok.Adapter):
 def outoflistIndexer(context):
     """Create a catalogue indexer, registered as an adapter for DX content. """
     return IOutOfList(context).is_outoflist
-grok.global_adapter(outoflistIndexer, name='is_outoflist')
-
-
-@indexer(IBaseObject)
-def outoflistIndexerAT(context):
-    """Create a catalogue indexer, registered as an adapter, which can
-    populate the ``is_outoflist`` index.
-    """
-    return IOutOfList(context).is_outoflist
-grok.global_adapter(outoflistIndexerAT, name='is_outoflist')
