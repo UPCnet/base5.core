@@ -1,4 +1,5 @@
 # -*- coding: utf-8 -*-
+from collective import dexteritytextindexer
 from plone.app.contenttypes import _
 from plone.app.textfield import RichText as RichTextField
 from plone.app.z3cform.widget import RichTextFieldWidget
@@ -10,7 +11,6 @@ from plone.supermodel import model
 from zope.component import adapter
 from zope.interface import implementer
 from zope.interface import provider
-from collective import dexteritytextindexer
 
 
 @provider(IFormFieldProvider)
