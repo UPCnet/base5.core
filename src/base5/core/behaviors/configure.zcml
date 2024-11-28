@@ -1,7 +1,8 @@
 <configure
     xmlns="http://namespaces.zope.org/zope"
     xmlns:plone="http://namespaces.plone.org/plone"
-    i18n_domain="ushare">
+    i18n_domain="base">
+
 
   <plone:behavior
     title="Optional open link in a new window"
@@ -22,7 +23,5 @@
     for="plone.dexterity.interfaces.IDexterityContent"
     marker=".richtext.IRichTextCustom"
     />
-
-  <adapter factory=".showinapp.showinappIndexer" name="is_inapp" />
 
 </configure>

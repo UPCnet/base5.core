@@ -24,7 +24,6 @@
   <include package=".browser" />
   <include package=".portlets" />
 
-  <include file="behaviors.zcml" />
   <include file="patches.zcml" />
 
   <!-- ++base++portlets -->
