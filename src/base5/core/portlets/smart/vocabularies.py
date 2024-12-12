@@ -1,8 +1,8 @@
 # -*- coding: utf-8 -*-
+from plone.app.portlets.portlets.base import Renderer
 from zope.component import getAdapters
 from zope.interface import implements
 from zope.schema.interfaces import IVocabularyFactory
-from plone.app.portlets.portlets.base import Renderer
 from zope.schema.vocabulary import SimpleTerm
 from zope.schema.vocabulary import SimpleVocabulary
 

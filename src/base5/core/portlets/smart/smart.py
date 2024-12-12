@@ -2,29 +2,28 @@
 from Acquisition import aq_inner
 from Acquisition import aq_parent
 
-from zope.schema.interfaces import ICollection
 #from plone.app.collection.interfaces import ICollection
 from plone import api
 from plone.app.portlets.portlets import base
 from plone.app.querystring.querybuilder import QueryBuilder
 from plone.directives import form
 from plone.i18n.normalizer.interfaces import IIDNormalizer
+from plone.memoize import ram
+from plone.memoize.instance import memoize
 from plone.portlets.interfaces import IPortletDataProvider
+from time import time
 from z3c.form import field
 from zope import schema
 from zope.component import getAdapter
 from zope.component import getMultiAdapter
 from zope.component import getUtility
 from zope.interface import implements
-from plone.memoize.instance import memoize
+from zope.schema.interfaces import ICollection
 
 from base5.core import _
 from base5.core.portlets.smart.renderers.interfaces import IPortletContainerRenderer
 from base5.core.portlets.smart.renderers.interfaces import IPortletItemRenderer
-
 from ulearn5.core.hooks import packages_installed
-from plone.memoize import ram
-from time import time
 
 import random
 import sys
