@@ -20,8 +20,9 @@
 
   <include package=".adapters" />
   <include package=".behaviors" />
-  <include package=".controlpanel" />
   <include package=".browser" />
+  <include package=".controlpanel" />
+  <include package=".directory" />
   <include package=".portlets" />
 
   <include file="patches.zcml" />

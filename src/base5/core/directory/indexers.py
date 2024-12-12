@@ -1,4 +1,4 @@
-from five import grok
+# -*- coding: utf-8 -*-
 from repoze.catalog.catalog import Catalog
 from repoze.catalog.indexes.field import CatalogFieldIndex
 from repoze.catalog.indexes.keyword import CatalogKeywordIndex
@@ -77,9 +77,6 @@ class UserPropertiesSoupCatalogFactory(object):
         return catalog
 
 
-grok.global_utility(UserPropertiesSoupCatalogFactory, name='user_properties')
-
-
 @implementer(ICatalogFactory)
 class GroupsSoupCatalogFactory(object):
     """ The local user catalog (LUC) properties index factory. Almost all the
@@ -101,9 +98,6 @@ class GroupsSoupCatalogFactory(object):
         return catalog
 
 
-grok.global_utility(GroupsSoupCatalogFactory, name='ldap_groups')
-
-
 @implementer(ICatalogFactory)
 class UserNewsSearchSoupCatalog(object):
     def __call__(self, context):
@@ -114,9 +108,6 @@ class UserNewsSearchSoupCatalog(object):
         catalog['searches'] = CatalogKeywordIndex(hashindex)
 
         return catalog
-
-
-grok.global_utility(UserNewsSearchSoupCatalog, name='user_news_searches')
 
 
 @implementer(ICatalogFactory)
@@ -131,9 +122,6 @@ class UsersDeleteLocalRoles(object):
         catalog['id_username'] = CatalogTextIndex(idindexer)
 
         return catalog
-
-
-grok.global_utility(UsersDeleteLocalRoles, name="users_delete_local_roles")
 
 
 @implementer(ICatalogFactory)
@@ -151,6 +139,3 @@ class UsersPortrait(object):
         catalog['portrait'] = CatalogFieldIndex(portrait)
 
         return catalog
-
-
-grok.global_utility(UsersDeleteLocalRoles, name="users_portrait")

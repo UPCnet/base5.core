@@ -1,0 +1,73 @@
+<configure
+  xmlns="http://namespaces.zope.org/zope"
+  xmlns:browser="http://namespaces.zope.org/browser"
+  xmlns:plone="http://namespaces.plone.org/plone"
+  i18n_domain="base">
+
+  <utility
+    name="user_properties"
+    factory=".indexers.UserPropertiesSoupCatalogFactory"
+    />
+
+  <utility
+    name="ldap_groups"
+    factory=".indexers.GroupsSoupCatalogFactory"
+    />
+
+  <utility
+    name="user_news_searches"
+    factory=".indexers.UserNewsSearchSoupCatalog"
+    />
+
+  <utility
+    name="users_delete_local_roles"
+    factory=".indexers.UsersDeleteLocalRoles"
+    />
+
+  <utility
+    name="users_portrait"
+    factory=".indexers.UsersDeleteLocalRoles"
+    />
+
+  <subscriber
+    for="Products.PluggableAuthService.interfaces.authservice.IPropertiedUser
+         Products.PluggableAuthService.interfaces.events.IPrincipalCreatedEvent"
+    handler=".subscribers.create_user_hook"
+    />
+
+  <subscriber
+    for="Products.PluggableAuthService.interfaces.authservice.IPropertiedUser
+         Products.PluggableAuthService.interfaces.events.IPropertiesUpdatedEvent"
+    handler=".subscribers.update_user_properties_hook"
+    />
+
+  <subscriber
+    for="Products.PluggableAuthService.interfaces.events.IUserLoggedInEvent"
+    handler=".subscribers.UpdateUserPropertiesOnLogin"
+    />
+
+  <subscriber
+    for="Products.PluggableAuthService.interfaces.events.IUserLoggedInEvent"
+    handler=".subscribers.UpdateNotifyBirthday"
+    />
+
+  <subscriber
+    for="Products.PlonePAS.interfaces.events.IUserInitialLoginInEvent"
+    handler=".subscribers.UpdateUserPropertiesOnFirstLogin"
+    />
+
+  <browser:page
+    for="Products.CMFPlone.interfaces.IPloneSiteRoot"
+    name="activateomega13"
+    permission="zope2.Public"
+    class=".omega13.ActivateOmega13"
+    />
+
+  <browser:page
+    for="Products.CMFPlone.interfaces.IPloneSiteRoot"
+    name="syncldapgroups"
+    permission="zope2.Public"
+    class=".views.SyncLDAPGroups"
+    />
+
+</configure>

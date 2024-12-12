@@ -1,20 +1,20 @@
 # -*- coding: utf-8 -*-
-from five import grok
-from plone import api
-from repoze.catalog.query import Eq
-from souper.soup import get_soup
-from souper.soup import Record
-from Products.CMFPlone.interfaces import IPloneSiteRoot
-from plone.registry.interfaces import IRegistry
-from zope.component import queryUtility
-from base5.core.controlpanel.core import IBaseCoreControlPanelSettings
-from zope.interface import alsoProvides
-import logging
+from Products.Five.browser import BrowserView
 
-logger = logging.getLogger(__name__)
+from plone import api
+from plone.registry.interfaces import IRegistry
+from souper.soup import Record
+from souper.soup import get_soup
+from zope.component import queryUtility
+from zope.interface import alsoProvides
+
+from base5.core.controlpanel.core import IBaseCoreControlPanelSettings
 
 import ldap
+import logging
 import os
+
+logger = logging.getLogger(__name__)
 
 
 def get_ldap_config():
@@ -46,11 +46,9 @@ def search_ldap_groups():
     return conn.search_s(BASEDN, ldap.SCOPE_SUBTREE, GROUPS_QUERY, ['cn'])
 
 
-class SyncLDAPGroups(grok.View):
-    grok.context(IPloneSiteRoot)
-    grok.require('zope2.View')
+class SyncLDAPGroups(BrowserView):
 
-    def render(self):
+    def ___call__(self):
         results = []
         try:
             results = search_ldap_groups()

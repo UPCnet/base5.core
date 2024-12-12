@@ -1,14 +1,16 @@
 # -*- coding: utf-8 -*-
-from zope import schema
-from zope.interface import Interface
-from z3c.form import button
-from zope.component import getUtilitiesFor
-from plone.app.registry.browser import controlpanel
-from souper.interfaces import ICatalogFactory
-from zope.schema.vocabulary import SimpleVocabulary
-from zope.component import getUtility
 from Products.statusmessages.interfaces import IStatusMessage
+
+from plone.app.registry.browser import controlpanel
 from plone.supermodel import model
+from souper.interfaces import ICatalogFactory
+from z3c.form import button
+from zope import schema
+from zope.component import getUtilitiesFor
+from zope.component import getUtility
+from zope.interface import Interface
+from zope.schema.vocabulary import SimpleVocabulary
+
 from base5.core import _
 from base5.core.utilities import IElasticSearch
 

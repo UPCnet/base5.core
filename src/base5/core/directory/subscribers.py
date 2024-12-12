@@ -1,23 +1,18 @@
+# -*- coding: utf-8 -*-
+from DateTime.DateTime import DateTime
+
 from datetime import date
 from datetime import datetime
-from DateTime.DateTime import DateTime
-from five import grok
 from plone import api
-from Products.PlonePAS.interfaces.events import IUserInitialLoginInEvent
-from Products.PluggableAuthService.interfaces.authservice import IPropertiedUser
-from Products.PluggableAuthService.interfaces.events import IPrincipalCreatedEvent
-from Products.PluggableAuthService.interfaces.events import IPropertiesUpdatedEvent
-from Products.PluggableAuthService.interfaces.events import IUserLoggedInEvent
 from zope.globalrequest import getRequest
 
-from base5.core.utils import get_all_user_properties
-from base5.core.utils import add_user_to_catalog
 from base5.core.utils import add_portrait_user
+from base5.core.utils import add_user_to_catalog
+from base5.core.utils import get_all_user_properties
 from ulearn5.core.hooks import packages_installed
 from ulearn5.core.utils import isBirthdayInProfile
 
 
-@grok.subscribe(IPropertiedUser, IPrincipalCreatedEvent)
 def create_user_hook(user, event):
     """ This subscriber hooks on user creation and adds user properties to the
         soup-based catalog for later searches
@@ -25,7 +20,6 @@ def create_user_hook(user, event):
     add_user_to_catalog(user)
 
 
-@grok.subscribe(IPropertiedUser, IPropertiesUpdatedEvent)
 def update_user_properties_hook(user, event):
     """ This subscriber hooks on user creation and adds user properties to the
         soup-based catalog for later searches
@@ -35,7 +29,6 @@ def update_user_properties_hook(user, event):
         add_user_to_catalog(user, event.properties, overwrite=True)
 
 
-@grok.subscribe(IUserLoggedInEvent)
 def UpdateUserPropertiesOnLogin(event):
     user = api.user.get_current()
     try:
@@ -56,7 +49,6 @@ def UpdateUserPropertiesOnLogin(event):
         pass
 
 
-@grok.subscribe(IUserLoggedInEvent)
 def UpdateNotifyBirthday(event):
     if isBirthdayInProfile():
         today = date.today()
@@ -84,7 +76,6 @@ def UpdateNotifyBirthday(event):
             pass
 
 
-@grok.subscribe(IUserInitialLoginInEvent)
 def UpdateUserPropertiesOnFirstLogin(event):
     user = api.user.get_current()
     if hasattr(user, 'visible_userprofile_portlet'):

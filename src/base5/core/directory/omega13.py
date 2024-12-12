@@ -1,25 +1,23 @@
 # NOT USED
+# -*- coding: utf-8 -*-
 from AccessControl.Permissions import manage_users
 from AccessControl.SecurityInfo import ClassSecurityInfo
 from App.class_init import default__class_init__ as InitializeClass
 from OFS.Cache import Cacheable
-from plone import api
-from five import grok
-from zope.interface import Interface
-from zope.interface import implements
+from Products.Five.browser import BrowserView
 from Products.PageTemplates.PageTemplateFile import PageTemplateFile
 from Products.PluggableAuthService import registerMultiPlugin
-from Products.PluggableAuthService.plugins.BasePlugin import BasePlugin
-from Products.PluggableAuthService.interfaces.plugins import IUserEnumerationPlugin
 from Products.PluggableAuthService.interfaces.plugins import IPropertiesPlugin
+from Products.PluggableAuthService.interfaces.plugins import IUserEnumerationPlugin
+from Products.PluggableAuthService.plugins.BasePlugin import BasePlugin
 
-from Products.CMFPlone.interfaces import IPloneSiteRoot
-
-from souper.interfaces import ICatalogFactory
-from zope.component import getUtility
-
+from plone import api
 from repoze.catalog.query import Eq
+from souper.interfaces import ICatalogFactory
 from souper.soup import get_soup
+from zope.component import getUtility
+from zope.interface import Interface
+from zope.interface import implements
 
 import logging
 
@@ -159,10 +157,9 @@ def register_omega13_plugin_class(context):
                           icon='directory/icon.gif')
 
 
-class ActivateOmega13(grok.View):
-    grok.context(IPloneSiteRoot)
+class ActivateOmega13(BrowserView):
 
-    def render(self):
+    def ___call__(self):
         portal = self.context
         pas = portal.acl_users
         pluginid = 'omega13'
