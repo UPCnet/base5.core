@@ -1,0 +1,113 @@
+<configure
+  xmlns="http://namespaces.zope.org/zope"
+  xmlns:browser="http://namespaces.zope.org/browser"
+  i18n_domain="base">
+
+  <browser:page
+    name="add_user_catalog"
+    for="Products.CMFPlone.interfaces.IPloneSiteRoot"
+    class=".setup.addUserPropertiesCatalog"
+    permission="base.webmaster"
+    template="views_templates/add_user_catalog.pt"
+    />
+
+  <browser:page
+    name="remove_user_catalog"
+    for="Products.CMFPlone.interfaces.IPloneSiteRoot"
+    class=".setup.removeUserPropertiesCatalog"
+    permission="cmf.ManagePortal"
+    template="views_templates/remove_user_catalog.pt"
+    />
+
+  <browser:page
+    name="setupldapupc"
+    for="Products.CMFPlone.interfaces.IPloneSiteRoot"
+    class=".setup.setupLDAPUPC"
+    permission="zope2.ViewManagementScreens"
+    />
+
+  <browser:page
+    name="setupldapexterns"
+    for="Products.CMFPlone.interfaces.IPloneSiteRoot"
+    class=".setup.setupLDAPExterns"
+    permission="zope2.ViewManagementScreens"
+    />
+
+  <browser:page
+    name="setupldap"
+    for="Products.CMFPlone.interfaces.IPloneSiteRoot"
+    class=".setup.setupLDAP"
+    permission="zope2.ViewManagementScreens"
+    />
+
+  <browser:page
+    name="view_user_catalog"
+    for="Products.CMFPlone.interfaces.IPloneSiteRoot"
+    class=".setup.view_user_catalog"
+    permission="cmf.ManagePortal"
+    />
+
+  <browser:page
+    name="reset_user_catalog"
+    for="Products.CMFPlone.interfaces.IPloneSiteRoot"
+    class=".setup.reset_user_catalog"
+    permission="cmf.ManagePortal"
+    />
+
+  <browser:page
+    name="rebuild_user_catalog"
+    for="Products.CMFPlone.interfaces.IPloneSiteRoot"
+    class=".setup.rebuild_user_catalog"
+    permission="cmf.ManagePortal"
+    />
+
+  <browser:page
+    name="users_max_not_ldap"
+    for="Products.CMFPlone.interfaces.IPloneSiteRoot"
+    class=".setup.UserMaxNotLDAP"
+    permission="cmf.ManagePortal"
+    />
+
+  <browser:page
+    name="delete_users_max_not_ldap"
+    for="Products.CMFPlone.interfaces.IPloneSiteRoot"
+    class=".setup.DeleteUserMaxNotLDAP"
+    permission="cmf.ManagePortal"
+    />
+
+  <browser:page
+    name="delete_user_catalog"
+    for="Products.CMFPlone.interfaces.IPloneSiteRoot"
+    class=".setup.DeleteUserPropertiesCatalog"
+    permission="cmf.ManagePortal"
+    />
+
+  <browser:page
+    name="delete_local_roles"
+    for="Products.CMFPlone.interfaces.IPloneSiteRoot"
+    class=".setup.delete_local_roles"
+    permission="cmf.ManagePortal"
+    />
+
+  <browser:page
+    name="users_to_delete_local_roles"
+    for="Products.CMFPlone.interfaces.IPloneSiteRoot"
+    class=".setup.users_to_delete_local_roles"
+    permission="cmf.ManagePortal"
+    />
+
+  <browser:page
+    name="rebuild_users_portrait"
+    for="Products.CMFPlone.interfaces.IPloneSiteRoot"
+    class=".setup.rebuild_users_portrait"
+    permission="cmf.ManagePortal"
+    />
+
+  <browser:page
+    name="view_users_portrait"
+    for="Products.CMFPlone.interfaces.IPloneSiteRoot"
+    class=".setup.view_users_portrait"
+    permission="cmf.ManagePortal"
+    />
+
+</configure>

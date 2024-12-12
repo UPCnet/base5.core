@@ -1,17 +1,18 @@
 # -*- coding: utf-8 -*-
+from Products.CMFPlone.browser.navtree import DefaultNavtreeStrategy
 from Products.CMFPlone.interfaces.constrains import ISelectableConstrainTypes
-
-from datetime import datetime
-from plone import api
-from plone.namedfile import NamedBlobFile
 from Products.Five.browser import BrowserView
 from Products.Five.browser.pagetemplatefile import ViewPageTemplateFile
 from Products.statusmessages.interfaces import IStatusMessage
 
+from datetime import datetime
+from plone import api
+from plone.app.layout.navigation.navtree import buildFolderTree
+from plone.namedfile import NamedBlobFile
+
 import os
 import pdfkit
 import transaction
-import unicodedata
 
 
 class DownloadFiles(BrowserView):
@@ -24,7 +25,7 @@ class DownloadFiles(BrowserView):
 
     def options(self):
         return ['File', 'Image', 'Document']
-    
+
     def __call__(self):
         form = self.request.form
         if not form or 'file_type' not in form:
@@ -44,7 +45,7 @@ class DownloadFiles(BrowserView):
         if not items:
             IStatusMessage(self.request).addStatusMessage(u"No files found!", "info")
             return self.template()
-        
+
         today = datetime.today().strftime("%Y-%m-%d")
         plone_id = 'export-{0}'.format(self.context.id)
         exp_path = 'export-{0}-{1}'.format(self.context.id, today)
@@ -139,12 +140,6 @@ class DownloadFiles(BrowserView):
         self.request.response.redirect(zip_file.absolute_url() + '/view')
 
 
-from plone.app.layout.navigation.navtree import buildFolderTree
-from plone.app.layout.navigation.navtree import NavtreeStrategyBase
-# https://github.com/plone/Products.CMFPlone/blob/master/Products/CMFPlone/browser/navtree.py
-from Products.CMFPlone.browser.navtree import DefaultNavtreeStrategy
-from Products.CMFPlone.browser.navtree import SitemapNavtreeStrategy
-
 
 def query_items_in_natural_sort_order(root, query):
     """
@@ -165,7 +160,7 @@ def query_items_in_natural_sort_order(root, query):
 
     # Apply caller's filters
     applied_query.update(query)
-    
+
     # Set the navigation tree build strategy
     # - use navigation portlet strategy as base
     strategy = DefaultNavtreeStrategy(root)

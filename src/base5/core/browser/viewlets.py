@@ -1,26 +1,30 @@
-from five import grok
-from plone import api
-from zope.interface import Interface
-from plone.memoize import forever
+# -*- coding: utf-8 -*-
+from Products.Five.browser import BrowserView
 from Products.Five.browser.pagetemplatefile import ViewPageTemplateFile
+
+from plone import api
+from plone.memoize import forever
+from zope.interface import Interface
+from zope.interface import implementer
+from zope.viewlet.interfaces import IViewlet
+from zope.viewlet.manager import ViewletManagerBase
 
 import json
 import pkg_resources
 
-
-class baseCSSViewletManager(grok.ViewletManager):
-    grok.context(Interface)
-    grok.name('base.css')
-
-
-class baseJSViewletManager(grok.ViewletManager):
-    grok.context(Interface)
-    grok.name('base.js')
+class baseCSSViewletManager(ViewletManagerBase):
+    name = 'base.css'
+    context = Interface
 
 
-class baseResourcesViewlet(grok.Viewlet):
+class baseJSViewletManager(ViewletManagerBase):
+    name = 'base.js'
+    context = Interface
+
+
+@implementer(IViewlet)
+class baseResourcesViewlet(BrowserView):
     """ This is the base CSS and JS viewlet. """
-    grok.baseclass()
 
     resource_type = None
     current_egg_name = None
@@ -28,7 +32,7 @@ class baseResourcesViewlet(grok.Viewlet):
     index_css = ViewPageTemplateFile('viewlets_templates/basecssviewlet.pt')
     index_js = ViewPageTemplateFile('viewlets_templates/basejsviewlet.pt')
 
-    def render(self):
+    def __call__(self):
         if self.resource_type == 'css':
             return self.index_css()
         if self.resource_type == 'js':

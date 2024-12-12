@@ -2,6 +2,8 @@
 from Acquisition import Explicit
 from Products.Five.browser.pagetemplatefile import ViewPageTemplateFile
 
+from datetime import datetime
+from plone import api
 from plone.app.event.base import DT
 from plone.app.event.base import ulocalized_time
 from plone.event.interfaces import IEventAccessor
@@ -9,8 +11,6 @@ from plone.event.utils import is_same_day
 from plone.event.utils import is_same_time
 
 from ulearn5.core.utils import getUserPytzTimezone
-from plone import api
-from datetime import datetime
 
 
 class FormattedDateUserTimezoneProvider(Explicit):
@@ -25,7 +25,7 @@ class FormattedDateUserTimezoneProvider(Explicit):
         """Return a formatted date string.
 
         :param occ: An event or occurrence.
-        :type occ: IEvent, IOccurrence or IEventAccessor based object
+        :type occ: IEvent, IOccurrence or IEventAccessor base object
         :returns: Formatted date string for display.
         :rtype: string
 
@@ -54,7 +54,7 @@ def dates_for_display_user_timezone(occurrence):
         'open_end'   - events without end time
 
     :param occurrence: Event or occurrence object.
-    :type occurrence: IEvent, IOccurrence or IEventAccessor based object.
+    :type occurrence: IEvent, IOccurrence or IEventAccessor base object.
     :returns: Dictionary with date strings.
     :rtype: dict
 

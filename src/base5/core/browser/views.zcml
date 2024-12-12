@@ -1,0 +1,46 @@
+<configure
+  xmlns="http://namespaces.zope.org/zope"
+  xmlns:browser="http://namespaces.zope.org/browser"
+  i18n_domain="base">
+
+  <browser:view
+    for="plone.dexterity.interfaces.IDexterityContent"
+    name="toggle_important"
+    class=".views.gwToggleIsImportant"
+    layer="base5.core.interfaces.IBase5CoreLayer"
+    permission="cmf.ModifyPortalContent"
+    />
+
+  <browser:view
+    for="plone.app.contenttypes.interfaces.INewsItem"
+    name="toggle_flash"
+    class=".views.gwToggleIsFlash"
+    layer="base5.core.interfaces.IBase5CoreLayer"
+    permission="cmf.ModifyPortalContent"
+    />
+
+  <browser:view
+    for="plone.app.contenttypes.interfaces.INewsItem"
+    name="toggle_outoflist"
+    class=".views.gwToggleIsOutoflist"
+    layer="base5.core.interfaces.IBase5CoreLayer"
+    permission="cmf.ModifyPortalContent"
+    />
+
+  <browser:view
+    for="plone.dexterity.interfaces.IDexterityContent"
+    name="toggle_news_in_app"
+    class=".views.gwToggleNewsInApp"
+    layer="base5.core.interfaces.IBase5CoreLayer"
+    permission="cmf.ModifyPortalContent"
+    />
+
+  <browser:view
+    for="zope.interface.Interface"
+    name="toggle_subscriptiontag"
+    class=".views.gwToggleSubscribedTag"
+    layer="base5.core.interfaces.IBase5CoreLayer"
+    permission="base.authenticated"
+    />
+
+</configure>

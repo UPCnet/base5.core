@@ -1,21 +1,21 @@
 # -*- coding: utf-8 -*-
+from datetime import datetime
+from plone import api
 from plone.app.contenttypes.browser.folder import FolderView
 from plone.app.contenttypes.interfaces import IEvent
-from plone.memoize.instance import memoize
-from plone import api
-from zope.i18nmessageid import MessageFactory
-from plone.app.event.base import localized_now, get_events
-from plone.app.event.base import RET_MODE_OBJECTS
 from plone.app.event.base import DT
+from plone.app.event.base import RET_MODE_OBJECTS
+from plone.app.event.base import localized_now, get_events
 from plone.app.event.base import ulocalized_time
+from plone.event.interfaces import IEventAccessor
+from plone.memoize.instance import memoize
+from zope.i18nmessageid import MessageFactory
 
 from base5.core import _
 from base5.core.utils import abrevia
 from base5.core.utils import abreviaPlainText
 from ulearn5.core.hooks import packages_installed
 from ulearn5.core.utils import getUserPytzTimezone
-from plone.event.interfaces import IEventAccessor
-from datetime import datetime
 
 
 PLMF = MessageFactory('plonelocales')
