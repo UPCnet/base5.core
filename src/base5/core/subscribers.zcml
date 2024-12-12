@@ -3,8 +3,8 @@
   xmlns:plone="http://namespaces.plone.org/plone">
 
   <subscriber
-    for="ushare.core.interfaces.IProtectedContent
-         from zope.lifecycleevent.interfaces.IObjectRemovedEvent"
+    for="base5.core.interfaces.IProtectedContent
+         zope.lifecycleevent.interfaces.IObjectRemovedEvent"
     handler=".subscribers.preventDeletionOnProtectedContent"
     />
 
