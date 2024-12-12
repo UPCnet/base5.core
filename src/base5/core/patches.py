@@ -1,56 +1,60 @@
 # -*- coding: utf-8 -*-
+from AccessControl import Unauthorized
+from AccessControl.SecurityManagement import getSecurityManager
+from Acquisition import aq_inner
+from Products.CMFCore.MemberDataTool import MemberData as BaseMemberData
+from Products.CMFCore.permissions import ManageUsers
+from Products.CMFCore.utils import _checkPermission
+from Products.CMFPlone.PloneBatch import Batch
+from Products.CMFPlone.browser.navtree import getNavigationRoot
+from Products.CMFPlone.browser.search import EVER
+from Products.CMFPlone.browser.search import quote_chars
+from Products.LDAPUserFolder.LDAPUser import LDAPUser
+from Products.LDAPUserFolder.LDAPUser import NonexistingUser
+from Products.LDAPUserFolder.SharedResource import getResource
+from Products.LDAPUserFolder.utils import encoding
+from Products.PlonePAS.interfaces.propertysheets import IMutablePropertySheet
+from Products.PlonePAS.utils import safe_unicode
+from Products.PluggableAuthService import PluggableAuthService
+from Products.PluggableAuthService.PluggableAuthService import DumbHTTPExtractor
+from Products.PluggableAuthService.PluggableAuthService import _SWALLOWABLE_PLUGIN_EXCEPTIONS
+from Products.PluggableAuthService.PropertiedUser import PropertiedUser
+from Products.PluggableAuthService.events import PropertiesUpdated
+from Products.PluggableAuthService.interfaces.authservice import IPluggableAuthService
+from Products.PluggableAuthService.interfaces.plugins import IAuthenticationPlugin
+from Products.PluggableAuthService.interfaces.plugins import IExtractionPlugin
+from Products.PluggableAuthService.utils import createKeywords
+from Products.PluggableAuthService.utils import createViewName
+from StringIO import StringIO
+
+from plone import api
+from plone.memoize.instance import memoize
+from pyquery import PyQuery as pq
+from urllib import quote_plus
+from zope.component import getMultiAdapter
+from zope.event import notify
 try:
     from hashlib import sha1 as sha_new
 except ImportError:
     from sha import new as sha_new
-from urllib import quote_plus
-from Acquisition import aq_inner
-from pyquery import PyQuery as pq
-from plone import api
-from Products.CMFPlone.browser.search import quote_chars
-from Products.CMFPlone.browser.search import EVER
-from plone.memoize.instance import memoize
 
-from AccessControl.SecurityManagement import getSecurityManager
-from Products.LDAPUserFolder.SharedResource import getResource
+from base5.core.adapters.portrait import IPortraitUploadAdapter
+from base5.core.utils import add_user_to_catalog
+from base5.core.utils import get_all_user_properties
+from base5.core.utils import get_safe_member_by_id
+from base5.core.utils import portal_url
+from base5.core.utils import remove_user_from_catalog
+from ulearn5.core.hooks import packages_installed
 
-from Products.PlonePAS.utils import safe_unicode
-from Products.CMFPlone.browser.navtree import getNavigationRoot
-from Products.PluggableAuthService.PropertiedUser import PropertiedUser
-from Products.LDAPUserFolder.LDAPUser import NonexistingUser
-from Products.LDAPUserFolder.LDAPUser import LDAPUser
-
-from zope.event import notify
-from Products.PluggableAuthService.events import PropertiesUpdated
-
-from Products.CMFCore.MemberDataTool import MemberData as BaseMemberData
-from Products.PluggableAuthService.interfaces.authservice import IPluggableAuthService
-from Products.PlonePAS.interfaces.propertysheets import IMutablePropertySheet
-
-from Products.PluggableAuthService.PluggableAuthService import _SWALLOWABLE_PLUGIN_EXCEPTIONS
-from Products.PluggableAuthService.PluggableAuthService import DumbHTTPExtractor
-from Products.PluggableAuthService import PluggableAuthService
-from Products.PluggableAuthService.interfaces.plugins import IExtractionPlugin
-from Products.PluggableAuthService.interfaces.plugins import IAuthenticationPlugin
-from Products.PluggableAuthService.utils import createViewName
-from Products.PluggableAuthService.utils import createKeywords
-from Products.PluggableAuthService.utils import classImplements
-
-from base5.core.utils import get_safe_member_by_id, portal_url
-from Products.CMFPlone.PloneBatch import Batch
-
-import unicodedata
 import inspect
+import ldap
 import logging
 import requests
-from StringIO import StringIO
-from cgi import escape
-from time import time
-import ldap
-
+import unicodedata
+import urllib
 
 logger = logging.getLogger('event.LDAPUserFolder')
-base5_log = logging.getLogger('base5.core')
+base5_log  = logging.getLogger('base5.core')
 
 
 def getToolbars(self, config):
@@ -882,13 +886,6 @@ def enumerateUsers(self,
     return result
 
 
-from AccessControl import Unauthorized
-from Products.CMFCore.utils import _checkPermission
-from Products.CMFCore.permissions import ManageUsers
-from zope.component import getMultiAdapter
-from base5.core.adapters.portrait import IPortraitUploadAdapter
-
-
 # Extensible member portrait management
 def changeMemberPortrait(self, portrait, id=None):
     """update the portait of a member.
@@ -954,10 +951,6 @@ def batch(self):
     return batch
 
 
-from base5.core.utils import add_user_to_catalog, remove_user_from_catalog, get_all_user_properties
-from plone import api
-from ulearn5.core.hooks import packages_installed
-
 def _on_save(self, data=None):
     installed = packages_installed()
     if 'ulearn5.enginyersbcn' in installed:
@@ -977,8 +970,6 @@ def _on_save(self, data=None):
             pass
     pass
 
-from Products.LDAPUserFolder.utils import to_utf8
-import urllib
 
 def getUserDetails(self, encoded_dn, format=None, attrs=()):
     """ Return all attributes for a given DN """
@@ -1016,7 +1007,6 @@ def getUserDetails(self, encoded_dn, format=None, attrs=()):
 
     return result
 
-from Products.LDAPUserFolder.utils import encoding
 
 def getUserDN(self):
     """ Return the user's full Distinguished Name """
