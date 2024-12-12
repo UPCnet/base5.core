@@ -27,6 +27,7 @@
 
   <include file="patches.zcml" />
   <include file="subscribers.zcml" />
+  <include file="utilities.zcml" />
 
   <!-- ++base++portlets -->
   <plone:static

@@ -1,16 +1,18 @@
-from five import grok
-from zope.interface import Interface
-from plone import api
-from elasticsearch import Elasticsearch
-from zope.component import getUtility
+# -*- coding: utf-8 -*-
+from Products.Five.browser import BrowserView
 
+from elasticsearch import Elasticsearch
+from plone import api
+from zope.component import getUtility
+from zope.interface import Interface
+from zope.interface import implementer
 
 class IElasticSearch(Interface):
     """ Marker for ElasticSearch global utility """
 
 
+@implementer(IElasticSearch)
 class ElasticSearch(object):
-    grok.implements(IElasticSearch)
 
     def __init__(self):
         self._conn = None
@@ -19,8 +21,8 @@ class ElasticSearch(object):
         return self.connection
 
     def create_new_connection(self):
-        self.es_url = api.portal.get_registry_record('base5.core.controlpanel.core.IBaseCoreControlPanelSettings.elasticsearch')
-        if (api.portal.get_registry_record('base5.core.controlpanel.core.IBaseCoreControlPanelSettings.elasticsearch') != 'localhost'):
+        self.es_url = api.portal.get_registry_record('ushare.core.controlpanel.core.IUshareCoreControlPanelSettings.elasticsearch')
+        if (api.portal.get_registry_record('ushare.core.controlpanel.core.IUshareCoreControlPanelSettings.elasticsearch') != 'localhost'):
             self._conn = Elasticsearch(self.es_url)
 
     @property
@@ -29,15 +31,10 @@ class ElasticSearch(object):
             self.create_new_connection()
         return self._conn
 
-grok.global_utility(ElasticSearch)
 
-
-class ReloadESConfig(grok.View):
+class ReloadESConfig(BrowserView):
     """ Convenience view for faster debugging. Needs to be manager. """
-    grok.context(Interface)
-    grok.require('cmf.ManagePortal')
-    grok.name('reload_es_config')
 
-    def render(self):
+    def __call__(self):
         es = getUtility(IElasticSearch)
         es.reload = True

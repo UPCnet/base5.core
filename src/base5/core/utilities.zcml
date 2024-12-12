@@ -1,0 +1,17 @@
+<configure
+  xmlns="http://namespaces.zope.org/zope"
+  xmlns:plone="http://namespaces.plone.org/plone"
+  xmlns:browser="http://namespaces.zope.org/browser">
+
+  <browser:page
+    for="zope.interface.Interface"
+    name="reload_es_config"
+    permission="cmf.ManagePortal"
+    class=".utilities.ReloadESConfig"
+    />
+
+  <utility
+    factory=".utilities.ElasticSearch"
+    />
+
+</configure>
