@@ -1,39 +1,38 @@
 # -*- coding: utf-8 -*-
 from AccessControl import getSecurityManager
-from base5.core import HAS_PAM
-from base5.core import IAMULEARN
-from base5.core.controlpanel.core import IBaseCoreControlPanelSettings
-from base5.core.directory import METADATA_USER_ATTRS
 from BeautifulSoup import BeautifulSoup
-from plone import api
-from plone.registry.interfaces import IRegistry
+from OFS.Image import Image
+from PIL import ImageOps
 from Products.PlonePAS.plugins.ufactory import PloneUser
 from Products.PlonePAS.tools.memberdata import MemberData
+from cStringIO import StringIO
+
+from plone import api
+from plone.registry.interfaces import IRegistry
 from repoze.catalog.query import Eq
 from souper.interfaces import ICatalogFactory
-from souper.soup import get_soup
 from souper.soup import Record
+from souper.soup import get_soup
+from time import time
 from zope.component import getUtilitiesFor
 from zope.component import getUtility
 from zope.component import queryUtility
 from zope.component.hooks import getSite
 from zope.i18nmessageid import MessageFactory
 
+from base5.core import HAS_PAM
+from base5.core import IAMULEARN
+from base5.core.controlpanel.core import IBaseCoreControlPanelSettings
+from base5.core.directory import METADATA_USER_ATTRS
+from mrs5.max.utilities import IMAXClient
+
+import PIL
+import io
 import json
 import logging
-import unicodedata
 import requests
-import io
-
-
-from OFS.Image import Image
-from mrs5.max.utilities import IMAXClient
-from OFS.Image import Image
-from time import time
+import unicodedata
 import urllib
-import PIL
-from PIL import ImageOps
-from cStringIO import StringIO
 
 
 logger = logging.getLogger(__name__)
