@@ -962,7 +962,7 @@ def _on_save(self, data=None):
             remove_user_from_catalog(user.id)
             properties = get_all_user_properties(user)
             add_user_to_catalog(user, properties, overwrite=True)
-            print 'save ok'
+            print('save ok')
             pass
         except:
             # To avoid testing test_functional code, since the
