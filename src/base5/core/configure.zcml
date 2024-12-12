@@ -1,13 +1,13 @@
 <configure
-    xmlns="http://namespaces.zope.org/zope"
-    xmlns:zcml="http://namespaces.zope.org/zcml"
-    xmlns:five="http://namespaces.zope.org/five"
-    xmlns:i18n="http://namespaces.zope.org/i18n"
-    xmlns:browser="http://namespaces.zope.org/browser"
-    xmlns:grok="http://namespaces.zope.org/grok"
-    xmlns:genericsetup="http://namespaces.zope.org/genericsetup"
-    xmlns:plone="http://namespaces.plone.org/plone"
-    i18n_domain="base">
+  xmlns="http://namespaces.zope.org/zope"
+  xmlns:zcml="http://namespaces.zope.org/zcml"
+  xmlns:five="http://namespaces.zope.org/five"
+  xmlns:i18n="http://namespaces.zope.org/i18n"
+  xmlns:browser="http://namespaces.zope.org/browser"
+  xmlns:grok="http://namespaces.zope.org/grok"
+  xmlns:genericsetup="http://namespaces.zope.org/genericsetup"
+  xmlns:plone="http://namespaces.plone.org/plone"
+  i18n_domain="base">
 
   <!-- Convenience permission identifying authenticated and member users -->
   <permission id="base.authenticated" title="Base: Authenticated Users" />
@@ -26,58 +26,59 @@
   <include package=".portlets" />
 
   <include file="patches.zcml" />
+  <include file="subscribers.zcml" />
 
   <!-- ++base++portlets -->
   <plone:static
-      directory="portlets"
-      type="base"
-      name="portlets"
-      />
+    directory="portlets"
+    type="base"
+    name="portlets"
+    />
 
   <interface
-      interface=".interfaces.IBase5CoreLayer"
-      type="zope.publisher.interfaces.browser.IBrowserSkinType"
-      name="base5.core"
-      />
+    interface=".interfaces.IBase5CoreLayer"
+    type="zope.publisher.interfaces.browser.IBrowserSkinType"
+    name="base5.core"
+    />
 
   <genericsetup:importStep
-      name="base5.core.setupstep"
-      title="base5.core special import handlers"
-      description=""
-      handler="base5.core.setuphandlers.setupVarious" />
+    name="base5.core.setupstep"
+    title="base5.core special import handlers"
+    description=""
+    handler="base5.core.setuphandlers.setupVarious" />
 
   <genericsetup:registerProfile
-      name="default"
-      title="base5.core"
-      directory="profiles/default"
-      description="Installs the base5.core add-on."
-      provides="Products.GenericSetup.interfaces.EXTENSION"
-      post_handler=".setuphandlers.post_install"
-      />
+    name="default"
+    title="base5.core"
+    directory="profiles/default"
+    description="Installs the base5.core add-on."
+    provides="Products.GenericSetup.interfaces.EXTENSION"
+    post_handler=".setuphandlers.post_install"
+    />
 
   <genericsetup:registerProfile
-      name="uninstall"
-      title="base5.core (uninstall)"
-      directory="profiles/uninstall"
-      description="Uninstalls the base5.core add-on."
-      provides="Products.GenericSetup.interfaces.EXTENSION"
-      post_handler=".setuphandlers.uninstall"
-      />
+    name="uninstall"
+    title="base5.core (uninstall)"
+    directory="profiles/uninstall"
+    description="Uninstalls the base5.core add-on."
+    provides="Products.GenericSetup.interfaces.EXTENSION"
+    post_handler=".setuphandlers.uninstall"
+    />
 
   <utility
-      factory=".setuphandlers.HiddenProfiles"
-      name="base5.core-hiddenprofiles" />
+    factory=".setuphandlers.HiddenProfiles"
+    name="base5.core-hiddenprofiles" />
 
   <adapter
-       for="Products.PlonePAS.interfaces.membership.IMembershipTool
-            zope.interface.Interface"
-       provides="base5.core.adapters.portrait.IPortraitUploadAdapter"
-       factory="base5.core.adapters.portrait.PortraitUploadAdapter"
-       />
+    for="Products.PlonePAS.interfaces.membership.IMembershipTool
+        zope.interface.Interface"
+    provides="base5.core.adapters.portrait.IPortraitUploadAdapter"
+    factory="base5.core.adapters.portrait.PortraitUploadAdapter"
+    />
 
   <browser:jbot
-      directory="templates"
-      layer=".interfaces.IBase5CoreLayer"
-  />
+    directory="templates"
+    layer=".interfaces.IBase5CoreLayer"
+    />
 
 </configure>

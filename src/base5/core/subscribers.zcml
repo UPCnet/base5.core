@@ -1,0 +1,11 @@
+<configure
+  xmlns="http://namespaces.zope.org/zope"
+  xmlns:plone="http://namespaces.plone.org/plone">
+
+  <subscriber
+    for="ushare.core.interfaces.IProtectedContent
+         from zope.lifecycleevent.interfaces.IObjectRemovedEvent"
+    handler=".subscribers.preventDeletionOnProtectedContent"
+    />
+
+</configure>

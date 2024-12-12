@@ -1,11 +1,9 @@
-from five import grok
-from plone import api
+# -*- coding: utf-8 -*-
 from AccessControl import Unauthorized
-from zope.lifecycleevent.interfaces import IObjectRemovedEvent
-from base5.core.interfaces import IProtectedContent
+
+from plone import api
 
 
-@grok.subscribe(IProtectedContent, IObjectRemovedEvent)
 def preventDeletionOnProtectedContent(content, event):
     """ Community added handler
     """
