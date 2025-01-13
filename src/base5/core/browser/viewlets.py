@@ -43,7 +43,7 @@ class baseResourcesViewlet(BrowserView):
 
     def read_resource_config_file(self):
         egg = pkg_resources.get_distribution(self.current_egg_name)
-        config_path = '{}/{}/config.json'.format(egg.location, self.current_egg_name.replace('.', '/'))
+        config_path = f'{egg.location}/{self.current_egg_name.replace('.', '/')}/config.json'
         resource_file = open(config_path)
         return resource_file.read()
 

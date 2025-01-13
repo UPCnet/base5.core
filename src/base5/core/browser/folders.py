@@ -127,8 +127,8 @@ class DownloadFiles(BrowserView):
             container=self.context,
         )
         zip_file.file = NamedBlobFile(
-            data=open(f"{exp_path}.zip", 'rb'),
-            filename=f"{exp_path}.zip",
+            data=open(f'{exp_path}.zip', 'rb'),
+            filename=f'{exp_path}.zip',
             contentType='application/zip'
         )
 
