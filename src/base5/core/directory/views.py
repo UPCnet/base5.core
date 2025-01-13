@@ -93,7 +93,7 @@ class SyncLDAPGroups(BrowserView):
                 soup.add(record)
                 to_print.append(group_id)
 
-            logger.info('[SYNCLDAPGROUPS]: {}'.format(to_print))
+            logger.info(f'[SYNCLDAPGROUPS]: {to_print}')
             api.portal.send_email(
                 recipient='email.tomatic@upcnet.es',
                 sender='noreply@ulearn.upcnet.es',

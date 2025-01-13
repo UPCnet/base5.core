@@ -79,7 +79,7 @@ class Omega13Helper(BasePlugin, Cacheable):
                 records = [r for r in soup.query(Eq('username', login))]
 
             if records:
-                logger.warning('Omega13 found {} user: {}'.format(len(records), records))
+                logger.warning(f'Omega13 found {len(records)} user: {records}')
                 result.append({'id': records[0].attrs['username'],
                                'login': records[0].attrs['username'],
                                'pluginid': plugin_id,
@@ -91,7 +91,7 @@ class Omega13Helper(BasePlugin, Cacheable):
                 records = [r for r in soup.query(Eq('username', login + '*'))]
 
             if records:
-                logger.warning('Omega13 found {} user: {}'.format(len(records), records))
+                logger.warning(f'Omega13 found {len(records)} user: {records}')
                 for record in records:
                     result.append({'id': record.attrs['username'],
                                    'login': record.attrs['username'],
@@ -117,7 +117,7 @@ class Omega13Helper(BasePlugin, Cacheable):
             for attr in indexed_attrs:
                 if records[0].attrs.get(attr, False):
                     properties[attr] = records[0].attrs[attr]
-            logger.warning('found properties for user: {}'.format(records[0].attrs['username']))
+            logger.warning(f'found properties for user: {records[0].attrs['username']}')
 
         return properties
 

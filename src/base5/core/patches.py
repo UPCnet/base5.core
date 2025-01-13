@@ -340,7 +340,7 @@ def getMemberById(self, id):
     if api.env.debug_mode():
         base5_log.warning('')
         base5_log.warning('Warning! Using getMemberById')
-        base5_log.warning('from: {}'.format(upstream_callers))
+        base5_log.warning(f'from: {upstream_callers}')
         base5_log.warning('')
 
     user = self._huntUser(id, self)

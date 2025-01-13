@@ -356,9 +356,9 @@ class setupLDAP(BrowserView):
         branch_admin_password = self.request.form.get('branch_admin_password')
         allow_manage_users = self.request.form.get('allow_manage_users', False)
 
-        users_base = 'ou=users,ou={},{}'.format(branch_name, base_dn)
-        groups_base = 'ou=groups,ou={},{}'.format(branch_name, base_dn)
-        bind_uid = 'cn={},ou={},{}'.format(branch_admin_cn, branch_name, base_dn)
+        users_base = f'ou=users,ou={branch_name},{base_dn}'
+        groups_base = f'ou=groups,ou={branch_name},{base_dn}'
+        bind_uid = f'cn={branch_admin_cn},ou={branch_name},{base_dn}'
 
         # Delete if exists
         if getattr(portal.acl_users, ldap_name, None):
@@ -513,20 +513,20 @@ If the most preferent plugin is:
                     if result['displayName'] != user['fullname']:
                         properties = dict(displayName=user['fullname'])
                         maxclient.people[user['id']].put(**properties)
-                        logger.info('Update user in MAX: {}'.format(user['id']))
-                        results.append('Update user in MAX: {}'.format(user['id']))
+                        logger.info(f'Update user in MAX: {user['id']}')
+                        results.append(f'Update user in MAX: {user['id']}')
                 except:
                     properties = dict(displayName=user['fullname'])
                     maxclient.people[user['id']].post(**properties)
-                    logger.info('Create user in MAX: {}'.format(user['id']))
-                    results.append('Create user in MAX: {}'.format(user['id']))
+                    logger.info(f'Create user in MAX: {user['id']}')
+                    results.append(f'Create user in MAX: {user['id']}')
                 add_user_to_catalog(user_obj, user)
             else:
-                logger.info('No user found in user repository (LDAP) {}'.format(user['id']))
+                logger.info(f'No user found in user repository (LDAP) {user['id']}')
 
-            logger.info('Updated properties catalog for {}'.format(user['id']))
+            logger.info(f'Updated properties catalog for {user['id']}')
 
-        logger.info('Finish rebuild_user_catalog portal {}'.format(portal))
+        logger.info(f'Finish rebuild_user_catalog portal {portal}')
 
         return 'Done'
 
@@ -579,11 +579,11 @@ class UserMaxNotLDAP(BrowserView):
                 else:
                     user_obj = acl.getUserById(user['username'])
                     if not user_obj:
-                        logger.info('No user found in user repository (LDAP) {}'.format(user['username']))
-                        results.append('User for delete: {}'.format(user['username']))
+                        logger.info(f'No user found in user repository (LDAP) {user['username']}')
+                        results.append(f'User for delete: {user['username']}')
 
 
-            logger.info('Finish users_max_not_ldap portal {}'.format(portal))
+            logger.info(f'Finish users_max_not_ldap portal {portal}')
             results.append('Finish users_max_not_ldap')
             return '\n'.join([str(item) for item in results])
         except:
@@ -642,11 +642,11 @@ class DeleteUserMaxNotLDAP(BrowserView):
                 else:
                     user_obj = acl.getUserById(user['username'])
                     if not user_obj:
-                        logger.info('No user found in user repository (LDAP) {}'.format(user['username']))
+                        logger.info(f'No user found in user repository (LDAP) {user['username']}')
                         deleteMembers(self, user['username'])
                         member_id = str(user['username'])
                         remove_user_from_catalog(member_id.lower())
-                        logger.info('Eliminat usuari {} del catalog.'.format(member_id.lower()))
+                        logger.info(f'Eliminat usuari {member_id.lower()} del catalog.')
                         pc = api.portal.get_tool(name='portal_catalog')
 
                         communities_subscription = maxclient.people[member_id].subscriptions.get()
@@ -657,7 +657,7 @@ class DeleteUserMaxNotLDAP(BrowserView):
                                 community = pc.unrestrictedSearchResults(portal_type="ulearn.community", community_hash=community_subscription['hash'])
                                 try:
                                     obj = community[0]._unrestrictedGetObject()
-                                    logger.info('Processant {} de {}. Comunitat {}'.format(num, len(communities_subscription), obj))
+                                    logger.info(f'Processant {num} de {len(communities_subscription)}. Comunitat {obj}')
                                     gwuuid = IGWUUID(obj).get()
                                     portal = api.portal.get()
                                     soup = get_soup('communities_acl', portal)
@@ -688,10 +688,10 @@ class DeleteUserMaxNotLDAP(BrowserView):
                         # Lo borramos del MAX
                         maxclient.people[member_id].delete()
 
-                        logger.info('User delete {}'.format(user['username']))
-                        results.append('User delete: {}'.format(user['username']))
+                        logger.info(f'User delete {user['username']}')
+                        results.append(f'User delete: {user['username']}')
 
-            logger.info('Finish delete_users_max_not_ldap portal {}'.format(portal))
+            logger.info(f'Finish delete_users_max_not_ldap portal {portal}')
             results.append('Finish delete_users_max_not_ldap')
             return '\n'.join([str(item) for item in results])
         except:
@@ -733,12 +733,12 @@ En ACL_USERS / LDAP / Properties / Active Plugins ha de estar ordenado así:
                 # For each user in catalog search user in ldap
                 user_obj = acl.getUserById(record[1].attrs['id'])
                 if not user_obj:
-                    logger.info('No user found in user repository (LDAP) {}'.format(record[1].attrs['id']))
+                    logger.info(f'No user found in user repository (LDAP) {record[1].attrs['id']}')
                     soup.__delitem__(record[1])
-                    logger.info('User delete soup {}'.format(record[1].attrs['id']))
-                    results.append('User delete soup: {}'.format(record[1].attrs['id']))
+                    logger.info(f'User delete soup {record[1].attrs['id']}')
+                    results.append(f'User delete soup: {record[1].attrs['id']}')
 
-            logger.info('Finish delete_user_catalog portal {}'.format(portal))
+            logger.info(f'Finish delete_user_catalog portal {portal}')
             results.append('Finish delete_user_catalog')
             return '\n'.join([str(item) for item in results])
         except:
@@ -776,13 +776,13 @@ class delete_local_roles(BrowserView):
                 # Delete members' local roles.
                 mtool.deleteLocalRoles(getUtility(ISiteRoot), member_ids,
                                    reindex=1, recursive=1)
-                logger.info('Eliminat usuari {} del local roles.'.format(member_id))
+                logger.info(f'Eliminat usuari {member_id} del local roles.')
 
                  # Delete members' del soup
                 del soup_users_delete[user[1]]
-                logger.info('Eliminat usuari {} del soup.'.format(member_id))
+                logger.info(f'Eliminat usuari {member_id} del soup.')
 
-        logger.info('Finish delete_local_roles portal {}'.format(portal))
+        logger.info(f'Finish delete_local_roles portal {portal}')
 
         return 'Done'
 
@@ -808,10 +808,10 @@ class users_to_delete_local_roles(BrowserView):
             for user in users:
                 member_id = user[1].attrs['id_username']
                 if member_id:
-                    results.append('User to delete: {}'.format(member_id))
-                    logger.info('User to delete: {}'.format(member_id))
+                    results.append(f'User to delete: {member_id}')
+                    logger.info(f'User to delete: {member_id}')
 
-            logger.info('Finish users_to_delete_local_roles portal {}'.format(portal))
+            logger.info(f'Finish users_to_delete_local_roles portal {portal}')
             results.append('Finish users_to_delete_local_roles')
             return '\n'.join([str(item) for item in results])
         except:
@@ -883,11 +883,11 @@ class rebuild_users_portrait(BrowserView):
                     user_record.attrs['portrait'] = portrait_user
                 soup_users_portrait.reindex(records=[user_record])
             else:
-                logger.info('No user found in user repository (LDAP) {}'.format(user['id']))
+                logger.info(f'No user found in user repository (LDAP) {user['id']}')
 
-            logger.info('Updated portrait user for {}'.format(user['id']))
+            logger.info(f'Updated portrait user for {user['id']}')
 
-        logger.info('Finish rebuild_user_portrait portal {}'.format(portal))
+        logger.info(f'Finish rebuild_user_portrait portal {portal}')
         return 'Done'
 
 

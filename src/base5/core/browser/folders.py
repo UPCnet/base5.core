@@ -47,11 +47,11 @@ class DownloadFiles(BrowserView):
             return self.template()
 
         today = datetime.today().strftime("%Y-%m-%d")
-        plone_id = 'export-{0}'.format(self.context.id)
-        exp_path = 'export-{0}-{1}'.format(self.context.id, today)
+        plone_id = f'export-{self.context.id}'
+        exp_path = f'export-{self.context.id}-{today}'
 
         if os.path.exists(exp_path):
-            os.system('rm -rf {}'.format(exp_path))
+            os.system(f'rm -rf {exp_path}')
         if plone_id in self.context:
             api.content.delete(obj=self.context[plone_id])
 
@@ -68,7 +68,7 @@ class DownloadFiles(BrowserView):
             if item.portal_type == 'Folder' or item.portal_type == 'privateFolder':
                 os.mkdir(zip_path)  # create folder in root path + relative path
                 folders.update({item.id.lower(): item.getPath()})  # update virtual folder structure
-                print(("Saved {}".format(zip_path)))
+                print(f'Saved {zip_path}')
             elif item.portal_type == 'File':
                 obj = item.getObject()
                 if obj.file:
@@ -79,7 +79,7 @@ class DownloadFiles(BrowserView):
 
                     f.write(obj.file.data)
                     f.close()
-                    print("Saved {}".format(zip_path))
+                    print(f'Saved {zip_path}')
             elif item.portal_type == 'Image':
                 obj = item.getObject()
                 if obj.image:
@@ -89,7 +89,7 @@ class DownloadFiles(BrowserView):
                             f = open(zip_path, 'wb')
                     f.write(obj.image.data)
                     f.close()
-                    print("Saved {}".format(zip_path))
+                    print(f'Saved {zip_path}')
             elif item.portal_type == 'Document':
                 obj = item.getObject()
                 for x in folders:
@@ -108,10 +108,10 @@ class DownloadFiles(BrowserView):
 
                 f.write(open('/tmp/' + exp_path + '.pdf', 'rb').read())
                 f.close()
-                print("Saved {}".format(zip_path + '.pdf'))
+                print(f'Saved {zip_path + '.pdf'}')
 
-        os.system('zip -r {0}.zip {0}'.format(exp_path))
-        os.system('rm -rf {}'.format(exp_path))
+        os.system(f'zip -r {exp_path}.zip {exp_path}')
+        os.system(f'rm -rf {exp_path}')
 
         allowed_types = [ct.id for ct in self.context.allowedContentTypes()]
         disable_file = False
@@ -127,8 +127,8 @@ class DownloadFiles(BrowserView):
             container=self.context,
         )
         zip_file.file = NamedBlobFile(
-            data=open('{}.zip'.format(exp_path), 'rb'),
-            filename=u'{}.zip'.format(exp_path),
+            data=open(f"{exp_path}.zip", 'rb'),
+            filename=f"{exp_path}.zip",
             contentType='application/zip'
         )
 

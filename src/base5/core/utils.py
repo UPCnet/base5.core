@@ -206,11 +206,11 @@ def get_all_user_properties(user):
         if attr != 'username':
             try:
                 value = user.getProperty(attr)
-                if isinstance(value, str) or isinstance(value, unicode) or isinstance(value, bool) or isinstance(value, list) or isinstance(value, tuple):
+                if isinstance(value, str) or isinstance(value, bool) or isinstance(value, list) or isinstance(value, tuple):
                     mapping.update({attr: value})
             except:
                 portal = api.portal.get()
-                logger.error('ERROR PROPERTY {} in USER_PROPERTIES {} ALL_ATTRIBUTES {} EXTENDED_PROPERTIES {} PORTAL {} '.format(attr, extender_name, attributes, extended_user_properties_utility.properties, portal))
+                logger.error("ERROR PROPERTY {attr} in USER_PROPERTIES {extender_name} ALL_ATTRIBUTES {attributes} EXTENDED_PROPERTIES {extended_user_properties_utility.properties} PORTAL {portal}")
                 pass
 
     return mapping
@@ -394,10 +394,7 @@ def add_user_to_catalog(user, properties={}, notlegit=False, overwrite=False):
                             if value[0:2] == '[[' and value[-2:] == ']]':
                                 value = ' '.join(json.loads(value)[0])
 
-                            if isinstance(value, unicode):
-                                user_record.attrs['searchable_text'] += ' ' + unicodedata.normalize('NFKD', value).encode('ascii', errors='ignore')
-                            else:
-                                user_record.attrs['searchable_text'] += ' ' + value
+                            user_record.attrs['searchable_text'] += ' ' + value
             else:
                 for key in extended_user_properties_utility.properties:
                     if extended_user_record.attrs.get(key, False) and 'check_' not in key:
