@@ -668,7 +668,7 @@ class DeleteUserMaxNotLDAP(BrowserView):
                                     if records:
                                         acl_record = records[0]
                                         acl = acl_record.attrs['acl']
-                                        exist = [a for a in acl['users'] if a['id'] == unicode(member_id)]
+                                        exist = [a for a in acl['users'] if a['id'] == str(member_id)]
                                         if exist:
                                             acl['users'].remove(exist[0])
                                             acl_record.attrs['acl'] = acl
