@@ -41,7 +41,7 @@
     replacement=".patches.filter_query"
     /> -->
 
-  <!-- TOREMOVE as soon it got fixed -->
+  <!-- TO REMOVE as soon it got fixed -->
   <monkey:patch
     description="CMFEditions versions_history_form doesn't show the preview for DX and five.pt"
     class="Products.CMFEditions.browser.utils.GetMacros"
@@ -76,6 +76,7 @@
     replacement=".patches.author"
     />
 
+  <!-- TODO Modificado py3 -->
   <monkey:patch
     description="Add subjects to searchableText"
     module="plone.app.contenttypes.indexers"
@@ -112,13 +113,15 @@
     />
 
   <!-- LDAP and user objects related patches -->
-    <monkey:patch
-      description="Que el LDAP no haga consulta dos veces si la primera vez el usuario devuelve Invalid credentials"
-      module="Products.LDAPUserFolder.LDAPDelegate.LDAPDelegate"
-      original="connect"
-      replacement=".patches.connect"
-      />
+  <!-- TODO Modificado py3 -->
+  <monkey:patch
+    description="Que el LDAP no haga consulta dos veces si la primera vez el usuario devuelve Invalid credentials"
+    module="Products.LDAPUserFolder.LDAPDelegate.LDAPDelegate"
+    original="connect"
+    replacement=".patches.connect"
+    />
 
+  <!-- TODO Modificado py3 -->
   <monkey:patch
     description="Para que si el osiris devuelve BadUsernameOrPasswordError no siga validando los plugins de autenticacion"
     module="Products.PluggableAuthService.PluggableAuthService.PluggableAuthService"
@@ -133,6 +136,7 @@
     replacement=".patches.getUserByAttr"
     />
 
+  <!-- TODO Modificado py3 -->
   <monkey:patch
     description="Force LDAP plugin enumerate to normalize userids and usernames to lowercase"
     module="Products.LDAPMultiPlugins.LDAPMultiPlugin.LDAPMultiPlugin"
@@ -147,6 +151,7 @@
     replacement=".patches.getUserDetails"
     />
 
+  <!-- TODO Modificado py3 -->
   <monkey:patch
     description="Solucionar permisos del sharing cuando un usuario con el CN = DN con acento esta dentro de un grupo"
     module="Products.LDAPUserFolder.LDAPUserFolder.LDAPUser"

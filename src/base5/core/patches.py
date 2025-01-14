@@ -2,9 +2,10 @@
 from AccessControl import Unauthorized
 from AccessControl.SecurityManagement import getSecurityManager
 from Acquisition import aq_inner
-from Products.CMFCore.MemberDataTool import MemberData as BaseMemberData
+from Products.CMFCore.MemberDataTool import MemberAdapter as BaseMemberAdapter
 from Products.CMFCore.permissions import ManageUsers
 from Products.CMFCore.utils import _checkPermission
+from Products.CMFCore.utils import getToolByName
 from Products.CMFPlone.PloneBatch import Batch
 from Products.CMFPlone.browser.navtree import getNavigationRoot
 from Products.CMFPlone.browser.search import EVER
@@ -28,6 +29,8 @@ from Products.PluggableAuthService.utils import createViewName
 from io import StringIO
 
 from plone import api
+from plone.app.contenttypes.behaviors.richtext import IRichText
+from plone.app.textfield.value import IRichTextValue
 from plone.memoize.instance import memoize
 from pyquery import PyQuery as pq
 from urllib.parse import quote_plus
@@ -50,6 +53,7 @@ import inspect
 import ldap
 import logging
 import requests
+import six
 import unicodedata
 import urllib.request, urllib.parse, urllib.error
 
@@ -262,10 +266,10 @@ def setMemberProperties(self, mapping, force_local=0, force_empty=False):
     """
     sheets = None
     # We could pay attention to force_local here...
-    if not IPluggableAuthService.providedBy(self.acl_users):
+    if not IPluggableAuthService.providedBy(self._tool.acl_users):
         # Defer to base impl in absence of PAS, a PAS user, or
         # property sheets
-        return BaseMemberData.setMemberProperties(self, mapping)
+        return BaseMemberAdapter.setMemberProperties(self, mapping)
     else:
         # It's a PAS! Whee!
         user = self.getUser()
@@ -276,7 +280,7 @@ def setMemberProperties(self, mapping, force_local=0, force_empty=False):
         if not sheets:
             # Defer to base impl if we have a PAS but no property
             # sheets.
-            return BaseMemberData.setMemberProperties(self, mapping)
+            return BaseMemberAdapter.setMemberProperties(self, mapping)
 
     # If we got this far, we have a PAS and some property sheets.
     # XXX track values set to defer to default impl
@@ -418,23 +422,41 @@ def author(self):
 
 # Add subjects and creators to searchableText Dexterity objects
 def SearchableText(obj, text=False):
-    subjList = []
+    text = ''
+    richtext = IRichText(obj, None)
+    if richtext:
+        textvalue = richtext.text
+        if IRichTextValue.providedBy(textvalue):
+            transforms = getToolByName(obj, 'portal_transforms')
+            # Before you think about switching raw/output
+            # or mimeType/outputMimeType, first read
+            # https://github.com/plone/Products.CMFPlone/issues/2066
+            raw = safe_unicode(textvalue.raw)
+            if six.PY2:
+                raw = raw.encode('utf-8', 'replace')
+            text = transforms.convertTo(
+                'text/plain',
+                raw,
+                mimetype=textvalue.mimeType,
+            ).getData().strip()
+
+    subject = ' '.join(
+        [safe_unicode(s) for s in obj.Subject()]
+    )
+
     creatorList = []
-
-    for sub in obj.subject:
-        subjList.append(sub)
-    subjects = ','.join(subjList)
-
     for creator in obj.creators:
         creatorList.append(creator)
     creators = ','.join(creatorList)
 
-    return u' '.join((
+
+    return ' '.join((
         safe_unicode(obj.id),
-        safe_unicode(obj.title) or u'',
-        safe_unicode(obj.description) or u'',
-        safe_unicode(subjects) or u'',
-        safe_unicode(creators) or u'',
+        safe_unicode(obj.title) or '',
+        safe_unicode(obj.description) or '',
+        safe_unicode(text),
+        safe_unicode(subject),
+        safe_unicode(creators) or '',
     ))
 
 
@@ -494,7 +516,7 @@ def connect(self, bind_dn='', bind_pwd=''):
 
     e = None
 
-    conn = getResource('%s-connection' % self._hash, str, ())
+    conn = getResource('%s-connection' % self._hash)
     if (conn._type() != str):
         try:
             # Mensajes para calcular tiempos LDAP
@@ -507,12 +529,9 @@ def connect(self, bind_dn='', bind_pwd=''):
             # elapsed_time = time() - start_time
             # logger.error('Tiempo consulta: "%s"' %(elapsed_time))
             return conn
-        except ( AttributeError
-               , ldap.SERVER_DOWN
-               , ldap.NO_SUCH_OBJECT
-               , ldap.TIMEOUT
-               , ldap.INVALID_CREDENTIALS
-               ) as e:
+        except (AttributeError, ldap.SERVER_DOWN, ldap.NO_SUCH_OBJECT,
+                ldap.TIMEOUT, ldap.INVALID_CREDENTIALS,
+                ldap.UNWILLING_TO_PERFORM):
             pass
 
     # Prueba para ver que ocurre si el servidor esta caido
@@ -527,20 +546,15 @@ def connect(self, bind_dn='', bind_pwd=''):
                 # msg = 'Nueva conexion conn_string: "%s" user_dn: "%s" user_pwd: "%s"' % (conn_string, user_dn, user_pwd)
                 # logger.error(msg)
                 # start_time = time()
-                newconn = self._connect( conn_string
-                                       , user_dn
-                                       , user_pwd
-                                       , conn_timeout=server['conn_timeout']
-                                       , op_timeout=server['op_timeout']
-                                       )
+                newconn = self._connect(conn_string, user_dn, user_pwd,
+                                        conn_timeout=server['conn_timeout'],
+                                        op_timeout=server['op_timeout'])
                 # elapsed_time = time() - start_time
                 # logger.error('Tiempo conexion: "%s"' %(elapsed_time))
                 return newconn
-            except ( ldap.SERVER_DOWN
-                   , ldap.TIMEOUT
-                   , ldap.INVALID_CREDENTIALS
-                   ) as e:
-                continue
+            except (ldap.SERVER_DOWN, ldap.TIMEOUT,  # NOQA: F841
+                    ldap.INVALID_CREDENTIALS, ldap.UNWILLING_TO_PERFORM) as e:
+                exc = e
 
     # If we get here it means either there are no servers defined or we
     # tried them all. Try to produce a meaningful message and raise
@@ -548,17 +562,17 @@ def connect(self, bind_dn='', bind_pwd=''):
     if len(self._servers) == 0:
         logger.critical('No servers defined')
     else:
-        if e is not None:
-            msg_supplement = str(e)
+        if exc is not None:
+            msg_supplement = str(exc)
         else:
             msg_supplement = 'n/a'
 
         err_msg = 'Failure connecting, last attempted server: %s (%s)' % (
-                    conn_string, msg_supplement )
+                    conn_string, msg_supplement)
         logger.critical(err_msg, exc_info=1)
 
-    if e is not None:
-        raise e
+    if exc is not None:
+        raise exc
 
     return None
 
@@ -603,8 +617,7 @@ def _extractUserIds( self, request, plugins ):
             try:
                 credentials[ 'extractor' ] = extractor_id # XXX: in key?
                 # Test if ObjectCacheEntries.aggregateIndex would work
-                items = list(credentials.items())
-                items.sort()
+                items = sorted(credentials.items())
             except _SWALLOWABLE_PLUGIN_EXCEPTIONS:
                 # XXX: would reraise be good here, and which plugin to ask
                 # whether not to swallow the exception - the extractor?
@@ -851,7 +864,7 @@ def enumerateUsers(self,
         for l_res in l_results:
 
             # If the LDAPUserFolder returns an error, bail
-            if (l_res.get('sn', '') == 'Error' and l_res.get('cn', '') == 'n/a'):
+            if l_res.get('sn', '') == 'Error' and l_res.get('cn', '') == 'n/a':
                 return ()
 
             if l_res['dn'] not in seen:
@@ -874,8 +887,7 @@ def enumerateUsers(self,
                     pass
 
         if sort_by is not None:
-            result.sort(lambda a, b: cmp(a.get(sort_by, '').lower(),
-                                         b.get(sort_by, '').lower()))
+            result.sort(key=lambda item: item.get(sort_by, '').lower())
 
         if isinstance(max_results, int) and len(result) > max_results:
             result = result[:max_results - 1]
@@ -987,20 +999,19 @@ def getUserDetails(self, encoded_dn, format=None, attrs=()):
                                )
 
     if res['exception']:
-        if format == None:
+        if format is None:
             result = ((res['exception'], res),)
         elif format == 'dictionary':
-            result = { 'cn': '###Error: %s' % res['exception'] }
+            result = {'cn': '###Error: %s' % res['exception']}
     elif res['size'] > 0:
         value_dict = res['results'][0]
 
-        if format == None:
-            result = list(value_dict.items())
-            result.sort()
+        if format is None:
+            result = sorted(value_dict.items())
         elif format == 'dictionary':
             result = value_dict
     else:
-        if format == None:
+        if format is None:
             result = ()
         elif format == 'dictionary':
             result = {}
@@ -1010,13 +1021,14 @@ def getUserDetails(self, encoded_dn, format=None, attrs=()):
 
 def getUserDN(self):
     """ Return the user's full Distinguished Name """
-    if isinstance(self._dn, str):
-        # Por defecto Plone hace el encode en latin1
-        # y si hay un usuario con accento dentro de un grupo no le funciona el sharing y no tiene permisos para visualizar
-        # esto lo hemos visto al añadir a MEDICHEM que tiene usuarios con el CN y DN con acento.
-        try:
-            return self._dn.encode('utf-8')
-        except:
-            return self._dn.encode(encoding)
+    # TODO Ya no haria falta con python3
+    # if isinstance(self._dn, str):
+    #     # Por defecto Plone hace el encode en latin1
+    #     # y si hay un usuario con accento dentro de un grupo no le funciona el sharing y no tiene permisos para visualizar
+    #     # esto lo hemos visto al añadir a MEDICHEM que tiene usuarios con el CN y DN con acento.
+    #     try:
+    #         return self._dn.encode('utf-8')
+    #     except:
+    #         return self._dn.encode(encoding)
 
     return self._dn
