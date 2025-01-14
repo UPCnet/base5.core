@@ -53,9 +53,12 @@ setup(
         'plone.app.drafts',
         'plone.app.mosaic',
         'collective.dexteritytextindexer',
-        'Products.PloneLDAP',
         'collective.z3cform.datagridfield',
         'BeautifulSoup',
+        'Products.PloneLDAP',
+        'Products.LDAPUserFolder',
+        'Products.LDAPMultiPlugins',
+        'dataflake.fakeldap',
         'pdfkit',
         'ulearn5.core'
     ],
