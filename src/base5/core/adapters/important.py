@@ -17,7 +17,7 @@ class IImportant(Interface):
     """
 
     is_important = schema.Bool(
-        title=_(u"Tells if an object is marked as important"),
+        title=_("Tells if an object is marked as important"),
         default=False
     )
 

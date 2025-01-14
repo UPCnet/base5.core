@@ -14,7 +14,7 @@ from ulearn5.core.utils import getUserPytzTimezone
 
 
 class FormattedDateUserTimezoneProvider(Explicit):
-    template = ViewPageTemplateFile(u'formatted_date.pt')
+    template = ViewPageTemplateFile('formatted_date.pt')
 
     def __init__(self, context, request, view):
         self.__parent__ = view
@@ -33,7 +33,7 @@ class FormattedDateUserTimezoneProvider(Explicit):
         self.date_dict = dates_for_display_user_timezone(occ)
         if self.date_dict is None:
             # Don't break for potential Events without start/end.
-            return u""
+            return ""
         return self.template(self)
 
 

@@ -16,8 +16,8 @@ class IOpenLinkInNewWindow(form.Schema):
 
     form.order_after(open_link_in_new_window='remoteUrl')
     open_link_in_new_window = schema.Bool(
-        title=_(u"open_link_in_new_window"),
-        description=_(u"help_open_link_in_new_window"),
+        title=_("open_link_in_new_window"),
+        description=_("help_open_link_in_new_window"),
         required=False,
         default=False
     )

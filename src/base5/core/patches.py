@@ -25,12 +25,12 @@ from Products.PluggableAuthService.interfaces.plugins import IAuthenticationPlug
 from Products.PluggableAuthService.interfaces.plugins import IExtractionPlugin
 from Products.PluggableAuthService.utils import createKeywords
 from Products.PluggableAuthService.utils import createViewName
-from StringIO import StringIO
+from io import StringIO
 
 from plone import api
 from plone.memoize.instance import memoize
 from pyquery import PyQuery as pq
-from urllib import quote_plus
+from urllib.parse import quote_plus
 from zope.component import getMultiAdapter
 from zope.event import notify
 try:
@@ -51,7 +51,7 @@ import ldap
 import logging
 import requests
 import unicodedata
-import urllib
+import urllib.request, urllib.parse, urllib.error
 
 logger = logging.getLogger('event.LDAPUserFolder')
 base5_log  = logging.getLogger('base5.core')
@@ -80,14 +80,14 @@ def getToolbars(self, config):
 
 
 def isStringType(data):
-    return isinstance(data, str) or isinstance(data, unicode)
+    return isinstance(data, str) or isinstance(data, str)
 
 
 def testMemberData(self, memberdata, criteria, exact_match=False):
     """Patch the method that test if a memberdata matches the search criteria
        for making it normalization of unicode strings aware.
     """
-    for (key, value) in criteria.items():
+    for (key, value) in list(criteria.items()):
         testvalue = memberdata.get(key, None)
         if testvalue is None:
             return False
@@ -147,12 +147,12 @@ def filter_query(self, query):
         text = request.form.get('SearchableText', '')
     if not text:
         # Without text, must provide a meaningful non-empty search
-        valid = set(valid_indexes).intersection(request.form.keys()) or \
-            set(valid_indexes).intersection(query.keys())
+        valid = set(valid_indexes).intersection(list(request.form.keys())) or \
+            set(valid_indexes).intersection(list(query.keys()))
         if not valid:
             return
 
-    for k, v in request.form.items():
+    for k, v in list(request.form.items()):
         if v and ((k in valid_keys) or k.startswith('facet.')):
             query[k] = v
     if text:
@@ -282,7 +282,7 @@ def setMemberProperties(self, mapping, force_local=0, force_empty=False):
     # XXX track values set to defer to default impl
     # property routing?
     modified = False
-    for k, v in mapping.items():
+    for k, v in list(mapping.items()):
         if v is None and not force_empty:
             continue
         for sheet in sheets:
@@ -457,7 +457,7 @@ def getThreads(self, start=0, size=None, root=0, depth=None):
         # Find top level threads
         comments = self._children.get(root, None)
         if comments is not None:
-            count = 0l
+            count = 0
             for comment_id in reversed(comments.keys(min=start)):
 
                 # Abort if we have found all the threads we want
@@ -512,13 +512,13 @@ def connect(self, bind_dn='', bind_pwd=''):
                , ldap.NO_SUCH_OBJECT
                , ldap.TIMEOUT
                , ldap.INVALID_CREDENTIALS
-               ), e:
+               ) as e:
             pass
 
     # Prueba para ver que ocurre si el servidor esta caido
     #e = ldap.SERVER_DOWN({'desc': u'Server down'},)
 
-    if e == None or (e is not None and e.message != {'desc': u'Invalid credentials'}):
+    if e == None or (e is not None and e.message != {'desc': 'Invalid credentials'}):
         for server in self._servers:
             conn_string = self._createConnectionString(server)
             try:
@@ -539,7 +539,7 @@ def connect(self, bind_dn='', bind_pwd=''):
             except ( ldap.SERVER_DOWN
                    , ldap.TIMEOUT
                    , ldap.INVALID_CREDENTIALS
-                   ), e:
+                   ) as e:
                 continue
 
     # If we get here it means either there are no servers defined or we
@@ -603,7 +603,7 @@ def _extractUserIds( self, request, plugins ):
             try:
                 credentials[ 'extractor' ] = extractor_id # XXX: in key?
                 # Test if ObjectCacheEntries.aggregateIndex would work
-                items = credentials.items()
+                items = list(credentials.items())
                 items.sort()
             except _SWALLOWABLE_PLUGIN_EXCEPTIONS:
                 # XXX: would reraise be good here, and which plugin to ask
@@ -837,7 +837,7 @@ def enumerateUsers(self,
         if login:
             ldap_criteria[login_attr] = login
 
-        for key, val in kw.items():
+        for key, val in list(kw.items()):
             if key not in (login_attr, uid_attr):
                 ldap_criteria[key] = val
 
@@ -906,7 +906,7 @@ def changeMemberPortrait(self, portrait, id=None):
 
     # Our LDAP improvements hand the current user id in unicode, but BTree can't
     # handle unicode keys in inner objects... *sigh*
-    if isinstance(safe_id, unicode):
+    if isinstance(safe_id, str):
         safe_id = str(safe_id)
 
     if authenticated_id and id != authenticated_id:
@@ -976,10 +976,10 @@ def getUserDetails(self, encoded_dn, format=None, attrs=()):
     #He tenido que quitar el to_utf8 porque si el CN - DN del usuario tenia acentos no te devolvia en el manage users los datos del usuario
     #lo hemos visto al buscar un usuario en MEDICHEM que tiene el CN y DN con acento.
     #dn = to_utf8(urllib.unquote(encoded_dn))
-    dn = urllib.unquote(encoded_dn)
+    dn = urllib.parse.unquote(encoded_dn)
 
     if not attrs:
-        attrs = self.getSchemaConfig().keys()
+        attrs = list(self.getSchemaConfig().keys())
 
     res = self._delegate.search( base=dn
                                , scope=self._delegate.BASE
@@ -995,7 +995,7 @@ def getUserDetails(self, encoded_dn, format=None, attrs=()):
         value_dict = res['results'][0]
 
         if format == None:
-            result = value_dict.items()
+            result = list(value_dict.items())
             result.sort()
         elif format == 'dictionary':
             result = value_dict
@@ -1010,7 +1010,7 @@ def getUserDetails(self, encoded_dn, format=None, attrs=()):
 
 def getUserDN(self):
     """ Return the user's full Distinguished Name """
-    if isinstance(self._dn, unicode):
+    if isinstance(self._dn, str):
         # Por defecto Plone hace el encode en latin1
         # y si hay un usuario con accento dentro de un grupo no le funciona el sharing y no tiene permisos para visualizar
         # esto lo hemos visto al añadir a MEDICHEM que tiene usuarios con el CN y DN con acento.

@@ -17,7 +17,7 @@ class IOutOfList(Interface):
     """
 
     is_outoflist = schema.Bool(
-        title=_(u"Tells if an object is marked as outoflist"),
+        title=_("Tells if an object is marked as outoflist"),
         default=False
     )
 

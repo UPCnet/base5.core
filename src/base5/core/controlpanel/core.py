@@ -33,13 +33,13 @@ class IBaseCoreControlPanelSettings(Interface):
     """
 
     model.fieldset('General',
-                   (u'General'),
+                   ('General'),
                    fields=['user_properties_extender',
                            'custom_editor_icons',
                            'elasticsearch'])
 
     model.fieldset('Ldap',
-                   (u'Ldap'),
+                   ('Ldap'),
                    fields=['alt_ldap_uri',
                            'alt_bind_dn',
                            'alt_bindpasswd',
@@ -49,90 +49,90 @@ class IBaseCoreControlPanelSettings(Interface):
                            'create_group_type'])
 
     user_properties_extender = schema.Choice(
-        title=_(u'User properties extender'),
-        vocabulary=u'base5.core.controlpanel.core.user_extenders',
+        title=_('User properties extender'),
+        vocabulary='base5.core.controlpanel.core.user_extenders',
         required=False,
-        default=u''
+        default=''
     )
 
     custom_editor_icons = schema.List(
-        title=_(u'Llista personalitzada d\'icones per l\'editor TinyMCE'),
-        description=_(u'Cada línia és una fila d\'icones. Si es deixa en blanc s\'agafen els valors per defecte. Han d\'omplir-se fins a 4 files obligatòriament.'),
+        title=_('Llista personalitzada d\'icones per l\'editor TinyMCE'),
+        description=_('Cada línia és una fila d\'icones. Si es deixa en blanc s\'agafen els valors per defecte. Han d\'omplir-se fins a 4 files obligatòriament.'),
         value_type=schema.TextLine(),
         required=False,
         default=[]
     )
 
     elasticsearch = schema.TextLine(
-        title=_(u"elasticsearch",
-                default=u"ElasticSearch"),
-        description=_(u"elasticsearch_help",
-                      default=u"URL del servidor d'ElasticSearch per aquest site"),
+        title=_("elasticsearch",
+                default="ElasticSearch"),
+        description=_("elasticsearch_help",
+                      default="URL del servidor d'ElasticSearch per aquest site"),
         required=False,
-        default=u'localhost',
+        default='localhost',
     )
 
     alt_ldap_uri = schema.TextLine(
-        title=_(u"alt_ldap_uri",
-                default=u"alt_ldap_uri"),
-        description=_(u"alt_ldap_uri_help",
-                      default=u"URL del servidor ldap per aquest site"),
+        title=_("alt_ldap_uri",
+                default="alt_ldap_uri"),
+        description=_("alt_ldap_uri_help",
+                      default="URL del servidor ldap per aquest site"),
         required=False,
-        default=u'',
+        default='',
     )
 
     alt_bind_dn = schema.TextLine(
-        title=_(u"alt_bind_dn",
-                default=u"alt_bind_dn"),
-        description=_(u"alt_bind_dn_help",
-                      default=u"LDAP bind dn"),
+        title=_("alt_bind_dn",
+                default="alt_bind_dn"),
+        description=_("alt_bind_dn_help",
+                      default="LDAP bind dn"),
         required=False,
-        default=u'',
+        default='',
     )
 
     alt_bindpasswd = schema.TextLine(
-        title=_(u"alt_bindpasswd",
-                default=u"alt_bindpasswd"),
-        description=_(u"alt_bindpasswd_help",
-                      default=u"LDAP bind password"),
+        title=_("alt_bindpasswd",
+                default="alt_bindpasswd"),
+        description=_("alt_bindpasswd_help",
+                      default="LDAP bind password"),
         required=False,
-        default=u'',
+        default='',
     )
 
     alt_base_dn = schema.TextLine(
-        title=_(u"alt_base_dn",
-                default=u"alt_base_dn"),
-        description=_(u"alt_base_dn_help",
-                      default=u"LDAP base dn"),
+        title=_("alt_base_dn",
+                default="alt_base_dn"),
+        description=_("alt_base_dn_help",
+                      default="LDAP base dn"),
         required=False,
-        default=u'',
+        default='',
     )
 
     groups_query = schema.TextLine(
-        title=_(u"groups_query",
-                default=u"groups_query"),
-        description=_(u"groups_query_help",
-                      default=u"LDAP groups query. Ex: (&(objectClass=groupOfNames))"),
+        title=_("groups_query",
+                default="groups_query"),
+        description=_("groups_query_help",
+                      default="LDAP groups query. Ex: (&(objectClass=groupOfNames))"),
         required=False,
-        default=u'',
+        default='',
     )
 
     user_groups_query = schema.TextLine(
-        title=_(u"user_groups_query",
-                default=u"user_groups_query"),
-        description=_(u"user_groups_query_help",
-                      default=u"LDAP user groups query. Ex: (&(objectClass=groupOfNames)(member=%s))"),
+        title=_("user_groups_query",
+                default="user_groups_query"),
+        description=_("user_groups_query_help",
+                      default="LDAP user groups query. Ex: (&(objectClass=groupOfNames)(member=%s))"),
         required=False,
-        default=u'',
+        default='',
     )
 
     create_group_type = schema.TextLine(
-        title=_(u"create_group_type",
-                default=u"create_group_type"),
-        description=_(u"Type of group to create on ldap",
-                      default=u"groupOfNames or groupOfUniqueNames"),
+        title=_("create_group_type",
+                default="create_group_type"),
+        description=_("Type of group to create on ldap",
+                      default="groupOfNames or groupOfUniqueNames"),
         required=False,
-        default=u'groupOfNames',
+        default='groupOfNames',
     )
 
 
@@ -141,9 +141,9 @@ class BaseCoreControlPanelSettingsForm(controlpanel.RegistryEditForm):
 
     schema = IBaseCoreControlPanelSettings
     id = "BaseCoreControlPanelSettingsForm"
-    label = _(u"Base settings")
-    description = _(u"help_base_core_settings_editform",
-                    default=u"Configuracio de Base Core")
+    label = _("Base settings")
+    description = _("help_base_core_settings_editform",
+                    default="Configuracio de Base Core")
 
     def updateFields(self):
         super(BaseCoreControlPanelSettingsForm, self).updateFields()
@@ -163,12 +163,12 @@ class BaseCoreControlPanelSettingsForm(controlpanel.RegistryEditForm):
         es = getUtility(IElasticSearch)
         es.create_new_connection()
 
-        IStatusMessage(self.request).addStatusMessage(_(u"Changes saved"), "info")
+        IStatusMessage(self.request).addStatusMessage(_("Changes saved"), "info")
         self.context.REQUEST.RESPONSE.redirect("@@base-controlpanel")
 
     @button.buttonAndHandler(_('Cancel'), name='cancel')
     def handleCancel(self, action):
-        IStatusMessage(self.request).addStatusMessage(_(u"Edit cancelled"), "info")
+        IStatusMessage(self.request).addStatusMessage(_("Edit cancelled"), "info")
         self.request.response.redirect("%s/%s" % (self.context.absolute_url(),
                                                   self.control_panel_view))
 

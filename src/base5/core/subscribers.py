@@ -17,6 +17,6 @@ def preventDeletionOnProtectedContent(content, event):
     # Only (global) site managers can delete packet content from root folder
 
     if 'Manager' not in api.user.get_roles():
-        raise(Unauthorized, u'Cannot delete protected content.')
+        raise Unauthorized
     else:
         return

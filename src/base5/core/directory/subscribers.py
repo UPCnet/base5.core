@@ -88,7 +88,7 @@ def UpdateUserPropertiesOnFirstLogin(event):
             pass
         else:
             properties = get_all_user_properties(user)
-        for key, value in properties.iteritems():
+        for key, value in properties.items():
             if 'check_' in key:
                 user.setMemberProperties({key: True})
     except:

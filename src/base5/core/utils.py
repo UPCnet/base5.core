@@ -5,7 +5,7 @@ from OFS.Image import Image
 from PIL import ImageOps
 from Products.PlonePAS.plugins.ufactory import PloneUser
 from Products.PlonePAS.tools.memberdata import MemberData
-from cStringIO import StringIO
+from io import StringIO
 
 from plone import api
 from plone.registry.interfaces import IRegistry
@@ -32,7 +32,7 @@ import json
 import logging
 import requests
 import unicodedata
-import urllib
+import urllib.request, urllib.parse, urllib.error
 
 
 logger = logging.getLogger(__name__)
@@ -294,13 +294,13 @@ def add_user_to_catalog(user, properties={}, notlegit=False, overwrite=False):
     if properties:
         for attr in user_properties_utility.properties + METADATA_USER_ATTRS:
             has_property_definition = attr in properties
-            property_empty_or_not_set = user_record.attrs.get(attr, u'') == u''
+            property_empty_or_not_set = user_record.attrs.get(attr, '') == ''
 
             if has_property_definition:
                 if isinstance(properties[attr], str):
-                    property_different_value = user_record.attrs.get(attr, u'') != properties[attr].decode('utf-8')
+                    property_different_value = user_record.attrs.get(attr, '') != properties[attr].decode('utf-8')
                 else:
-                    property_different_value = user_record.attrs.get(attr, u'') != properties[attr]
+                    property_different_value = user_record.attrs.get(attr, '') != properties[attr]
 
             if has_property_definition and (property_empty_or_not_set or overwrite or property_different_value):
                 if isinstance(properties[attr], str):
@@ -359,13 +359,13 @@ def add_user_to_catalog(user, properties={}, notlegit=False, overwrite=False):
             if properties:
                 for attr in extended_user_properties_utility.properties:
                     has_property_definition = attr in properties
-                    property_empty_or_not_set = extended_user_record.attrs.get(attr, u'') == u''
+                    property_empty_or_not_set = extended_user_record.attrs.get(attr, '') == ''
 
                     if has_property_definition:
                         if isinstance(properties[attr], str):
-                            property_different_value = extended_user_record.attrs.get(attr, u'') != properties[attr].decode('utf-8')
+                            property_different_value = extended_user_record.attrs.get(attr, '') != properties[attr].decode('utf-8')
                         else:
-                            property_different_value = extended_user_record.attrs.get(attr, u'') != properties[attr]
+                            property_different_value = extended_user_record.attrs.get(attr, '') != properties[attr]
 
                     # Only update it if user has already not property set or it's empty
                     if has_property_definition and (property_empty_or_not_set or overwrite or property_different_value):
@@ -409,13 +409,13 @@ def add_user_to_catalog(user, properties={}, notlegit=False, overwrite=False):
             if properties:
                 for attr in extended_user_properties_utility.properties:
                     has_property_definition = attr in properties
-                    property_empty_or_not_set = user_record.attrs.get(attr, u'') == u''
+                    property_empty_or_not_set = user_record.attrs.get(attr, '') == ''
 
                     if has_property_definition:
                         if isinstance(properties[attr], str):
-                            property_different_value = user_record.attrs.get(attr, u'') != properties[attr].decode('utf-8')
+                            property_different_value = user_record.attrs.get(attr, '') != properties[attr].decode('utf-8')
                         else:
-                            property_different_value = user_record.attrs.get(attr, u'') != properties[attr]
+                            property_different_value = user_record.attrs.get(attr, '') != properties[attr]
 
                     # Only update it if user has already not property set or it's empty
                     if has_property_definition and (property_empty_or_not_set or overwrite or property_different_value):
@@ -500,7 +500,7 @@ def add_portrait_user(user):
     foto = maxclient.people[id].avatar
     imageUrl = foto.uri + '/large'
 
-    portrait = urllib.urlretrieve(imageUrl)
+    portrait = urllib.request.urlretrieve(imageUrl)
 
     scaled, mimetype = convertSquareImage(portrait[0])
     portrait = Image(id=id, file=scaled, title=id)

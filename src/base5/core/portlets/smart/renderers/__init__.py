@@ -12,7 +12,7 @@ class PortletItemRenderer(object):
         self.request = portletrenderer.request
         self.context = portletrenderer.context
 
-        for key, value in kwargs.items():
+        for key, value in list(kwargs.items()):
             setattr(self, key, value)
 
         return {'css_class': self.css_class,
@@ -27,7 +27,7 @@ class PortletContainerRenderer(object):
         self.request = self.portlet.request
 
     def __call__(self, **kwargs):
-        for key, value in kwargs.items():
+        for key, value in list(kwargs.items()):
             setattr(self, key, value)
 
         return self.template(self)

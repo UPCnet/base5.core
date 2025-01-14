@@ -17,7 +17,7 @@ class IShowInApp(Interface):
     """
 
     is_inapp = schema.Bool(
-        title=_(u"Tells if an object is shown in App"),
+        title=_("Tells if an object is shown in App"),
         default=False
     )
 

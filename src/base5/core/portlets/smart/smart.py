@@ -34,32 +34,32 @@ class ISmart(IPortletDataProvider):
     """
 
     header = schema.TextLine(
-        title=_(u"Portlet header"),
-        description=_(u"Title of the rendered portlet"),
+        title=_("Portlet header"),
+        description=_("Title of the rendered portlet"),
         required=True)
 
     show_header = schema.Bool(
-        title=_(u'label_show_header', default=u'Show header'),
-        description=_(u'Renders the header'),
+        title=_('label_show_header', default='Show header'),
+        description=_('Renders the header'),
         required=False,
         default=True
     )
 
     description = schema.TextLine(
-        title=_(u"Portlet description"),
-        description=_(u"Description of the portlet"),
+        title=_("Portlet description"),
+        description=_("Description of the portlet"),
         required=False)
 
     container_view = schema.Choice(
-        title=_(u'label_container_view', default=u'Portlet view to use'),
-        description=_(u"""Portlet view to use"""),
+        title=_('label_container_view', default='Portlet view to use'),
+        description=_("""Portlet view to use"""),
         vocabulary="base.portlet.smart.AvailablePortletContainerRenderers",
         required=True
     )
 
     query = schema.List(
-        title=_(u'label_query', default=u'Search terms'),
-        description=_(u"""Define the search terms for the items you want to
+        title=_('label_query', default='Search terms'),
+        description=_("""Define the search terms for the items you want to
             list by choosing what to match on.
             The list of results will be dynamically updated"""),
         value_type=schema.Dict(value_type=schema.Field(),
@@ -69,46 +69,46 @@ class ISmart(IPortletDataProvider):
 
     form.mode(sort_on='hidden')
     sort_on = schema.TextLine(
-        title=_(u'label_sort_on', default=u'Sort on'),
-        description=_(u"Sort the collection on this index"),
+        title=_('label_sort_on', default='Sort on'),
+        description=_("Sort the collection on this index"),
         required=False,
     )
 
     form.mode(sort_order='hidden')
     sort_order = schema.Bool(
-        title=_(u'label_sort_reversed', default=u'Reversed order'),
-        description=_(u'Sort the results in reversed order'),
+        title=_('label_sort_reversed', default='Reversed order'),
+        description=_('Sort the results in reversed order'),
         required=False,
     )
 
     sort_folderorder = schema.Bool(
-        title=_(u'label_sort_folderorder', default=u'Order as in folder'),
-        description=_(u'Override query sort order using folder order'),
+        title=_('label_sort_folderorder', default='Order as in folder'),
+        description=_('Override query sort order using folder order'),
         required=False,
     )
 
     limit = schema.Int(
-        title=_(u"Limit"),
-        description=_(u"Specify the maximum number of items to show in the "
-                      u"portlet. Leave this blank to show all items."),
+        title=_("Limit"),
+        description=_("Specify the maximum number of items to show in the "
+                      "portlet. Leave this blank to show all items."),
         required=False)
 
     random = schema.Bool(
-        title=_(u"Select random items"),
-        description=_(u"If enabled, items will be selected randomly from the "
-                      u"collection, rather than based on its sort order."),
+        title=_("Select random items"),
+        description=_("If enabled, items will be selected randomly from the "
+                      "collection, rather than based on its sort order."),
         required=True,
         default=False)
 
     more_link = schema.TextLine(
-        title=_(u"Show more link"),
-        description=_(u"Link to display in the footer, leave empty to hide it"),
+        title=_("Show more link"),
+        description=_("Link to display in the footer, leave empty to hide it"),
         required=False)
 
     more_text = schema.TextLine(
-        title=_(u"Show more link text"),
-        description=_(u"Label the 'Show more link' defined avobe"),
-        default=u'+',
+        title=_("Show more link text"),
+        description=_("Label the 'Show more link' defined avobe"),
+        default='+',
         required=False)
 
 
@@ -121,12 +121,12 @@ class Assignment(base.Assignment):
 
     implements(ISmart)
 
-    header = u""
+    header = ""
     query = None
     limit = None
     random = False
 
-    def __init__(self, header=u"", show_header=True, sort_folderorder=False, sort_on="effective", sort_order=False, description='', query=None, limit=None, random=False, more_link=u"", more_text=u"+", container_view="li_container_render"):
+    def __init__(self, header="", show_header=True, sort_folderorder=False, sort_on="effective", sort_order=False, description='', query=None, limit=None, random=False, more_link="", more_text="+", container_view="li_container_render"):
         self.header = header
         self.description = description
         self.sort_on = sort_on
@@ -245,9 +245,9 @@ class Renderer(base.Renderer):
 class AddForm(base.AddForm):
 
     schema = ISmart
-    label = _(u"Add Query Portlet")
-    description = _(u"This portlet displays a listing of items from a "
-                    u"Collection.")
+    label = _("Add Query Portlet")
+    description = _("This portlet displays a listing of items from a "
+                    "Collection.")
 
     fields = field.Fields(ISmart)
     fields['sort_on'].mode = 'hidden'
@@ -260,9 +260,9 @@ class AddForm(base.AddForm):
 class EditForm(base.EditForm):
 
     schema = ISmart
-    label = _(u"Edit Collection Portlet")
-    description = _(u"This portlet displays a listing of items from a "
-                    u"Collection.")
+    label = _("Edit Collection Portlet")
+    description = _("This portlet displays a listing of items from a "
+                    "Collection.")
 
     fields = field.Fields(ISmart)
     fields['sort_on'].mode = 'hidden'

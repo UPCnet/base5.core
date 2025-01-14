@@ -40,7 +40,7 @@ class TestOmega13(unittest.TestCase):
         exist = [r for r in soup.query(Eq('username', 'testdirectory'))]
         self.assertEqual('test@upcnet.es', exist[0].attrs['email'])
         exist = [r for r in soup.query(Eq('fullname', 'Test*'))]
-        self.assertEqual(u'Test Directory User', exist[0].attrs['fullname'])
+        self.assertEqual('Test Directory User', exist[0].attrs['fullname'])
 
     def test_directory_self_updates_on_user_property_edit(self):
         api.user.create(email='test@upcnet.es', username='testdirectory',
@@ -70,12 +70,12 @@ class TestOmega13(unittest.TestCase):
 
     def test_directory_self_updates_on_user_creation_with_unicode(self):
         api.user.create(email='test@upcnet.es', username='testdirectory',
-                        properties=dict(fullname=u'Víctor',
-                                        location=u'Barcelona',
-                                        email=u'test@upcnet.es'))
+                        properties=dict(fullname='Víctor',
+                                        location='Barcelona',
+                                        email='test@upcnet.es'))
         portal = api.portal.get()
         soup = get_soup('user_properties', portal)
         exist = [r for r in soup.query(Eq('username', 'testdirectory'))]
         self.assertEqual('test@upcnet.es', exist[0].attrs['email'])
-        exist = [r for r in soup.query(Eq('fullname', u'Ví*'))]
-        self.assertEqual(u'Víctor', exist[0].attrs['fullname'])
+        exist = [r for r in soup.query(Eq('fullname', 'Ví*'))]
+        self.assertEqual('Víctor', exist[0].attrs['fullname'])

@@ -29,7 +29,7 @@ class GridEventsView(FolderView):
         """Translate custom message for no events in this folder."""
         return _(
             'description_no_events_in_folder',
-            default=u'There are currently no events in this folder.'
+            default='There are currently no events in this folder.'
         )
 
     def _query_events(self):

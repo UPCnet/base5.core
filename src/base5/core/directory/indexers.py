@@ -48,7 +48,7 @@ class UserPropertiesSoupCatalogFactory(object):
         field names and the icon.
     """
 
-    properties = [_(u'username'), _(u'fullname'), _(u'email'), _(u'description'), _(u'location'), _(u'home_page')]
+    properties = [_('username'), _('fullname'), _('email'), _('description'), _('location'), _('home_page')]
     # public_properties = ['email', 'description', 'location', 'home_page']
     profile_properties = ['email', 'description', 'location', 'home_page']
     directory_properties = ['email', 'location']

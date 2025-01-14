@@ -24,10 +24,10 @@ class gwToggleIsImportant(BrowserView):
         is_important = IImportant(context).is_important
         if is_important:
             IImportant(context).is_important = False
-            confirm = _(u'L\'element s\'ha desmarcat com important')
+            confirm = _('L\'element s\'ha desmarcat com important')
         else:
             IImportant(context).is_important = True
-            confirm = _(u'L\'element s\'ha marcat com important')
+            confirm = _('L\'element s\'ha marcat com important')
 
         IStatusMessage(self.request).addStatusMessage(confirm, type='info')
         self.request.response.redirect(self.context.absolute_url())
@@ -40,10 +40,10 @@ class gwToggleIsFlash(BrowserView):
         is_flash = IFlash(context).is_flash
         if is_flash:
             IFlash(context).is_flash = False
-            confirm = _(u'L\'element s\'ha desmarcat com flash')
+            confirm = _('L\'element s\'ha desmarcat com flash')
         else:
             IFlash(context).is_flash = True
-            confirm = _(u'L\'element s\'ha marcat com flash')
+            confirm = _('L\'element s\'ha marcat com flash')
 
         IStatusMessage(self.request).addStatusMessage(confirm, type='info')
         self.request.response.redirect(self.context.absolute_url())
@@ -56,10 +56,10 @@ class gwToggleIsOutoflist(BrowserView):
         is_outoflist = IOutOfList(context).is_outoflist
         if is_outoflist:
             IOutOfList(context).is_outoflist = False
-            confirm = _(u'L\'element s\'ha desmarcat de la blacklist')
+            confirm = _('L\'element s\'ha desmarcat de la blacklist')
         else:
             IOutOfList(context).is_outoflist = True
-            confirm = _(u'L\'element s\'ha marcat com a blacklist')
+            confirm = _('L\'element s\'ha marcat com a blacklist')
 
         IStatusMessage(self.request).addStatusMessage(confirm, type='info')
         self.request.response.redirect(self.context.absolute_url())
@@ -72,10 +72,10 @@ class gwToggleNewsInApp(BrowserView):
         is_inapp = IShowInApp(context).is_inapp
         if is_inapp:
             IShowInApp(context).is_inapp = False
-            confirm = _(u'L\'element no es mostra a la App')
+            confirm = _('L\'element no es mostra a la App')
         else:
             IShowInApp(context).is_inapp = True
-            confirm = _(u'L\'element es mostra a la App')
+            confirm = _('L\'element es mostra a la App')
 
         IStatusMessage(self.request).addStatusMessage(confirm, type='info')
         self.request.response.redirect(self.context.absolute_url())

@@ -17,8 +17,8 @@ from zope.interface import provider
 class IRichTextCustom(model.Schema):
 
     text = RichTextField(
-        title=_(u'Text'),
-        description=u'',
+        title=_('Text'),
+        description='',
         required=False,
         )
     dexteritytextindexer.searchable('text')

@@ -17,7 +17,7 @@ class IFlash(Interface):
     """
 
     is_flash = schema.Bool(
-        title=_(u"Tells if an object is marked as flash"),
+        title=_("Tells if an object is marked as flash"),
         default=False
     )
 

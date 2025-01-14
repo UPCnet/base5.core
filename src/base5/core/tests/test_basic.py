@@ -10,7 +10,7 @@ from plone.app.testing import TEST_USER_ID, TEST_USER_NAME
 from plone.app.testing import login, logout
 from plone.app.testing import setRoles
 from plone.app.testing import applyProfile
-import urllib2
+import urllib.request, urllib.error, urllib.parse
 
 import transaction
 
@@ -34,9 +34,9 @@ class IntegrationTest(unittest.TestCase):
         portal = self.layer['portal']
         setRoles(portal, TEST_USER_ID, ['Manager'])
         login(portal, TEST_USER_NAME)
-        portal.invokeFactory('Folder', 'f2', title=u"Soc una carpeta")
+        portal.invokeFactory('Folder', 'f2', title="Soc una carpeta")
         f2 = portal['f2']
-        f2.invokeFactory('Link', 'enllac', title=u"Soc un link")
+        f2.invokeFactory('Link', 'enllac', title="Soc un link")
         link = f2['enllac']
         link.open_link_in_new_window = False
         link.reindexObject()
@@ -55,7 +55,7 @@ class IntegrationTest(unittest.TestCase):
     def testAdapters(self):
         setRoles(self.portal, TEST_USER_ID, ['Manager'])
         login(self.portal, TEST_USER_NAME)
-        self.portal.invokeFactory('Document', 'test_adapter', title=u"Soc una pagina")
+        self.portal.invokeFactory('Document', 'test_adapter', title="Soc una pagina")
         from base5.core.adapters import IImportant
         obj = IImportant(self.portal.test_adapter)
         self.assertEqual(obj.is_important, False)
@@ -66,9 +66,9 @@ class IntegrationTest(unittest.TestCase):
     def test_favorites(self):
         setRoles(self.portal, TEST_USER_ID, ['Manager'])
         login(self.portal, TEST_USER_NAME)
-        self.portal.invokeFactory('Folder', 'prova', title=u"Soc una carpeta")
+        self.portal.invokeFactory('Folder', 'prova', title="Soc una carpeta")
         prova = self.portal['prova']
-        prova.invokeFactory('Folder', 'prova', title=u"Soc una carpeta")
+        prova.invokeFactory('Folder', 'prova', title="Soc una carpeta")
         prova2 = prova['prova']
 
         from base5.core.adapters.favorites import IFavorite
@@ -79,8 +79,8 @@ class IntegrationTest(unittest.TestCase):
     def test_protected_content(self):
         setRoles(self.portal, TEST_USER_ID, ['Manager'])
         login(self.portal, TEST_USER_NAME)
-        self.portal.invokeFactory('Folder', 'test_folder', title=u"Soc una carpeta")
-        self.portal.test_folder.invokeFactory('Document', 'test_document', title=u"Soc un document")
+        self.portal.invokeFactory('Folder', 'test_folder', title="Soc una carpeta")
+        self.portal.test_folder.invokeFactory('Document', 'test_document', title="Soc un document")
         from base5.core.interfaces import IProtectedContent
         alsoProvides(self.portal.test_folder, IProtectedContent)
         setRoles(self.portal, TEST_USER_ID, ['Reader', 'Editor'])
