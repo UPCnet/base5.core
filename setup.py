@@ -54,7 +54,7 @@ setup(
         'plone.app.mosaic',
         'collective.dexteritytextindexer',
         'collective.z3cform.datagridfield',
-        'BeautifulSoup',
+        'BeautifulSoup4',
         'Products.PloneLDAP',
         'Products.LDAPUserFolder',
         'Products.LDAPMultiPlugins',
