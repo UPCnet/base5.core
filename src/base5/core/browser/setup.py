@@ -11,9 +11,6 @@ from Products.PluggableAuthService.interfaces.plugins import IUserAdderPlugin
 
 from plone import api
 from plone.registry.interfaces import IRegistry
-from repoze.catalog.query import Eq
-from souper.soup import Record
-from souper.soup import get_soup
 from zope.component import getUtility
 from zope.component.hooks import getSite
 from zope.interface import alsoProvides
@@ -32,6 +29,9 @@ import os
 import pkg_resources
 import transaction
 import urllib
+import uuid
+
+from ulearn5.core.utils import get_or_initialize_annotation
 
 try:
     pkg_resources.get_distribution('Products.PloneLDAP')
@@ -422,20 +422,10 @@ class view_user_catalog(BrowserView):
             alsoProvides(self.request, IDisableCSRFProtection)
         except:
             pass
-        portal = api.portal.get()
-        soup = get_soup('user_properties', portal)
-        records = [r for r in soup.data.items()]
 
-        result = {}
-        for record in records:
-            item = {}
-            for key in record[1].attrs:
-                item[key] = record[1].attrs[key]
-
-            result[record[1].attrs['id']] = item
-
-        return result
-
+        user_properties = get_or_initialize_annotation('user_properties')
+        result = { record.get('id'): record for record in user_properties.values() }
+        return result        
 
 class reset_user_catalog(BrowserView):
     """ Reset the OMEGA13 repoze.catalog for user properties data.
@@ -660,26 +650,25 @@ class DeleteUserMaxNotLDAP(BrowserView):
                                     logger.info(f'Processant {num} de {len(communities_subscription)}. Comunitat {obj}')
                                     gwuuid = IGWUUID(obj).get()
                                     portal = api.portal.get()
-                                    soup = get_soup('communities_acl', portal)
 
-                                    records = [r for r in soup.query(Eq('gwuuid', gwuuid))]
+                                    communities_acl = get_or_initialize_annotation('communities_acl')
+                                    record = next((r for r in communities_acl.values() if r.get('gwuuid') == gwuuid), None)
 
-                                    # Save ACL into the communities_acl soup
-                                    if records:
-                                        acl_record = records[0]
-                                        acl = acl_record.attrs['acl']
-                                        exist = [a for a in acl['users'] if a['id'] == str(member_id)]
-                                        if exist:
-                                            acl['users'].remove(exist[0])
-                                            acl_record.attrs['acl'] = acl
-                                            soup.reindex(records=[acl_record])
+                                    if record:
+                                        acl = record.get('acl')
+                                        user_record = next((user for user in acl.get('users', []) if user.get('id') == str(member_id)), None)
+
+                                        if user_record:
+                                            acl['users'].remove(user_record)
+                                            record['acl'] = acl 
+                                            
                                             adapter = obj.adapted()
                                             adapter.remove_acl_atomic(member_id)
                                             adapter.set_plone_permissions(adapter.get_acl())
-                                            # Communicate the change in the community subscription to the uLearnHub
+                                            
                                             adapter.update_hub_subscriptions()
 
-                                            if ((obj.notify_activity_via_mail == True) and (obj.type_notify == 'Automatic')):
+                                            if obj.notify_activity_via_mail and obj.type_notify == 'Automatic':
                                                 adapter.update_mails_users(obj, acl)
 
                                 except:
@@ -726,17 +715,19 @@ En ACL_USERS / LDAP / Properties / Active Plugins ha de estar ordenado así:
         try:
             acl = pplugin._getLDAPUserFolder()
 
-            soup = get_soup('user_properties', portal)
-            records = [r for r in soup.data.items()]
+            user_properties = get_or_initialize_annotation('user_properties')
+            keys_to_delete = []
 
-            for record in records:
-                # For each user in catalog search user in ldap
-                user_obj = acl.getUserById(record[1].attrs['id'])
+            for key, value in user_properties.items():
+                user_obj = acl.getUserById(value.get('id'))
                 if not user_obj:
-                    logger.info(f'No user found in user repository (LDAP) {record[1].attrs['id']}')
-                    soup.__delitem__(record[1])
-                    logger.info(f'User delete soup {record[1].attrs['id']}')
-                    results.append(f'User delete soup: {record[1].attrs['id']}')
+                    logger.info(f'No user found in user repository (LDAP) {value.get("id")}')
+                    keys_to_delete.append(key)
+
+            for key in keys_to_delete:
+                del user_properties[key]
+                logger.info(f'User deleted from soup {user_properties[key].get("id", key)}')
+                results.append(f'User deleted from soup: {key}')
 
             logger.info(f'Finish delete_user_catalog portal {portal}')
             results.append('Finish delete_user_catalog')
@@ -760,26 +751,22 @@ class delete_local_roles(BrowserView):
             pass
 
         portal = api.portal.get()
-        soup_users_delete = get_soup('users_delete_local_roles', portal)
-        users = [r for r in soup_users_delete.data.items()]
-
-        result = {}
-        for user in users:
-            member_id = user[1].attrs['id_username']
+        users_delete_local_roles = get_or_initialize_annotation('users_delete_local_roles')
+        users_items = [r for r in users_delete_local_roles.items()]
+        for key, value in users_items:
+            member_id = value.get('id_username')
             if member_id:
-                if isinstance(member_id, basestring):
+                if isinstance(member_id, str):
                     member_ids = (member_id,)
                     member_ids = list(member_ids)
-
+                
                 mtool = api.portal.get_tool(name='portal_membership')
-
                 # Delete members' local roles.
                 mtool.deleteLocalRoles(getUtility(ISiteRoot), member_ids,
                                    reindex=1, recursive=1)
                 logger.info(f'Eliminat usuari {member_id} del local roles.')
 
-                 # Delete members' del soup
-                del soup_users_delete[user[1]]
+                del users_delete_local_roles[key]
                 logger.info(f'Eliminat usuari {member_id} del soup.')
 
         logger.info(f'Finish delete_local_roles portal {portal}')
@@ -802,11 +789,11 @@ class users_to_delete_local_roles(BrowserView):
         results = []
         try:
             portal = api.portal.get()
-            soup_users_delete = get_soup('users_delete_local_roles', portal)
-            users = [r for r in soup_users_delete.data.items()]
+            users_delete_local_roles = get_or_initialize_annotation('users_delete_local_roles')
+            users = [r for r in users_delete_local_roles.items()]
 
-            for user in users:
-                member_id = user[1].attrs['id_username']
+            for key, value in users:
+                member_id = value.get('id_username')
                 if member_id:
                     results.append(f'User to delete: {member_id}')
                     logger.info(f'User to delete: {member_id}')
@@ -832,7 +819,7 @@ class rebuild_users_portrait(BrowserView):
         except:
             pass
         portal = api.portal.get()
-        soup_users_portrait = get_soup('users_portrait', portal)
+        users_portrait = get_or_initialize_annotation('users_portrait')
         plugins = portal.acl_users.plugins.listPlugins(IPropertiesPlugin)
         # We use the most preferent plugin
         # If the most preferent plugin is:
@@ -869,19 +856,18 @@ class rebuild_users_portrait(BrowserView):
                 else:
                     portrait_user = False
 
-                exist = [r for r in soup_users_portrait.query(Eq('id_username', id))]
-                if exist:
-                    user_record = exist[0]
-                    # Just in case that a user became a legit one and previous was a nonlegit
-                    user_record.attrs['id_username'] = id
-                    user_record.attrs['portrait'] = portrait_user
+                record = next((r for r in users_portrait.values() if r.get('id_username') == id), None)
+                if record:
+                    record['id_username'] = id
+                    record['portrait'] = portrait_user
                 else:
-                    record = Record()
-                    record_id = soup_users_portrait.add(record)
-                    user_record = soup_users_portrait.get(record_id)
-                    user_record.attrs['id_username'] = id
-                    user_record.attrs['portrait'] = portrait_user
-                soup_users_portrait.reindex(records=[user_record])
+                    record = {
+                        'id_username': id,
+                        'portrait': portrait_user,
+                    }
+                    unique_key = str(uuid.uuid4())
+                    users_portrait[unique_key] = record
+
             else:
                 logger.info(f'No user found in user repository (LDAP) {user['id']}')
 
@@ -903,16 +889,11 @@ class view_users_portrait(BrowserView):
             alsoProvides(self.request, IDisableCSRFProtection)
         except:
             pass
-        portal = api.portal.get()
-        soup = get_soup('users_portrait', portal)
-        records = [r for r in soup.data.items()]
+        users_portrait = get_or_initialize_annotation('users_portrait')
 
         result = {}
-        for record in records:
-            item = {}
-            for key in record[1].attrs:
-                item[key] = record[1].attrs[key]
-
-            result[record[1].attrs['id_username']] = item
+        for key, value in users_portrait.items():
+            item = {attr_key: attr_value for attr_key, attr_value in value.items()}
+            result[value.get('id_username')] = item
 
         return result

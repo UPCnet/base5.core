@@ -1,24 +1,16 @@
 # -*- coding: utf-8 -*-
+import fnmatch
+
 import unittest2 as unittest
-from plone import api
-from base5.core.testing import BASE5_CORE_INTEGRATION_TESTING
 from AccessControl import Unauthorized
-from zope.component import getMultiAdapter
-from zope.component import queryUtility
+from base5.core.testing import BASE5_CORE_INTEGRATION_TESTING
+from plone import api
+from plone.app.testing import (SITE_OWNER_NAME, TEST_USER_ID, TEST_USER_NAME,
+                               applyProfile, login, logout, setRoles)
 from plone.registry.interfaces import IRegistry
 from Products.CMFCore.utils import getToolByName
-
-from plone.app.testing import TEST_USER_ID, TEST_USER_NAME
-from plone.app.testing import SITE_OWNER_NAME
-from plone.app.testing import login, logout
-from plone.app.testing import setRoles
-
-from plone.app.testing import applyProfile
-
-from repoze.catalog.query import Eq
-from repoze.catalog.query import Contains
-from souper.soup import get_soup
-from souper.soup import Record
+from ulearn5.core.utils import get_or_initialize_annotation
+from zope.component import getMultiAdapter, queryUtility
 
 
 class TestOmega13(unittest.TestCase):
@@ -35,25 +27,23 @@ class TestOmega13(unittest.TestCase):
                         properties=dict(fullname='Test Directory User',
                                         location='Barcelona',
                                         email='test@upcnet.es'))
-        portal = api.portal.get()
-        soup = get_soup('user_properties', portal)
-        exist = [r for r in soup.query(Eq('username', 'testdirectory'))]
-        self.assertEqual('test@upcnet.es', exist[0].attrs['email'])
-        exist = [r for r in soup.query(Eq('fullname', 'Test*'))]
-        self.assertEqual('Test Directory User', exist[0].attrs['fullname'])
+        user_properties = get_or_initialize_annotation('user_properties')
+        record = next((r for r in user_properties.values() if r.get('username') == 'testdirectory'), None)
+        self.assertEqual('test@upcnet.es', record.get('email'))
+        record = next((r for r in user_properties.values() if fnmatch.fnmatch(r.get('fullname', ''), 'Test*')))
+        self.assertEqual('Test Directory User', record.get('fullname'))
 
     def test_directory_self_updates_on_user_property_edit(self):
         api.user.create(email='test@upcnet.es', username='testdirectory',
                         properties=dict(fullname='Test Directory User',
                                         location='Barcelona',
                                         email='test@upcnet.es'))
-        portal = api.portal.get()
         user = api.user.get(username='testdirectory')
         user.setMemberProperties(mapping={'location': 'Barcelona', 'telefon': '654321'})
-        soup = get_soup('user_properties', portal)
-        exist = [r for r in soup.query(Eq('username', 'testdirectory'))]
-        self.assertEqual('test@upcnet.es', exist[0].attrs['email'])
-        self.assertEqual('Barcelona', exist[0].attrs['location'])
+        user_properties = get_or_initialize_annotation('user_properties')
+        record = next((r for r in user_properties.values() if r.get('username') == 'testdirectory'), None)
+        self.assertEqual('test@upcnet.es', record.get('email'))
+        self.assertEqual('Barcelona', record.get('location'))
 
     def test_full_directory_update(self):
         api.user.create(email='test@upcnet.es', username='testdirectory',
@@ -73,9 +63,9 @@ class TestOmega13(unittest.TestCase):
                         properties=dict(fullname='Víctor',
                                         location='Barcelona',
                                         email='test@upcnet.es'))
-        portal = api.portal.get()
-        soup = get_soup('user_properties', portal)
-        exist = [r for r in soup.query(Eq('username', 'testdirectory'))]
-        self.assertEqual('test@upcnet.es', exist[0].attrs['email'])
-        exist = [r for r in soup.query(Eq('fullname', 'Ví*'))]
-        self.assertEqual('Víctor', exist[0].attrs['fullname'])
+        user_properties = get_or_initialize_annotation('user_properties')
+        record = next((r for r in user_properties.values() if r.get('username') == 'testdirectory'), None)
+        self.assertEqual('test@upcnet.es', record.get('email'))
+        record = next((r for r in user_properties.values() if fnmatch.fnmatch(r.get('fullname', ''), 'Ví*')))
+        self.assertEqual('Víctor', record.get('fullname'))
+

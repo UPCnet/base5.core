@@ -1,13 +1,13 @@
 # -*- coding: utf-8 -*-
+from base5.core import _
 from repoze.catalog.catalog import Catalog
 from repoze.catalog.indexes.field import CatalogFieldIndex
 from repoze.catalog.indexes.keyword import CatalogKeywordIndex
 from repoze.catalog.indexes.text import CatalogTextIndex
 from souper.interfaces import ICatalogFactory
 from souper.soup import NodeAttributeIndexer
+from ulearn5.core.utils import get_or_initialize_annotation
 from zope.interface import implementer
-
-from base5.core import _
 
 
 @implementer(ICatalogFactory)
@@ -55,7 +55,7 @@ class UserPropertiesSoupCatalogFactory(object):
     directory_icons = {'email': 'fa fa-envelope', 'location': 'fa fa-building-o'}
 
 
-    def __call__(self, context):
+    def __call__old(self, context):
         catalog = Catalog()
         idindexer = NodeAttributeIndexer('id')
         catalog['id'] = CatalogFieldIndex(idindexer)
@@ -75,6 +75,20 @@ class UserPropertiesSoupCatalogFactory(object):
         home_page = NodeAttributeIndexer('home_page')
         catalog['home_page'] = CatalogTextIndex(home_page)
         return catalog
+    
+    def __call__(self, context):
+        user_properties = get_or_initialize_annotation('user_properties')
+        return {
+            'id': user_properties.get('id', None),
+            'searchable_text': user_properties.get('searchable_text', None),
+            'notlegit': user_properties.get('notlegit', None),
+            'username': user_properties.get('username', None),
+            'fullname': user_properties.get('fullname', None),
+            'email': user_properties.get('email', None),
+            'location': user_properties.get('location', None),
+            'home_page': user_properties.get('home_page', None),
+        }
+        
 
 
 @implementer(ICatalogFactory)
@@ -89,18 +103,25 @@ class GroupsSoupCatalogFactory(object):
         :index searchable_id: FullTextIndex - The group id used for wildcard
             queries
     """
-    def __call__(self, context):
+    def __call__old(self, context):
         catalog = Catalog()
         groupindexer = NodeAttributeIndexer('id')
         catalog['id'] = CatalogFieldIndex(groupindexer)
         idsearchableindexer = NodeAttributeIndexer('searchable_id')
         catalog['searchable_id'] = CatalogTextIndex(idsearchableindexer)
         return catalog
-
+    
+    def __call__(self, context):
+        ldap_groups = get_or_initialize_annotation('ldap_groups')
+        return {
+            'id': ldap_groups.get('id', None),
+            'searchable_id': ldap_groups.get('searchable_id', None),
+        }
+        
 
 @implementer(ICatalogFactory)
 class UserNewsSearchSoupCatalog(object):
-    def __call__(self, context):
+    def __call__old(self, context):
         catalog = Catalog()
         idindexer = NodeAttributeIndexer('id')
         catalog['id'] = CatalogFieldIndex(idindexer)
@@ -108,7 +129,13 @@ class UserNewsSearchSoupCatalog(object):
         catalog['searches'] = CatalogKeywordIndex(hashindex)
 
         return catalog
-
+    
+    def __call__(self, context):
+        user_news_searches = get_or_initialize_annotation('user_news_searches')
+        return {
+            'id': user_news_searches.get('id', None),
+            'searches': user_news_searches.get('searches', None),
+        }
 
 @implementer(ICatalogFactory)
 class UsersDeleteLocalRoles(object):
@@ -116,14 +143,19 @@ class UsersDeleteLocalRoles(object):
         :index id: TextIndex - id_username = username
     """
 
-    def __call__(self, context):
+    def __call__old(self, context):
         catalog = Catalog()
         idindexer = NodeAttributeIndexer('id_username')
         catalog['id_username'] = CatalogTextIndex(idindexer)
 
         return catalog
 
-
+    def __call__(self, context):
+        users_delete_local_roles = get_or_initialize_annotation('users_delete_local_roles')
+        return {
+            'id_username': users_delete_local_roles.get('id_username', None),
+        }
+    
 @implementer(ICatalogFactory)
 class UsersPortrait(object):
     """ Usuaris si tenen la foto del perfil o no DefaultImage
@@ -131,7 +163,7 @@ class UsersPortrait(object):
         :index portrait: FieldIndex - Boolean, if the username has portrait
     """
 
-    def __call__(self, context):
+    def __call__old(self, context):
         catalog = Catalog()
         idindexer = NodeAttributeIndexer('id_username')
         catalog['id_username'] = CatalogTextIndex(idindexer)
@@ -139,3 +171,10 @@ class UsersPortrait(object):
         catalog['portrait'] = CatalogFieldIndex(portrait)
 
         return catalog
+    
+    def __call__(self, context):
+        users_portrait = get_or_initialize_annotation('users_portrait')
+        return {
+            'id_username': users_portrait.get('id_username', None),
+            'portrait': users_portrait.get('portrait', None),
+        }

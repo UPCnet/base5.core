@@ -1,20 +1,15 @@
 # -*- coding: utf-8 -*-
+import uuid
+
 from Acquisition import aq_inner
+from base5.core import _
+from base5.core.adapters import IFlash, IImportant, IOutOfList, IShowInApp
+from plone import api
 from Products.CMFPlone.interfaces import IPloneSiteRoot
 from Products.Five.browser import BrowserView
 from Products.statusmessages.interfaces import IStatusMessage
-
-from plone import api
-from repoze.catalog.query import Eq
-from souper.soup import Record
-from souper.soup import get_soup
+from ulearn5.core.utils import get_or_initialize_annotation
 from zope.component.hooks import getSite
-
-from base5.core import _
-from base5.core.adapters import IFlash
-from base5.core.adapters import IImportant
-from base5.core.adapters import IOutOfList
-from base5.core.adapters import IShowInApp
 
 
 class gwToggleIsImportant(BrowserView):
@@ -84,25 +79,27 @@ class gwToggleNewsInApp(BrowserView):
 class gwToggleSubscribedTag(BrowserView):
 
     def __call__(self):
-        portal = getSite()
         current_user = api.user.get_current()
         userid = current_user.id
         tag = self.request.form['tag']
-        soup_tags = get_soup('user_subscribed_tags', portal)
-        exist = [r for r in soup_tags.query(Eq('id', userid))]
 
-        if not exist:
-            record = Record()
-            record.attrs['id'] = userid
-            record.attrs['tags'] = [tag]
-            soup_tags.add(record)
+        user_subscribed_tags = get_or_initialize_annotation('user_subscribed_tags')
+        record = next((r for r in user_subscribed_tags.values() if r.get('id') == userid), None)
+        
+        if not record:
+            record = {
+                'id': userid,
+                'tags': tag
+            }
+            unique_key = str(uuid.uuid4())
+            user_subscribed_tags[unique_key] = record
+
         else:
-            subscribed = [True for utag in exist[0].attrs['tags'] if utag == tag]
-            if subscribed:
-                exist[0].attrs['tags'].remove(tag)
+            tags = record.setdefault('tags', [])
+            if tag in tags:
+                tags.remove(tag)
             else:
-                exist[0].attrs['tags'].append(tag)
-        soup_tags.reindex()
+                tags.append(tag)
 
         if IPloneSiteRoot.providedBy(self.context):
             self.request.response.redirect(self.context.absolute_url() + '/alltags')

@@ -1,18 +1,16 @@
 # -*- coding: utf-8 -*-
-from Products.Five.browser import BrowserView
-
-from plone import api
-from plone.registry.interfaces import IRegistry
-from souper.soup import Record
-from souper.soup import get_soup
-from zope.component import queryUtility
-from zope.interface import alsoProvides
-
-from base5.core.controlpanel.core import IBaseCoreControlPanelSettings
-
-import ldap
 import logging
 import os
+import uuid
+
+import ldap
+from base5.core.controlpanel.core import IBaseCoreControlPanelSettings
+from plone import api
+from plone.registry.interfaces import IRegistry
+from Products.Five.browser import BrowserView
+from ulearn5.core.utils import get_or_initialize_annotation
+from zope.component import queryUtility
+from zope.interface import alsoProvides
 
 logger = logging.getLogger(__name__)
 
@@ -77,20 +75,21 @@ class SyncLDAPGroups(BrowserView):
             pass
 
         if results:
-            portal = api.portal.get()
-            soup = get_soup('ldap_groups', portal)
-            soup.clear()
+            ldap_groups = get_or_initialize_annotation('ldap_groups')
+            ldap_groups.clear()
+
             to_print = []
 
             for dn, attrs in results:
                 group_id = attrs['cn'][0]
-
-                record = Record()
-                record.attrs['id'] = group_id
+                record = {
+                    'id': group_id,
+                    'searchable_id': group_id
+                }
+                unique_key = str(uuid.uuid4())
+                ldap_groups[unique_key] = record
 
                 # Index entries MUST be unicode in order to search using special chars
-                record.attrs['searchable_id'] = group_id.decode('utf-8')
-                soup.add(record)
                 to_print.append(group_id)
 
             logger.info(f'[SYNCLDAPGROUPS]: {to_print}')

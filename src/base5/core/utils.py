@@ -1,39 +1,34 @@
 # -*- coding: utf-8 -*-
-from AccessControl import getSecurityManager
-from BeautifulSoup import BeautifulSoup
-from OFS.Image import Image
-from PIL import ImageOps
-from Products.PlonePAS.plugins.ufactory import PloneUser
-from Products.PlonePAS.tools.memberdata import MemberData
-from io import StringIO
-
-from plone import api
-from plone.registry.interfaces import IRegistry
-from repoze.catalog.query import Eq
-from souper.interfaces import ICatalogFactory
-from souper.soup import Record
-from souper.soup import get_soup
-from time import time
-from zope.component import getUtilitiesFor
-from zope.component import getUtility
-from zope.component import queryUtility
-from zope.component.hooks import getSite
-from zope.i18nmessageid import MessageFactory
-
-from base5.core import HAS_PAM
-from base5.core import IAMULEARN
-from base5.core.controlpanel.core import IBaseCoreControlPanelSettings
-from base5.core.directory import METADATA_USER_ATTRS
-from mrs5.max.utilities import IMAXClient
-
-import PIL
 import io
 import json
 import logging
-import requests
 import unicodedata
-import urllib.request, urllib.parse, urllib.error
+import urllib.error
+import urllib.parse
+import urllib.request
+import uuid
+from io import StringIO
+from time import time
 
+import PIL
+import requests
+from AccessControl import getSecurityManager
+from base5.core import HAS_PAM, IAMULEARN
+from base5.core.controlpanel.core import IBaseCoreControlPanelSettings
+from base5.core.directory import METADATA_USER_ATTRS
+from BeautifulSoup import BeautifulSoup
+from mrs5.max.utilities import IMAXClient
+from OFS.Image import Image
+from PIL import ImageOps
+from plone import api
+from plone.registry.interfaces import IRegistry
+from Products.PlonePAS.plugins.ufactory import PloneUser
+from Products.PlonePAS.tools.memberdata import MemberData
+from souper.interfaces import ICatalogFactory
+from ulaern5.core.utils import get_or_initialize_annotation
+from zope.component import getUtilitiesFor, getUtility, queryUtility
+from zope.component.hooks import getSite
+from zope.i18nmessageid import MessageFactory
 
 logger = logging.getLogger(__name__)
 
@@ -152,21 +147,18 @@ def get_safe_member_by_id(username):
        the original does) and returns a dict. It DOES NOT return a Member
        object.
     """
-    portal = api.portal.get()
-    soup = get_soup('user_properties', portal)
+    user_properties = get_or_initialize_annotation('user_properties')
     username = username.lower()
-    records = [r for r in soup.query(Eq('id', username))]
-    if records:
+    record = next((r for r in user_properties.values() if r.get('id') == username), None)
+    if record:
         properties = {}
-        for attr in records[0].attrs:
-            if records[0].attrs.get(attr, False):
-                properties[attr] = records[0].attrs[attr]
+        for key, value in record.items():
+            if value:
+                properties[key] = value
 
-        # Make sure that the key 'fullname' is returned anyway for it's used in
-        # the wild without guards
         if 'fullname' not in properties:
             properties['fullname'] = ''
-
+        
         return properties
     else:
         # No such member: removed?  We return something useful anyway.
@@ -217,115 +209,103 @@ def get_all_user_properties(user):
 
 
 def remove_user_from_catalog(username):
-    portal = api.portal.get()
-    soup = get_soup('user_properties', portal)
-    exists = [r for r in soup.query(Eq('id', username))]
-    if exists:
-        user_record = exists[0]
-        del soup[user_record]
+    user_properties = get_or_initialize_annotation('user_properties')
+    record_key, record = next(
+        ((k, v) for k, v in user_properties.items() if v.get('id') == username), 
+        (None, None)
+    )
+    if record_key is not None:
+        del user_properties[record_key]
 
     if IAMULEARN:
         extender_name = api.portal.get_registry_record('base5.core.controlpanel.core.IBaseCoreControlPanelSettings.user_properties_extender')
-        # Make sure that, in fact we have such a extender in place
-        if extender_name in [a[0] for a in getUtilitiesFor(ICatalogFactory)]:
-            extended_soup = get_soup(extender_name, portal)
-            exist = []
-            exist = [r for r in extended_soup.query(Eq('id', username))]
-            if exist:
-                extended_user_record = exist[0]
-                del extended_soup[extended_user_record]
+        extended_soup = get_or_initialize_annotation(extender_name)
+        record_key, record = next(
+            ((k, v) for k, v in user_properties.items() if v.get('id') == username),
+            (None, None)
+        )
+
+        if record_key is not None:
+            del extended_soup[record_key]
 
 
 def add_user_to_catalog(user, properties={}, notlegit=False, overwrite=False):
-    """ Adds a user to the user catalog
-
-        As this method can be called from multiple places, user parameter can be
-        a MemberData wrapped user, a PloneUser object or a plain (string) username.
-
-        If the properties parameter is ommitted, only a basic record identifying the
-        user will be created, with no extra properties.
-
-        The 'notlegit' argument is used when you can add the user for its use in
-        the ACL user search facility. If so, the user would not have
-        'searchable_text' and therefore not searchable. It would have an extra
-        'notlegit' index.
-
-        The overwrite argument controls whether an existing attribute value on a user
-        record will be overwritten or not by the incoming value. This is in order to protect
-        user-provided values via the profile page.
-
-
     """
-    portal = api.portal.get()
-    soup = get_soup('user_properties', portal)
+    Adds a user to the user catalog.
+
+    Se puede llamar con:
+      - un usuario envuelto en MemberData,
+      - un PloneUser,
+      - o un string (username).
+
+    Si no se pasan propiedades, se crea un registro básico.
+    'notlegit' indica que el usuario se añade en modo "no legítimo" (sin searchable_text).
+    'overwrite' indica si se deben sobrescribir valores existentes.
+    """
+    user_properties = get_or_initialize_annotation('user_properties')
+    
     if isinstance(user, MemberData):
         username = user.getUserName()
     elif isinstance(user, PloneUser):
         username = user.getUserName()
     else:
         username = user
-    # add lower to take correct user_soup
     username = username.lower()
-    exist = [r for r in soup.query(Eq('id', username))]
-    user_properties_utility = getUtility(ICatalogFactory, name='user_properties')
 
-    if exist:
-        user_record = exist[0]
+    record = next((r for r in user_properties.values() if r.get('id') == username), None)
+    user_properties_utility = getUtility(ICatalogFactory, name='user_properties')
+    
+    if record:
         # Just in case that a user became a legit one and previous was a nonlegit
-        user_record.attrs['notlegit'] = False
+        record['notlegit'] = False
     else:
-        record = Record()
-        record_id = soup.add(record)
-        user_record = soup.get(record_id)
         # If the user do not exist, and the notlegit is set (created by other
         # means, e.g. a test or ACL) then set notlegit to True This is because
         # in non legit mode, maybe existing legit users got unaffected by it
+        record = {}
         if notlegit:
-            user_record.attrs['notlegit'] = True
+            record['notlegit'] = True
+        unique_key = str(uuid.uuid4())
+        user_properties[unique_key] = record
 
-    if isinstance(username, str):
-        user_record.attrs['username'] = username.decode('utf-8')
-        user_record.attrs['id'] = username.decode('utf-8')
-    else:
-        user_record.attrs['username'] = username
-        user_record.attrs['id'] = username
+    record['username'] = username
+    record['id'] = username
 
-    property_different_value = False
     if properties:
         for attr in user_properties_utility.properties + METADATA_USER_ATTRS:
-            has_property_definition = attr in properties
-            property_empty_or_not_set = user_record.attrs.get(attr, '') == ''
-
-            if has_property_definition:
-                if isinstance(properties[attr], str):
-                    property_different_value = user_record.attrs.get(attr, '') != properties[attr].decode('utf-8')
+            has_prop_def = attr in properties
+            prop_empty = (record.get(attr, '') == '')
+            if has_prop_def:
+                if record.get(attr, '') != properties[attr]:
+                    property_different_value = True
                 else:
-                    property_different_value = user_record.attrs.get(attr, '') != properties[attr]
+                    property_different_value = False
+            else:
+                property_different_value = False
 
-            if has_property_definition and (property_empty_or_not_set or overwrite or property_different_value):
+            if has_prop_def and (prop_empty or overwrite or property_different_value):
                 if isinstance(properties[attr], str):
-                    user_record.attrs[attr] = properties[attr].decode('utf-8')
+                    record[attr] = properties[attr]
                 elif isinstance(properties[attr], bool):
-                    user_record.attrs[attr] = str(properties[attr]).decode('utf-8')
+                    record[attr] = str(properties[attr])
                 else:
-                    user_record.attrs[attr] = properties[attr]
+                    record[attr] = properties[attr]
 
-    # If notlegit mode, then reindex without setting the 'searchable_text' This
-    # is because in non legit mode, maybe existing legit users got unaffected by
-    # it
+    # If notlegit mode, then return without setting the 'searchable_text' This
+    # is because in non legit mode, maybe existing legit users got unaffected by it
     if notlegit:
-        soup.reindex(records=[user_record])
         return
 
     # Build the searchable_text field for wildcard searchs
-    user_record.attrs['searchable_text'] = ''
+    record['searchable_text'] = ''
     for key in user_properties_utility.properties:
-        if user_record.attrs.get(key, False) and 'check_' not in key:
+        if record.get(key, False) and 'check_' not in key:
             checkKey = 'check_' + key
-            hasCheck = checkKey in user_record.attrs
-            if not hasCheck or (hasCheck and user_record.attrs[checkKey] != 'False'):
-                user_record.attrs['searchable_text'] += unicodedata.normalize('NFKD', user_record.attrs[key]).encode('ascii', errors='ignore') + ' '
-    soup.reindex(records=[user_record])
+            hasCheck = checkKey in record
+            if (not hasCheck) or (hasCheck and record.get(checkKey) != 'False'):
+                normalized = unicodedata.normalize('NFKD', record.get(key))
+                normalized_ascii = normalized.encode('ascii', errors='ignore').decode('ascii')
+                record['searchable_text'] += normalized_ascii + ' '
 
     # If uLearn is present, then lookup for a customized set of fields and its
     # related soup. The soup has the form 'user_properties_<client_name>'. This
@@ -333,114 +313,109 @@ def add_user_to_catalog(user, properties={}, notlegit=False, overwrite=False):
     # to Base. The setting that makes the extension available lives in:
     # 'base5.core.controlpanel.core.IBaseCoreControlPanelSettings.user_properties_extender'
     if IAMULEARN:
-        extender_name = api.portal.get_registry_record('base5.core.controlpanel.core.IBaseCoreControlPanelSettings.user_properties_extender')
+        extender_name = api.portal.get_registry_record(
+            'base5.core.controlpanel.core.IBaseCoreControlPanelSettings.user_properties_extender'
+        )
         # Make sure that, in fact we have such a extender in place
         if extender_name in [a[0] for a in getUtilitiesFor(ICatalogFactory)]:
-            extended_soup = get_soup(extender_name, portal)
-            exist = []
-            exist = [r for r in extended_soup.query(Eq('id', username))]
+            extended_user_properties = get_or_initialize_annotation(extender_name)
+            extended_record = next((r for r in extended_user_properties.values() if r.get('id') == username), None)
             extended_user_properties_utility = getUtility(ICatalogFactory, name=extender_name)
+            
+            if not extended_record:
+                extended_record = {}
+                unique_key_ext = str(uuid.uuid4())
+                extended_user_properties[unique_key_ext] = extended_record
 
-            if exist:
-                extended_user_record = exist[0]
-            else:
-                record = Record()
-                record_id = extended_soup.add(record)
-                extended_user_record = extended_soup.get(record_id)
+            extended_record['username'] = username
+            extended_record['id'] = username
 
-            if isinstance(username, str):
-                extended_user_record.attrs['username'] = username.decode('utf-8')
-                extended_user_record.attrs['id'] = username.decode('utf-8')
-            else:
-                extended_user_record.attrs['username'] = username
-                extended_user_record.attrs['id'] = username
-
-            property_different_value = False
             if properties:
                 for attr in extended_user_properties_utility.properties:
-                    has_property_definition = attr in properties
-                    property_empty_or_not_set = extended_user_record.attrs.get(attr, '') == ''
-
-                    if has_property_definition:
-                        if isinstance(properties[attr], str):
-                            property_different_value = extended_user_record.attrs.get(attr, '') != properties[attr].decode('utf-8')
+                    has_prop_def = attr in properties
+                    prop_empty = (extended_record.get(attr, '') == '')
+                    if has_prop_def:
+                        if extended_record.get(attr, '') != properties[attr]:
+                            property_different_value = True
                         else:
-                            property_different_value = extended_user_record.attrs.get(attr, '') != properties[attr]
-
+                            property_different_value = False
+                    else:
+                        property_different_value = False
+                    
                     # Only update it if user has already not property set or it's empty
-                    if has_property_definition and (property_empty_or_not_set or overwrite or property_different_value):
+                    if has_prop_def and (prop_empty or overwrite or property_different_value):
                         if isinstance(properties[attr], str):
-                            extended_user_record.attrs[attr] = properties[attr].decode('utf-8')
+                            extended_record[attr] = properties[attr]
                         elif isinstance(properties[attr], bool):
-                            extended_user_record.attrs[attr] = str(properties[attr]).decode('utf-8')
+                            extended_record[attr] = str(properties[attr])
                         else:
-                            extended_user_record.attrs[attr] = properties[attr]
+                            extended_record[attr] = properties[attr]
+
 
             # Update the searchable_text of the standard user record field with
             # the ones in the extended catalog
-            user_record.attrs['searchable_text'] = ''
+            record['searchable_text'] = ''
             if hasattr(extended_user_properties_utility, 'public_properties'):
                 for key in extended_user_properties_utility.public_properties:
-                    if extended_user_record.attrs.get(key, False) and 'check_' not in key:
+                    if extended_record.get(key, False) and 'check_' not in key:
                         checkKey = 'check_' + key
-                        hasCheck = checkKey in extended_user_record.attrs
-                        if not hasCheck or (hasCheck and extended_user_record.attrs[checkKey] != 'False'):
-                            value = extended_user_record.attrs[key]
-
-                            if isinstance(value, list) or isinstance(value, tuple):
+                        hasCheck = checkKey in extended_record
+                        if (not hasCheck) or (hasCheck and extended_record.get(checkKey) != 'False'):
+                            value = extended_record.get(key)
+                            if isinstance(value, (list, tuple)):
                                 value = ' '.join(value)
-
-                            # Value widget select multiple
-                            if value[0:2] == '[[' and value[-2:] == ']]':
-                                value = ' '.join(json.loads(value)[0])
-
-                            user_record.attrs['searchable_text'] += ' ' + value
+                            if isinstance(value, str) and value.startswith('[[') and value.endswith(']]'):
+                                try:
+                                    value_list = json.loads(value)
+                                    if value_list:
+                                        value = ' '.join(value_list[0])
+                                except Exception:
+                                    pass
+                            record['searchable_text'] += ' ' + value
             else:
                 for key in extended_user_properties_utility.properties:
-                    if extended_user_record.attrs.get(key, False) and 'check_' not in key:
+                    if extended_record.get(key, False) and 'check_' not in key:
                         checkKey = 'check_' + key
-                        hasCheck = checkKey in extended_user_record.attrs
-                        if not hasCheck or (hasCheck and extended_user_record.attrs[checkKey] != 'False'):
-                            user_record.attrs['searchable_text'] += unicodedata.normalize('NFKD', extended_user_record.attrs[key]).encode('ascii', errors='ignore') + ' '
+                        hasCheck = checkKey in extended_record
+                        if (not hasCheck) or (hasCheck and extended_record.get(checkKey) != 'False'):
+                            normalized = unicodedata.normalize('NFKD', extended_record.get(key))
+                            normalized_ascii = normalized.encode('ascii', errors='ignore').decode('ascii')
+                            record['searchable_text'] += ' ' + normalized_ascii
 
             # Save for free the extended properties in the main user_properties soup
             # for easy access with one query
-            property_different_value = False
             if properties:
                 for attr in extended_user_properties_utility.properties:
-                    has_property_definition = attr in properties
-                    property_empty_or_not_set = user_record.attrs.get(attr, '') == ''
-
-                    if has_property_definition:
-                        if isinstance(properties[attr], str):
-                            property_different_value = user_record.attrs.get(attr, '') != properties[attr].decode('utf-8')
+                    has_prop_def = attr in properties
+                    prop_empty = (record.get(attr, '') == '')
+                    if has_prop_def:
+                        if record.get(attr, '') != properties[attr]:
+                            property_different_value = True
                         else:
-                            property_different_value = user_record.attrs.get(attr, '') != properties[attr]
+                            property_different_value = False
+                    else:
+                        property_different_value = False
 
                     # Only update it if user has already not property set or it's empty
-                    if has_property_definition and (property_empty_or_not_set or overwrite or property_different_value):
+                    if has_prop_def and (prop_empty or overwrite or property_different_value):
                         if isinstance(properties[attr], str):
-                            user_record.attrs[attr] = properties[attr].decode('utf-8')
+                            record[attr] = properties[attr]
                         elif isinstance(properties[attr], bool):
-                            user_record.attrs[attr] = str(properties[attr]).decode('utf-8')
+                            record[attr] = str(properties[attr])
                         else:
-                            user_record.attrs[attr] = properties[attr]
+                            record[attr] = properties[attr]
 
-            soup.reindex(records=[user_record])
-            extended_soup.reindex(records=[extended_user_record])
+
 
 
 def reset_user_catalog():
-    portal = api.portal.get()
-    soup = get_soup('user_properties', portal)
-    soup.clear()
+    user_properties = get_or_initialize_annotation('user_properties')
+    user_properties.clear()
 
 
 def reset_group_catalog():
-    portal = api.portal.get()
-    soup = get_soup('ldap_groups', portal)
-    soup.clear()
-
+    ldap_groups = get_or_initialize_annotation('ldap_groups')
+    ldap_groups.clear()
 
 def json_response(func):
     """ Decorator to transform the result of the decorated function to json.
@@ -521,16 +496,15 @@ def add_portrait_user(user):
     else:
         portrait_user = False
 
-    soup_users_portrait = get_soup('users_portrait', portal)
-    exist = [r for r in soup_users_portrait.query(Eq('id_username', id))]
-    if exist:
-        user_record = exist[0]
-        user_record.attrs['id_username'] = id
-        user_record.attrs['portrait'] = portrait_user
+    users_portrait = get_or_initialize_annotation('users_portrait')
+    record = next((r for r in users_portrait.values() if r.get('id_username') == id), None)
+    if record:
+        record['id_username'] = id
+        record['portrait'] = portrait_user
     else:
-        record = Record()
-        record_id = soup_users_portrait.add(record)
-        user_record = soup_users_portrait.get(record_id)
-        user_record.attrs['id_username'] = id
-        user_record.attrs['portrait'] = portrait_user
-    soup_users_portrait.reindex(records=[user_record])
+        record = {
+            'id_username': id,
+            'portrait': portrait_user
+        }
+        unique_key = str(uuid.uuid4())
+        users_portrait[unique_key] = record

@@ -1,25 +1,22 @@
 # NOT USED
 # -*- coding: utf-8 -*-
+import logging
+
 from AccessControl.Permissions import manage_users
 from AccessControl.SecurityInfo import ClassSecurityInfo
 from App.class_init import default__class_init__ as InitializeClass
 from OFS.Cache import Cacheable
+from plone import api
 from Products.Five.browser import BrowserView
 from Products.PageTemplates.PageTemplateFile import PageTemplateFile
 from Products.PluggableAuthService import registerMultiPlugin
-from Products.PluggableAuthService.interfaces.plugins import IPropertiesPlugin
-from Products.PluggableAuthService.interfaces.plugins import IUserEnumerationPlugin
+from Products.PluggableAuthService.interfaces.plugins import (
+    IPropertiesPlugin, IUserEnumerationPlugin)
 from Products.PluggableAuthService.plugins.BasePlugin import BasePlugin
-
-from plone import api
-from repoze.catalog.query import Eq
 from souper.interfaces import ICatalogFactory
-from souper.soup import get_soup
+from ulearn5.core.utils import get_or_initialize_annotation
 from zope.component import getUtility
-from zope.interface import Interface
-from zope.interface import implements
-
-import logging
+from zope.interface import Interface, implements
 
 logger = logging.getLogger('Omega13')
 
@@ -53,71 +50,66 @@ class Omega13Helper(BasePlugin, Cacheable):
     security.declarePrivate('enumerateUsers')
     def enumerateUsers(self, id=None, login=None, exact_match=0, sort_by=None, max_results=None, **kw):
         """ Fullfill enumerateUsers requirements """
-        # enumerateUsers Boilerplate
+        # EnumerateUsers Boilerplate
         plugin_id = self.getId()
         view_name = self.getId() + '_enumerateUsers'
         criteria = {'id': id, 'login': login, 'exact_match': exact_match,
                     'sort_by': sort_by, 'max_results': max_results}
         criteria.update(kw)
 
-        cached_info = self.ZCacheable_get(view_name=view_name,
-                                          keywords=criteria,
-                                          default=None)
+        cached_info = self.ZCacheable_get(view_name=view_name, keywords=criteria, default=None)
 
         if cached_info is not None:
-            logger.warning('returning cached results from Omega13 enumerateUsers')
+            logger.warning('Returning cached results from Omega13 enumerateUsers')
             return cached_info
 
-        portal = api.portal.get()
-        soup = get_soup('user_properties', portal)
+        user_properties = get_or_initialize_annotation('user_properties')
 
         result = []
         if exact_match and (id or login):
             if id:
-                records = [r for r in soup.query(Eq('username', id))]
+                records = [r for r in user_properties.values() if r.get('username') == id]
             elif login:
-                records = [r for r in soup.query(Eq('username', login))]
+                records = [r for r in user_properties.values() if r.get('username') == login]
 
             if records:
-                logger.warning(f'Omega13 found {len(records)} user: {records}')
-                result.append({'id': records[0].attrs['username'],
-                               'login': records[0].attrs['username'],
-                               'pluginid': plugin_id,
-                               })
+                logger.warning(f'Omega13 found {len(records)} user(s): {records}')
+                result.append({'id': records[0]['username'],
+                            'login': records[0]['username'],
+                            'pluginid': plugin_id})
         else:
             if id:
-                records = [r for r in soup.query(Eq('username', id + '*'))]
+                records = [r for r in user_properties.values() if r.get('username', '').startswith(id)]
             elif login:
-                records = [r for r in soup.query(Eq('username', login + '*'))]
+                records = [r for r in user_properties.values() if r.get('username', '').startswith(login)]
 
             if records:
-                logger.warning(f'Omega13 found {len(records)} user: {records}')
+                logger.warning(f'Omega13 found {len(records)} user(s): {records}')
                 for record in records:
-                    result.append({'id': record.attrs['username'],
-                                   'login': record.attrs['username'],
-                                   'pluginid': plugin_id,
-                                   })
+                    result.append({'id': record['username'],
+                                'login': record['username'],
+                                'pluginid': plugin_id})
 
         result = tuple(result)
         self.ZCacheable_set(result, view_name=view_name, keywords=criteria)
 
         return result
 
+
     security.declarePrivate('getPropertiesForUser')
     def getPropertiesForUser(self, user, request=None):
         """ Fullfill PropertiesPlugin requirements """
         portal = api.portal.get()
-        soup = get_soup('user_properties', portal)
         user_properties_utility = getUtility(ICatalogFactory, name='user_properties')
         indexed_attrs = user_properties_utility(portal).keys()
         properties = {}
-        user.getId()
-        records = [r for r in soup.query(Eq('username', user.getId()))]
-        if records:
+        user_properties = get_or_initialize_annotation('user_properties')
+        user_id = user.getid()
+        record = next((r for r in user_properties.values() if r.get('username') == user_id))
+        if record:
             for attr in indexed_attrs:
-                if records[0].attrs.get(attr, False):
-                    properties[attr] = records[0].attrs[attr]
-            logger.warning(f'found properties for user: {records[0].attrs['username']}')
+                if record.get(attr, False):
+                    properties[attr] = record.get(attr)
 
         return properties
 
