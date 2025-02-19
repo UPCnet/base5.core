@@ -5,7 +5,7 @@ from repoze.catalog.indexes.field import CatalogFieldIndex
 from repoze.catalog.indexes.keyword import CatalogKeywordIndex
 from repoze.catalog.indexes.text import CatalogTextIndex
 from souper.interfaces import ICatalogFactory
-from souper.soup import NodeAttributeIndexer
+#from souper.soup import NodeAttributeIndexer
 from ulearn5.core.utils import get_or_initialize_annotation
 from zope.interface import implementer
 
