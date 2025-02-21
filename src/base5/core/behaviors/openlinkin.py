@@ -1,20 +1,19 @@
 # -*- coding: utf-8 -*-
-from plone.app.contenttypes.interfaces import ILink
-from plone.directives import form
-from plone.indexer import indexer
-from zope import schema
-from zope.component import adapts
-from zope.interface import alsoProvides
-from zope.interface import implements
-
 from base5.core import _
+from plone.app.contenttypes.interfaces import ILink
+from plone.autoform import directives
+from plone.autoform.interfaces import IFormFieldProvider
+from plone.indexer import indexer
+from plone.supermodel import model
+from zope import schema
+from zope.component import adapter
+from zope.interface import alsoProvides, implementer
 
 
-class IOpenLinkInNewWindow(form.Schema):
-    """Add open in new window field to link content
+class IOpenLinkInNewWindow(model.Schema):
+    """Añade el campo 'open in new window' al contenido de link.
     """
-
-    form.order_after(open_link_in_new_window='remoteUrl')
+    directives.order_after(open_link_in_new_window='remoteUrl')
     open_link_in_new_window = schema.Bool(
         title=_("open_link_in_new_window"),
         description=_("help_open_link_in_new_window"),
@@ -22,12 +21,12 @@ class IOpenLinkInNewWindow(form.Schema):
         default=False
     )
 
-alsoProvides(IOpenLinkInNewWindow, form.IFormFieldProvider)
+alsoProvides(IOpenLinkInNewWindow, IFormFieldProvider)
 
 
+@implementer(IOpenLinkInNewWindow)
+@adapter(ILink)
 class OpenLinkInNewWindow(object):
-    implements(IOpenLinkInNewWindow)
-    adapts(ILink)
 
     def __init__(self, context):
         self.context = context

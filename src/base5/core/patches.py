@@ -1,61 +1,59 @@
 # -*- coding: utf-8 -*-
+from io import StringIO
+from urllib.parse import quote_plus
+
 from AccessControl import Unauthorized
 from AccessControl.SecurityManagement import getSecurityManager
 from Acquisition import aq_inner
-from Products.CMFCore.MemberDataTool import MemberAdapter as BaseMemberAdapter
-from Products.CMFCore.permissions import ManageUsers
-from Products.CMFCore.utils import _checkPermission
-from Products.CMFCore.utils import getToolByName
-from Products.CMFPlone.PloneBatch import Batch
-from Products.CMFPlone.browser.navtree import getNavigationRoot
-from Products.CMFPlone.browser.search import EVER
-from Products.CMFPlone.browser.search import quote_chars
-from Products.LDAPUserFolder.LDAPUser import LDAPUser
-from Products.LDAPUserFolder.LDAPUser import NonexistingUser
-from Products.LDAPUserFolder.SharedResource import getResource
-from Products.LDAPUserFolder.utils import encoding
-from Products.PlonePAS.interfaces.propertysheets import IMutablePropertySheet
-from Products.PlonePAS.utils import safe_unicode
-from Products.PluggableAuthService import PluggableAuthService
-from Products.PluggableAuthService.PluggableAuthService import DumbHTTPExtractor
-from Products.PluggableAuthService.PluggableAuthService import _SWALLOWABLE_PLUGIN_EXCEPTIONS
-from Products.PluggableAuthService.PropertiedUser import PropertiedUser
-from Products.PluggableAuthService.events import PropertiesUpdated
-from Products.PluggableAuthService.interfaces.authservice import IPluggableAuthService
-from Products.PluggableAuthService.interfaces.plugins import IAuthenticationPlugin
-from Products.PluggableAuthService.interfaces.plugins import IExtractionPlugin
-from Products.PluggableAuthService.utils import createKeywords
-from Products.PluggableAuthService.utils import createViewName
-from io import StringIO
-
 from plone import api
 from plone.app.contenttypes.behaviors.richtext import IRichText
 from plone.app.textfield.value import IRichTextValue
 from plone.memoize.instance import memoize
+from Products.CMFCore.MemberDataTool import MemberAdapter as BaseMemberAdapter
+from Products.CMFCore.permissions import ManageUsers
+from Products.CMFCore.utils import _checkPermission, getToolByName
+from Products.CMFPlone.browser.navtree import getNavigationRoot
+from Products.CMFPlone.browser.search import EVER, quote_chars
+from Products.CMFPlone.PloneBatch import Batch
+from Products.LDAPUserFolder.LDAPUser import LDAPUser, NonexistingUser
+# from Products.LDAPUserFolder.SharedResource import getResource
+# from Products.LDAPUserFolder.utils import encoding
+from Products.PlonePAS.interfaces.propertysheets import IMutablePropertySheet
+from Products.PlonePAS.utils import safe_unicode
+from Products.PluggableAuthService import PluggableAuthService
+from Products.PluggableAuthService.events import PropertiesUpdated
+from Products.PluggableAuthService.interfaces.authservice import \
+    IPluggableAuthService
+from Products.PluggableAuthService.interfaces.plugins import (
+    IAuthenticationPlugin, IExtractionPlugin)
+from Products.PluggableAuthService.PluggableAuthService import (
+    _SWALLOWABLE_PLUGIN_EXCEPTIONS, DumbHTTPExtractor)
+from Products.PluggableAuthService.PropertiedUser import PropertiedUser
+from Products.PluggableAuthService.utils import createKeywords, createViewName
 from pyquery import PyQuery as pq
-from urllib.parse import quote_plus
 from zope.component import getMultiAdapter
 from zope.event import notify
+
 try:
     from hashlib import sha1 as sha_new
 except ImportError:
     from sha import new as sha_new
 
-from base5.core.adapters.portrait import IPortraitUploadAdapter
-from base5.core.utils import add_user_to_catalog
-from base5.core.utils import get_all_user_properties
-from base5.core.utils import get_safe_member_by_id
-from base5.core.utils import portal_url
-from base5.core.utils import remove_user_from_catalog
-from ulearn5.core.hooks import packages_installed
-
 import inspect
-import ldap
 import logging
+import unicodedata
+import urllib.error
+import urllib.parse
+import urllib.request
+
+import ldap
 import requests
 import six
-import unicodedata
-import urllib.request, urllib.parse, urllib.error
+from base5.core.adapters.portrait import IPortraitUploadAdapter
+from base5.core.utils import (add_user_to_catalog, get_all_user_properties,
+                              get_safe_member_by_id, portal_url,
+                              remove_user_from_catalog)
+from ulearn5.core.hooks import packages_installed
 
 logger = logging.getLogger('event.LDAPUserFolder')
 base5_log  = logging.getLogger('base5.core')
@@ -516,7 +514,9 @@ def connect(self, bind_dn='', bind_pwd=''):
 
     e = None
 
-    conn = getResource('%s-connection' % self._hash)
+    # TODO
+    # conn = getResource('%s-connection' % self._hash)
+    conn = 'conn'
     if (conn._type() != str):
         try:
             # Mensajes para calcular tiempos LDAP

@@ -1,12 +1,10 @@
 # -*- coding: utf-8 -*-
 from OFS.Image import Image
+from plone import api
 from Products.PlonePAS.interfaces.membership import IMembershipTool
 from Products.PlonePAS.utils import scale_image
-
-from plone import api
-from zope.component import adapts
-from zope.interface import Interface
-from zope.interface import implements
+from zope.component import adapter
+from zope.interface import Interface, implementer
 
 
 class IPortraitUploadAdapter(Interface):
@@ -15,11 +13,10 @@ class IPortraitUploadAdapter(Interface):
         action and then other that override the default one using IBrowserLayer.
     """
 
-
+@implementer(IPortraitUploadAdapter)
+@adapter(IMembershipTool, Interface)
 class PortraitUploadAdapter(object):
     """ Default adapter for portrait custom actions """
-    implements(IPortraitUploadAdapter)
-    adapts(IMembershipTool, Interface)
 
     def __init__(self, context, request):
         self.context = context

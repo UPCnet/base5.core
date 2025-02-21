@@ -16,7 +16,7 @@ from AccessControl import getSecurityManager
 from base5.core import HAS_PAM, IAMULEARN
 from base5.core.controlpanel.core import IBaseCoreControlPanelSettings
 from base5.core.directory import METADATA_USER_ATTRS
-from BeautifulSoup import BeautifulSoup
+from bs4 import BeautifulSoup
 from mrs5.max.utilities import IMAXClient
 from OFS.Image import Image
 from PIL import ImageOps
@@ -25,7 +25,7 @@ from plone.registry.interfaces import IRegistry
 from Products.PlonePAS.plugins.ufactory import PloneUser
 from Products.PlonePAS.tools.memberdata import MemberData
 from souper.interfaces import ICatalogFactory
-from ulaern5.core.utils import get_or_initialize_annotation
+from ulearn5.core.utils import get_or_initialize_annotation
 from zope.component import getUtilitiesFor, getUtility, queryUtility
 from zope.component.hooks import getSite
 from zope.i18nmessageid import MessageFactory
