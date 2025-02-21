@@ -1,37 +1,31 @@
 # -*- coding: utf-8 -*-
-from OFS.Image import Image
-from Products.CMFCore.interfaces import ISiteRoot
-from Products.CMFPlone.interfaces import IFilterSchema
-from Products.CMFPlone.interfaces import IPloneSiteRoot
-from Products.CMFPlone.interfaces import ITinyMCESchema
-from Products.Five.browser import BrowserView
-from Products.PlonePAS.interfaces.group import IGroupManagement
-from Products.PluggableAuthService.interfaces.plugins import IPropertiesPlugin
-from Products.PluggableAuthService.interfaces.plugins import IUserAdderPlugin
-
-from plone import api
-from plone.registry.interfaces import IRegistry
-from zope.component import getUtility
-from zope.component.hooks import getSite
-from zope.interface import alsoProvides
-
-from base5.core.utils import add_user_to_catalog
-from base5.core.utils import convertSquareImage
-from base5.core.utils import get_safe_member_by_id
-from base5.core.utils import json_response
-from base5.core.utils import remove_user_from_catalog
-from mrs5.max.utilities import IMAXClient
-from ulearn5.core.gwuuid import IGWUUID
-from ulearn5.core.patches import deleteMembers
-
 import logging
 import os
-import pkg_resources
-import transaction
 import urllib
 import uuid
 
+import pkg_resources
+import transaction
+from base5.core.utils import (add_user_to_catalog, convertSquareImage,
+                              get_safe_member_by_id, json_response,
+                              remove_user_from_catalog)
+from mrs5.max.utilities import IMAXClient
+from OFS.Image import Image
+from plone import api
+from plone.registry.interfaces import IRegistry
+from Products.CMFCore.interfaces import ISiteRoot
+from Products.CMFPlone.interfaces import (IFilterSchema, IPloneSiteRoot,
+                                          ITinyMCESchema)
+from Products.Five.browser import BrowserView
+from Products.PlonePAS.interfaces.group import IGroupManagement
+from Products.PluggableAuthService.interfaces.plugins import (
+    IPropertiesPlugin, IUserAdderPlugin)
+from ulearn5.core.gwuuid import IGWUUID
+from ulearn5.core.patches import deleteMembers
 from ulearn5.core.utils import get_or_initialize_annotation
+from zope.component import getUtility
+from zope.component.hooks import getSite
+from zope.interface import alsoProvides
 
 try:
     pkg_resources.get_distribution('Products.PloneLDAP')
@@ -39,8 +33,8 @@ except pkg_resources.DistributionNotFound:
     HAS_LDAP = False
 else:
     HAS_LDAP = True
-    from Products.PloneLDAP.factory import manage_addPloneLDAPMultiPlugin
     from Products.LDAPUserFolder.LDAPUserFolder import LDAPUserFolder
+    from Products.PloneLDAP.factory import manage_addPloneLDAPMultiPlugin
 
 try:
     pkg_resources.get_distribution('plone.app.contenttypes')
@@ -503,18 +497,18 @@ If the most preferent plugin is:
                     if result['displayName'] != user['fullname']:
                         properties = dict(displayName=user['fullname'])
                         maxclient.people[user['id']].put(**properties)
-                        logger.info(f'Update user in MAX: {user['id']}')
-                        results.append(f'Update user in MAX: {user['id']}')
+                        logger.info(f'Update user in MAX: {user["id"]}')
+                        results.append(f'Update user in MAX: {user["id"]}')
                 except:
                     properties = dict(displayName=user['fullname'])
                     maxclient.people[user['id']].post(**properties)
-                    logger.info(f'Create user in MAX: {user['id']}')
-                    results.append(f'Create user in MAX: {user['id']}')
+                    logger.info(f'Create user in MAX: {user["id"]}')
+                    results.append(f'Create user in MAX: {user["id"]}')
                 add_user_to_catalog(user_obj, user)
             else:
-                logger.info(f'No user found in user repository (LDAP) {user['id']}')
+                logger.info(f'No user found in user repository (LDAP) {user["id"]}')
 
-            logger.info(f'Updated properties catalog for {user['id']}')
+            logger.info(f'Updated properties catalog for {user["id"]}')
 
         logger.info(f'Finish rebuild_user_catalog portal {portal}')
 
@@ -569,8 +563,8 @@ class UserMaxNotLDAP(BrowserView):
                 else:
                     user_obj = acl.getUserById(user['username'])
                     if not user_obj:
-                        logger.info(f'No user found in user repository (LDAP) {user['username']}')
-                        results.append(f'User for delete: {user['username']}')
+                        logger.info(f'No user found in user repository (LDAP) {user["username"]}')
+                        results.append(f'User for delete: {user["username"]}')
 
 
             logger.info(f'Finish users_max_not_ldap portal {portal}')
@@ -632,7 +626,7 @@ class DeleteUserMaxNotLDAP(BrowserView):
                 else:
                     user_obj = acl.getUserById(user['username'])
                     if not user_obj:
-                        logger.info(f'No user found in user repository (LDAP) {user['username']}')
+                        logger.info(f'No user found in user repository (LDAP) {user["username"]}')
                         deleteMembers(self, user['username'])
                         member_id = str(user['username'])
                         remove_user_from_catalog(member_id.lower())
@@ -677,8 +671,8 @@ class DeleteUserMaxNotLDAP(BrowserView):
                         # Lo borramos del MAX
                         maxclient.people[member_id].delete()
 
-                        logger.info(f'User delete {user['username']}')
-                        results.append(f'User delete: {user['username']}')
+                        logger.info(f'User delete {user["username"]}')
+                        results.append(f'User delete: {user["username"]}')
 
             logger.info(f'Finish delete_users_max_not_ldap portal {portal}')
             results.append('Finish delete_users_max_not_ldap')
@@ -869,9 +863,9 @@ class rebuild_users_portrait(BrowserView):
                     users_portrait[unique_key] = record
 
             else:
-                logger.info(f'No user found in user repository (LDAP) {user['id']}')
+                logger.info(f'No user found in user repository (LDAP) {user["id"]}')
 
-            logger.info(f'Updated portrait user for {user['id']}')
+            logger.info(f'Updated portrait user for {user["id"]}')
 
         logger.info(f'Finish rebuild_user_portrait portal {portal}')
         return 'Done'

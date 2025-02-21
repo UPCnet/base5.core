@@ -14,7 +14,7 @@
   <permission id="base.webmaster" title="Base: Webmaster Users" />
 
   <i18n:registerTranslations directory="locales" />
-  <includeDependencies package="." />
+  <!-- <includeDependencies package="." /> -->
 
   <include package=".adapters" />
   <include package=".behaviors" />

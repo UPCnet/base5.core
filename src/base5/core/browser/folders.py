@@ -1,18 +1,17 @@
 # -*- coding: utf-8 -*-
+import os
+from datetime import datetime
+
+import pdfkit
+import transaction
+from plone import api
+from plone.app.layout.navigation.navtree import buildFolderTree
+from plone.namedfile import NamedBlobFile
 from Products.CMFPlone.browser.navtree import DefaultNavtreeStrategy
 from Products.CMFPlone.interfaces.constrains import ISelectableConstrainTypes
 from Products.Five.browser import BrowserView
 from Products.Five.browser.pagetemplatefile import ViewPageTemplateFile
 from Products.statusmessages.interfaces import IStatusMessage
-
-from datetime import datetime
-from plone import api
-from plone.app.layout.navigation.navtree import buildFolderTree
-from plone.namedfile import NamedBlobFile
-
-import os
-import pdfkit
-import transaction
 
 
 class DownloadFiles(BrowserView):
@@ -108,7 +107,7 @@ class DownloadFiles(BrowserView):
 
                 f.write(open('/tmp/' + exp_path + '.pdf', 'rb').read())
                 f.close()
-                print(f'Saved {zip_path + '.pdf'}')
+                print(f'Saved {zip_path}.pdf')
 
         os.system(f'zip -r {exp_path}.zip {exp_path}')
         os.system(f'rm -rf {exp_path}')

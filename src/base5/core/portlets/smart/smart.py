@@ -11,7 +11,7 @@ from base5.core.portlets.smart.renderers.interfaces import (
 from plone import api
 from plone.app.portlets.portlets import base
 from plone.app.querystring.querybuilder import QueryBuilder
-from plone.directives import form
+from plone.autoform import directives
 from plone.i18n.normalizer.interfaces import IIDNormalizer
 from plone.memoize import ram
 from plone.memoize.instance import memoize
@@ -62,14 +62,14 @@ class ISmart(IPortletDataProvider):
         required=False
     )
 
-    form.mode(sort_on='hidden')
+    directives.mode(sort_on='hidden')
     sort_on = schema.TextLine(
         title=_('label_sort_on', default='Sort on'),
         description=_("Sort the collection on this index"),
         required=False,
     )
 
-    form.mode(sort_order='hidden')
+    directives.mode(sort_order='hidden')
     sort_order = schema.Bool(
         title=_('label_sort_reversed', default='Reversed order'),
         description=_('Sort the results in reversed order'),
