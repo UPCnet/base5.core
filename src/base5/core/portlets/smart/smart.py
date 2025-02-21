@@ -1,7 +1,12 @@
 # -*- coding: utf-8 -*-
-from Acquisition import aq_inner
-from Acquisition import aq_parent
+import random
+import sys
+from time import time
 
+from Acquisition import aq_inner, aq_parent
+from base5.core import _
+from base5.core.portlets.smart.renderers.interfaces import (
+    IPortletContainerRenderer, IPortletItemRenderer)
 #from plone.app.collection.interfaces import ICollection
 from plone import api
 from plone.app.portlets.portlets import base
@@ -11,22 +16,12 @@ from plone.i18n.normalizer.interfaces import IIDNormalizer
 from plone.memoize import ram
 from plone.memoize.instance import memoize
 from plone.portlets.interfaces import IPortletDataProvider
-from time import time
+from ulearn5.core.hooks import packages_installed
 from z3c.form import field
 from zope import schema
-from zope.component import getAdapter
-from zope.component import getMultiAdapter
-from zope.component import getUtility
-from zope.interface import implements
+from zope.component import getAdapter, getMultiAdapter, getUtility
+from zope.interface import implementer
 from zope.schema.interfaces import ICollection
-
-from base5.core import _
-from base5.core.portlets.smart.renderers.interfaces import IPortletContainerRenderer
-from base5.core.portlets.smart.renderers.interfaces import IPortletItemRenderer
-from ulearn5.core.hooks import packages_installed
-
-import random
-import sys
 
 
 class ISmart(IPortletDataProvider):
@@ -112,6 +107,7 @@ class ISmart(IPortletDataProvider):
         required=False)
 
 
+@implementer(ISmart)
 class Assignment(base.Assignment):
     """
     Portlet assignment.
@@ -119,7 +115,6 @@ class Assignment(base.Assignment):
     with columns.
     """
 
-    implements(ISmart)
 
     header = ""
     query = None

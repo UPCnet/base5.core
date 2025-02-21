@@ -16,7 +16,7 @@ from Products.PluggableAuthService.plugins.BasePlugin import BasePlugin
 from souper.interfaces import ICatalogFactory
 from ulearn5.core.utils import get_or_initialize_annotation
 from zope.component import getUtility
-from zope.interface import Interface, implements
+from zope.interface import Interface, implementer
 
 logger = logging.getLogger('Omega13')
 
@@ -26,13 +26,13 @@ class IOmega13Helper(Interface):
 
 
 # The Plugin
+@implementer(IOmega13Helper, IUserEnumerationPlugin, IPropertiesPlugin)
 class Omega13Helper(BasePlugin, Cacheable):
     """ Omega13 PAS Plugin """
 
     meta_type = 'Omega13 Helper'
     security = ClassSecurityInfo()
 
-    implements(IOmega13Helper, IUserEnumerationPlugin, IPropertiesPlugin)
 
     _properties = (
         {

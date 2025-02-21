@@ -1,43 +1,41 @@
 # -*- coding: utf-8 -*-
-from Products.CMFCore.interfaces import IContentish
-from Products.Five.browser.pagetemplatefile import ViewPageTemplateFile
+import re
 
+from base5.core.portlets.smart.renderers import (PortletContainerRenderer,
+                                                 PortletItemRenderer)
+from base5.core.portlets.smart.renderers.interfaces import (
+    IPortletContainerRenderer, IPortletItemRenderer)
 from plone.app.contenttypes.interfaces import IImage
 from plone.app.portlets.portlets.base import IPortletRenderer
-from zope.component import adapts
-from zope.interface import implements
-
-from base5.core.portlets.smart.renderers import PortletContainerRenderer
-from base5.core.portlets.smart.renderers import PortletItemRenderer
-from base5.core.portlets.smart.renderers.interfaces import IPortletContainerRenderer
-from base5.core.portlets.smart.renderers.interfaces import IPortletItemRenderer
-
-import re
+from Products.CMFCore.interfaces import IContentish
+from Products.Five.browser.pagetemplatefile import ViewPageTemplateFile
+from zope.component import adapter
+from zope.interface import implementer
 
 AUDIO_REGEX = re.compile(r'.mp3|.m4a|.acc|.f4a|.ogg|.oga|.mp4|.m4v|.f4v|.mov|.flv|.webm|.smil|.m3u8', re.IGNORECASE)
 
 
+@implementer(IPortletContainerRenderer)
+@adapter(IPortletRenderer)
 class ListPortletContainerRenderer(PortletContainerRenderer):
-    implements(IPortletContainerRenderer)
-    adapts(IPortletRenderer)
 
     title = "View with items wrapped in ul > li"
     template = ViewPageTemplateFile('templates/container_li.pt')
     css_class = 'portlet-container-list'
 
 
+@implementer(IPortletContainerRenderer)
+@adapter(IPortletRenderer)
 class DivPortletContainerRenderer(PortletContainerRenderer):
-    implements(IPortletContainerRenderer)
-    adapts(IPortletRenderer)
 
     title = "View with items wrapped in div > div"
     template = ViewPageTemplateFile('templates/container_div.pt')
     css_class = 'portlet-container-div'
 
 
+@implementer(IPortletContainerRenderer)
+@adapter(IPortletRenderer)
 class CarouselPortletContainerRenderer(PortletContainerRenderer):
-    implements(IPortletContainerRenderer)
-    adapts(IPortletRenderer)
 
     title = "Carousel view"
     template = ViewPageTemplateFile('templates/container_carousel.pt')
@@ -47,18 +45,18 @@ class CarouselPortletContainerRenderer(PortletContainerRenderer):
         return self.portlet.data.header.replace(" ", "-")
 
 
+@implementer(IPortletItemRenderer)
+@adapter(IImage)
 class ImagePortletItemRenderer(PortletItemRenderer):
-    implements(IPortletItemRenderer)
-    adapts(IImage)
 
     title = "Image view"
     template = ViewPageTemplateFile('templates/image.pt')
     css_class = 'carousel-image'
 
 
+@implementer(IPortletItemRenderer)
+@adapter(IContentish)
 class DefaultPortletItemRenderer(PortletItemRenderer):
-    implements(IPortletItemRenderer)
-    adapts(IContentish)
 
     template = ViewPageTemplateFile('templates/default.pt')
     css_class = 'contentish-item'
