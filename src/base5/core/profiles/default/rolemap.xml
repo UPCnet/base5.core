@@ -206,10 +206,10 @@
       <role name="Owner"/>
       <role name="WebMaster"/>
     </permission>
-    <permission name="Use external editor" acquire="False">
+<!--     <permission name="Use external editor" acquire="False">
       <role name="Authenticated"/>
       <role name="Manager"/>
-    </permission>
+    </permission> -->
     <permission name="View" acquire="True">
       <role name="Contributor"/>
       <role name="Editor"/>
