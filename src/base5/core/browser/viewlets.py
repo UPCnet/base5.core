@@ -8,6 +8,7 @@ from zope.interface import Interface
 from zope.interface import implementer
 from zope.viewlet.interfaces import IViewlet
 from zope.viewlet.manager import ViewletManagerBase
+from ulearn5.core.browser.viewlets import viewletBase
 
 import json
 import pkg_resources
@@ -23,7 +24,7 @@ class baseJSViewletManager(ViewletManagerBase):
 
 
 @implementer(IViewlet)
-class baseResourcesViewlet(BrowserView):
+class baseResourcesViewlet(viewletBase):
     """ This is the base CSS and JS viewlet. """
 
     resource_type = None
