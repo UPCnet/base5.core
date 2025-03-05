@@ -1,18 +1,15 @@
 # -*- coding: utf-8 -*-
-from Products.statusmessages.interfaces import IStatusMessage
-
+from base5.core import _
+from base5.core.utilities import IElasticSearch
 from plone.app.registry.browser import controlpanel
 from plone.supermodel import model
+from Products.statusmessages.interfaces import IStatusMessage
 from souper.interfaces import ICatalogFactory
 from z3c.form import button
 from zope import schema
-from zope.component import getUtilitiesFor
-from zope.component import getUtility
+from zope.component import getUtilitiesFor, getUtility
 from zope.interface import Interface
 from zope.schema.vocabulary import SimpleVocabulary
-
-from base5.core import _
-from base5.core.utilities import IElasticSearch
 
 
 class RegisteredExtendersVocabulary(object):
@@ -48,9 +45,8 @@ class IBaseCoreControlPanelSettings(Interface):
                            'user_groups_query',
                            'create_group_type'])
 
-    user_properties_extender = schema.Choice(
+    user_properties_extender = schema.TextLine(
         title=_('User properties extender'),
-        vocabulary='base5.core.controlpanel.core.user_extenders',
         required=False,
         default=''
     )
