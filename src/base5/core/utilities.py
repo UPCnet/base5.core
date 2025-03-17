@@ -21,8 +21,8 @@ class ElasticSearch(object):
         return self.connection
 
     def create_new_connection(self):
-        self.es_url = api.portal.get_registry_record('ushare.core.controlpanel.core.IUshareCoreControlPanelSettings.elasticsearch')
-        if (api.portal.get_registry_record('ushare.core.controlpanel.core.IUshareCoreControlPanelSettings.elasticsearch') != 'localhost'):
+        self.es_url = api.portal.get_registry_record('base5.core.controlpanel.core.IBaseCoreControlPanelSettings.elasticsearch')
+        if (api.portal.get_registry_record('base5.core.controlpanel.core.IBaseCoreControlPanelSettings.elasticsearch') != 'localhost'):
             self._conn = Elasticsearch(self.es_url)
 
     @property
