@@ -129,6 +129,7 @@
     replacement=".patches._extractUserIds"
     />
 
+  <!-- OK py3 -->
   <monkey:patch
     description="Force LDAP plugin authenticate to normalize userids and usernames to lowercase"
     module="Products.LDAPUserFolder.LDAPUserFolder.LDAPUserFolder"

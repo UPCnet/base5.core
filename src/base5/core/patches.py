@@ -693,96 +693,89 @@ def _extractUserIds( self, request, plugins ):
     return result
 
 def getUserByAttr(self, name, value, pwd=None, cache=0):
-    """
-        Get a user based on a name/value pair representing an
-        LDAP attribute provided to the user.  If cache is True,
-        try to cache the result using 'value' as the key
-    """
-    if not value:
-        return None
-
-    cache_type = pwd and 'authenticated' or 'anonymous'
-    negative_cache_key = '%s:%s:%s' % (name,
-                                      value,
-                                      sha_new(pwd or '').hexdigest())
-    if cache:
-        if self._cache('negative').get(negative_cache_key) is not None:
+        """ Get a user based on a name/value pair representing an
+            LDAP attribute provided to the user.  If cache is True,
+            try to cache the result using 'value' as the key
+        """
+        if not value:
             return None
 
-        cached_user = self._cache(cache_type).get(value, pwd)
+        cache_type = pwd and 'authenticated' or 'anonymous'
+        negative_cache_key = '%s:%s:%s' % (
+            name, value, sha_new((pwd or '').encode()).hexdigest())
+        if cache:
+            if self._cache('negative').get(negative_cache_key) is not None:
+                return None
 
-        if cached_user:
-            msg = 'getUserByAttr: "%s" cached in %s cache' % (value, cache_type)
+            cached_user = self._cache(cache_type).get(value, pwd)
+
+            if cached_user:
+                msg = 'getUserByAttr: "%s" cached in %s cache' % (
+                    value, cache_type)
+                logger.debug(msg)
+                return cached_user
+
+        user_roles, user_dn, user_attrs, ldap_groups = self._lookupuserbyattr(
+            name=name, value=value, pwd=pwd)
+
+        if user_dn is None:
+            logger.debug('getUserByAttr: "%s=%s" not found' % (name, value))
+            self._cache('negative').set(negative_cache_key, NonexistingUser())
+            return None
+
+        if user_attrs is None:
+            msg = 'getUserByAttr: "%s=%s" has no properties, bailing' % (
+                name, value)
             logger.debug(msg)
-            return cached_user
+            self._cache('negative').set(negative_cache_key, NonexistingUser())
+            return None
 
-    user_roles, user_dn, user_attrs, ldap_groups = self._lookupuserbyattr(name=name, value=value, pwd=pwd)
+        if user_roles is None or user_roles == self._roles:
+            msg = 'getUserByAttr: "%s=%s" only has roles %s' % (
+                name, value, str(user_roles))
+            logger.debug(msg)
 
-    if user_dn is None:
-        logger.debug('getUserByAttr: "%s=%s" not found' % (name, value))
-        self._cache('negative').set(negative_cache_key, NonexistingUser())
-        return None
+        login_name = user_attrs.get(self._login_attr, '')
+        uid = user_attrs.get(self._uid_attr, '')
 
-    if user_attrs is None:
-        msg = 'getUserByAttr: "%s=%s" has no properties, bailing' % (name, value)
-        logger.debug(msg)
-        self._cache('negative').set(negative_cache_key, NonexistingUser())
-        return None
-
-    if user_roles is None or user_roles == self._roles:
-        msg = 'getUserByAttr: "%s=%s" only has roles %s' % (name, value, str(user_roles))
-        logger.debug(msg)
-
-    login_name = user_attrs.get(self._login_attr, '')
-    uid = user_attrs.get(self._uid_attr, '')
-
-
-    if self._login_attr != 'dn' and len(login_name) > 0:
-        try:
+        if self._login_attr != 'dn' and len(login_name) > 0:
             if name == self._login_attr:
                 logins = [x for x in login_name
                           if value.strip().lower() == x.lower()]
                 login_name = logins[0]
             else:
                 login_name = login_name[0]
-        except:
-            pass
+        elif len(login_name) == 0:
+            msg = 'getUserByAttr: "%s" has no "%s" (Login) value!' % (
+                user_dn, self._login_attr)
+            logger.debug(msg)
+            self._cache('negative').set(negative_cache_key, NonexistingUser())
+            return None
 
-    elif len(login_name) == 0:
-        msg = 'getUserByAttr: "%s" has no "%s" (Login) value!' % (user_dn, self._login_attr)
-        logger.debug(msg)
-        self._cache('negative').set(negative_cache_key, NonexistingUser())
-        return None
+        if self._uid_attr != 'dn' and len(uid) > 0:
+            uid = uid[0]
+        elif len(uid) == 0:
+            msg = 'getUserByAttr: "%s" has no "%s" (UID Attribute) value!' % (
+                user_dn, self._uid_attr)
+            logger.debug(msg)
+            self._cache('negative').set(negative_cache_key, NonexistingUser())
+            return None
 
-    if self._uid_attr != 'dn' and len(uid) > 0:
-        uid = uid[0]
-    elif len(uid) == 0:
-        msg = 'getUserByAttr: "%s" has no "%s" (UID Attribute) value!' % (user_dn, self._uid_attr)
-        logger.debug(msg)
-        self._cache('negative').set(negative_cache_key, NonexistingUser())
-        return None
+        # BEGIN PATCH
+        login_name = login_name.lower()
+        uid = uid.lower()
+        # END PATCH
 
-    # BEGIN PATCH
-    login_name = login_name.lower()
-    uid = uid.lower()
-    # END PATCH
+        user_obj = LDAPUser(uid, login_name, pwd or 'undef', user_roles or [],
+                            [], user_dn, user_attrs, self.getMappedUserAttrs(),
+                            self.getMultivaluedUserAttrs(),
+                            self.getBinaryUserAttrs(),
+                            ldap_groups=ldap_groups)
 
-    user_obj = LDAPUser(uid,
-                       login_name,
-                       pwd or 'undef',
-                       user_roles or [],
-                       [],
-                       user_dn,
-                       user_attrs,
-                       self.getMappedUserAttrs(),
-                       self.getMultivaluedUserAttrs(),
-                       ldap_groups=ldap_groups)
+        if cache:
+            self._cache(cache_type).set(value, user_obj)
 
-    if cache:
-        self._cache(cache_type).set(value, user_obj)
-
-    return user_obj
-
+        return user_obj
 
 def enumerateUsers(self,
                   id=None,
