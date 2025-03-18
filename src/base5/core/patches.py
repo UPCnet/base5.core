@@ -59,26 +59,26 @@ logger = logging.getLogger('event.LDAPUserFolder')
 base5_log  = logging.getLogger('base5.core')
 
 
-def getToolbars(self, config):
-    """ Patch the method for calculate number of toolbar rows from length of
-        buttons replacing it with a hardcoded one for our convenience. Also,
-        take advantage of the argument reference and add a missing value in
-        TinyMCE configuration.
-    """
+# def getToolbars(self, config):
+#     """ Patch the method for calculate number of toolbar rows from length of
+#         buttons replacing it with a hardcoded one for our convenience. Also,
+#         take advantage of the argument reference and add a missing value in
+#         TinyMCE configuration.
+#     """
 
-    config['theme_advanced_blockformats'] = 'p,div,h2,h3,h4'
+#     config['theme_advanced_blockformats'] = 'p,div,h2,h3,h4'
 
-    try:
-        custom_icons = api.portal.get_registry_record('base5.core.controlpanel.core.IBaseCoreControlPanelSettings.custom_editor_icons')
-    except:
-        custom_icons = []
+#     try:
+#         custom_icons = api.portal.get_registry_record('base5.core.controlpanel.core.IBaseCoreControlPanelSettings.custom_editor_icons')
+#     except:
+#         custom_icons = []
 
-    if custom_icons:
-        return custom_icons
-    else:
-        return ['fullscreen,|,code,|,save,newdocument,|,plonetemplates,|,bold,italic,underline,strikethrough,|,justifyleft,justifycenter,justifyright,|,cut,copy,paste,pastetext,pasteword,|,search,replace,|,bullist,numlist,|,outdent,indent,blockquote,|,undo,redo,|,link,unlink,anchor',
-                'formatselect,style,|,cleanup,removeformat,|,image,media,|,tablecontrols,styleprops,|,visualaid,|,sub,sup,|,charmap',
-                '', '']
+#     if custom_icons:
+#         return custom_icons
+#     else:
+#         return ['fullscreen,|,code,|,save,newdocument,|,plonetemplates,|,bold,italic,underline,strikethrough,|,justifyleft,justifycenter,justifyright,|,cut,copy,paste,pastetext,pasteword,|,search,replace,|,bullist,numlist,|,outdent,indent,blockquote,|,undo,redo,|,link,unlink,anchor',
+#                 'formatselect,style,|,cleanup,removeformat,|,image,media,|,tablecontrols,styleprops,|,visualaid,|,sub,sup,|,charmap',
+#                 '', '']
 
 
 def isStringType(data):
@@ -139,46 +139,46 @@ def generate_user_id(self, data):
     return default
 
 
-def filter_query(self, query):
-    request = self.request
-    catalog = api.portal.get_tool(name='portal_catalog')
-    valid_indexes = tuple(catalog.indexes())
-    valid_keys = self.valid_keys + valid_indexes
-    text = query.get('SearchableText', None)
-    if text is None:
-        text = request.form.get('SearchableText', '')
-    if not text:
-        # Without text, must provide a meaningful non-empty search
-        valid = set(valid_indexes).intersection(list(request.form.keys())) or \
-            set(valid_indexes).intersection(list(query.keys()))
-        if not valid:
-            return
+# def filter_query(self, query):
+#     request = self.request
+#     catalog = api.portal.get_tool(name='portal_catalog')
+#     valid_indexes = tuple(catalog.indexes())
+#     valid_keys = self.valid_keys + valid_indexes
+#     text = query.get('SearchableText', None)
+#     if text is None:
+#         text = request.form.get('SearchableText', '')
+#     if not text:
+#         # Without text, must provide a meaningful non-empty search
+#         valid = set(valid_indexes).intersection(list(request.form.keys())) or \
+#             set(valid_indexes).intersection(list(query.keys()))
+#         if not valid:
+#             return
 
-    for k, v in list(request.form.items()):
-        if v and ((k in valid_keys) or k.startswith('facet.')):
-            query[k] = v
-    if text:
-        query['SearchableText'] = quote_chars(text) + '*'
+#     for k, v in list(request.form.items()):
+#         if v and ((k in valid_keys) or k.startswith('facet.')):
+#             query[k] = v
+#     if text:
+#         query['SearchableText'] = quote_chars(text) + '*'
 
-    # don't filter on created at all if we want all results
-    created = query.get('created')
-    if created:
-        if created.get('query'):
-            if created['query'][0] <= EVER:
-                del query['created']
+#     # don't filter on created at all if we want all results
+#     created = query.get('created')
+#     if created:
+#         if created.get('query'):
+#             if created['query'][0] <= EVER:
+#                 del query['created']
 
-    # respect `types_not_searched` setting
-    types = query.get('portal_type', [])
-    if 'query' in types:
-        types = types['query']
-    query['portal_type'] = self.filter_types(types)
-    # respect effective/expiration date
-    query['show_inactive'] = False
-    # respect navigation root
-    if 'path' not in query:
-        query['path'] = getNavigationRoot(self.context)
+#     # respect `types_not_searched` setting
+#     types = query.get('portal_type', [])
+#     if 'query' in types:
+#         types = types['query']
+#     query['portal_type'] = self.filter_types(types)
+#     # respect effective/expiration date
+#     query['show_inactive'] = False
+#     # respect navigation root
+#     if 'path' not in query:
+#         query['path'] = getNavigationRoot(self.context)
 
-    return query
+#     return query
 
 
 # TOREMOVE AS SOON AS THIS GOT PROPERLY FIXED
@@ -353,50 +353,50 @@ def getMemberById(self, id):
 
 
 # TinyMCE install. To remove default values in styles and tablestyles
-def _importNode(self, node):
-    """Import the object from the DOM node"""
-    if self.environ.shouldPurge() or node.getAttribute('purge').lower() == 'true':
-        self._purgeAttributes()
+# def _importNode(self, node):
+#     """Import the object from the DOM node"""
+#     if self.environ.shouldPurge() or node.getAttribute('purge').lower() == 'true':
+#         self._purgeAttributes()
 
-    for categorynode in node.childNodes:
-        if categorynode.nodeName != '#text' and categorynode.nodeName != '#comment':
-            for fieldnode in categorynode.childNodes:
-                if fieldnode.nodeName != '#text' and fieldnode.nodeName != '#comment':
-                    if self.attributes[categorynode.nodeName][fieldnode.nodeName]['type'] == 'Bool':
-                        if fieldnode.hasAttribute('value'):
-                            setattr(self.context, fieldnode.nodeName, self._convertToBoolean(fieldnode.getAttribute('value')))
-                    elif self.attributes[categorynode.nodeName][fieldnode.nodeName]['type'] == 'Text':
-                        if fieldnode.hasAttribute('value'):
-                            setattr(self.context, fieldnode.nodeName, fieldnode.getAttribute('value'))
-                    elif self.attributes[categorynode.nodeName][fieldnode.nodeName]['type'] == 'List':
-                        field = getattr(self.context, fieldnode.nodeName)
-                        if field is None or fieldnode.getAttribute('purge').lower() == 'true':
-                            items = {}
-                        else:
-                            if fieldnode.nodeName == 'styles' or fieldnode.nodeName == 'tablestyles':
-                                items = {}
-                            else:
-                                items = dict.fromkeys(field.split('\n'))
-                        for element in fieldnode.childNodes:
-                            if element.nodeName != '#text' and element.nodeName != '#comment':
-                                if element.getAttribute('remove').lower() == 'true' and \
-                                        element.getAttribute('value') in items:
-                                    del(items[element.getAttribute('value')])
-                                elif element.getAttribute('remove').lower() != 'true' and \
-                                        element.getAttribute('value') not in items:
-                                    items[element.getAttribute('value')] = None
-                        string = '\n'.join(sorted(items.keys()))
+#     for categorynode in node.childNodes:
+#         if categorynode.nodeName != '#text' and categorynode.nodeName != '#comment':
+#             for fieldnode in categorynode.childNodes:
+#                 if fieldnode.nodeName != '#text' and fieldnode.nodeName != '#comment':
+#                     if self.attributes[categorynode.nodeName][fieldnode.nodeName]['type'] == 'Bool':
+#                         if fieldnode.hasAttribute('value'):
+#                             setattr(self.context, fieldnode.nodeName, self._convertToBoolean(fieldnode.getAttribute('value')))
+#                     elif self.attributes[categorynode.nodeName][fieldnode.nodeName]['type'] == 'Text':
+#                         if fieldnode.hasAttribute('value'):
+#                             setattr(self.context, fieldnode.nodeName, fieldnode.getAttribute('value'))
+#                     elif self.attributes[categorynode.nodeName][fieldnode.nodeName]['type'] == 'List':
+#                         field = getattr(self.context, fieldnode.nodeName)
+#                         if field is None or fieldnode.getAttribute('purge').lower() == 'true':
+#                             items = {}
+#                         else:
+#                             if fieldnode.nodeName == 'styles' or fieldnode.nodeName == 'tablestyles':
+#                                 items = {}
+#                             else:
+#                                 items = dict.fromkeys(field.split('\n'))
+#                         for element in fieldnode.childNodes:
+#                             if element.nodeName != '#text' and element.nodeName != '#comment':
+#                                 if element.getAttribute('remove').lower() == 'true' and \
+#                                         element.getAttribute('value') in items:
+#                                     del(items[element.getAttribute('value')])
+#                                 elif element.getAttribute('remove').lower() != 'true' and \
+#                                         element.getAttribute('value') not in items:
+#                                     items[element.getAttribute('value')] = None
+#                         string = '\n'.join(sorted(items.keys()))
 
-                        # Don't break on international characters or otherwise
-                        # funky data -
-                        if type(string) == str:
-                            # On Plone 4.1 this should not be reached
-                            # as string is unicode in any case
-                            string = string.decode('utf-8', 'ignore')
+#                         # Don't break on international characters or otherwise
+#                         # funky data -
+#                         if type(string) == str:
+#                             # On Plone 4.1 this should not be reached
+#                             # as string is unicode in any case
+#                             string = string.decode('utf-8', 'ignore')
 
-                        setattr(self.context, fieldnode.nodeName, string)
+#                         setattr(self.context, fieldnode.nodeName, string)
 
-    self._logger.info('TinyMCE Settings imported.')
+#     self._logger.info('TinyMCE Settings imported.')
 
 
 # Patching the custom pas_member view that is called from some templates of p.a.c.
@@ -515,7 +515,7 @@ def connect(self, bind_dn='', bind_pwd=''):
     e = None
 
     # TODO
-    # conn = getResource('%s-connection' % self._hash)
+    #conn = getResource('%s-connection' % self._hash)
     conn = 'conn'
     if (conn._type() != str):
         try:
@@ -976,52 +976,52 @@ def _on_save(self, data=None):
     pass
 
 
-def getUserDetails(self, encoded_dn, format=None, attrs=()):
-    """ Return all attributes for a given DN """
-    #He tenido que quitar el to_utf8 porque si el CN - DN del usuario tenia acentos no te devolvia en el manage users los datos del usuario
-    #lo hemos visto al buscar un usuario en MEDICHEM que tiene el CN y DN con acento.
-    #dn = to_utf8(urllib.unquote(encoded_dn))
-    dn = urllib.parse.unquote(encoded_dn)
+# def getUserDetails(self, encoded_dn, format=None, attrs=()):
+#     """ Return all attributes for a given DN """
+#     #He tenido que quitar el to_utf8 porque si el CN - DN del usuario tenia acentos no te devolvia en el manage users los datos del usuario
+#     #lo hemos visto al buscar un usuario en MEDICHEM que tiene el CN y DN con acento.
+#     #dn = to_utf8(urllib.unquote(encoded_dn))
+#     dn = urllib.parse.unquote(encoded_dn)
 
-    if not attrs:
-        attrs = list(self.getSchemaConfig().keys())
+#     if not attrs:
+#         attrs = list(self.getSchemaConfig().keys())
 
-    res = self._delegate.search( base=dn
-                               , scope=self._delegate.BASE
-                               , attrs=attrs
-                               )
+#     res = self._delegate.search( base=dn
+#                                , scope=self._delegate.BASE
+#                                , attrs=attrs
+#                                )
 
-    if res['exception']:
-        if format is None:
-            result = ((res['exception'], res),)
-        elif format == 'dictionary':
-            result = {'cn': '###Error: %s' % res['exception']}
-    elif res['size'] > 0:
-        value_dict = res['results'][0]
+#     if res['exception']:
+#         if format is None:
+#             result = ((res['exception'], res),)
+#         elif format == 'dictionary':
+#             result = {'cn': '###Error: %s' % res['exception']}
+#     elif res['size'] > 0:
+#         value_dict = res['results'][0]
 
-        if format is None:
-            result = sorted(value_dict.items())
-        elif format == 'dictionary':
-            result = value_dict
-    else:
-        if format is None:
-            result = ()
-        elif format == 'dictionary':
-            result = {}
+#         if format is None:
+#             result = sorted(value_dict.items())
+#         elif format == 'dictionary':
+#             result = value_dict
+#     else:
+#         if format is None:
+#             result = ()
+#         elif format == 'dictionary':
+#             result = {}
 
-    return result
+#     return result
 
 
-def getUserDN(self):
-    """ Return the user's full Distinguished Name """
-    # TODO Ya no haria falta con python3
-    # if isinstance(self._dn, str):
-    #     # Por defecto Plone hace el encode en latin1
-    #     # y si hay un usuario con accento dentro de un grupo no le funciona el sharing y no tiene permisos para visualizar
-    #     # esto lo hemos visto al añadir a MEDICHEM que tiene usuarios con el CN y DN con acento.
-    #     try:
-    #         return self._dn.encode('utf-8')
-    #     except:
-    #         return self._dn.encode(encoding)
+# def getUserDN(self):
+#     """ Return the user's full Distinguished Name """
+#     # TODO Ya no haria falta con python3
+#     # if isinstance(self._dn, str):
+#     #     # Por defecto Plone hace el encode en latin1
+#     #     # y si hay un usuario con accento dentro de un grupo no le funciona el sharing y no tiene permisos para visualizar
+#     #     # esto lo hemos visto al añadir a MEDICHEM que tiene usuarios con el CN y DN con acento.
+#     #     try:
+#     #         return self._dn.encode('utf-8')
+#     #     except:
+#     #         return self._dn.encode(encoding)
 
-    return self._dn
+#     return self._dn

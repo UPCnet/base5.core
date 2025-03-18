@@ -5,6 +5,7 @@
 
   <include package="collective.monkeypatcher" />
 
+  <!-- BORRAR ya comentado en py2 no se utilizaba -->
   <!-- <monkey:patch
     description="Extended configuration for TinyMCE"
     class="Products.TinyMCE.utility.TinyMCE"
@@ -12,6 +13,7 @@
     replacement=".patches.getToolbars"
     /> -->
 
+  <!-- BORRAR ya comentado en py2 no se utilizaba -->
   <!-- <monkey:patch
     description="TinyMCE. To remove default values in styles and tablestyle"
     class="Products.TinyMCE.exportimport.TinyMCESettingsXMLAdapter"
@@ -19,6 +21,7 @@
     replacement=".patches._importNode"
     /> -->
 
+  <!-- OK por ahora lo dejo py3 -->
   <monkey:patch
     description="Unicode normalization aware searches"
     class="Products.PlonePAS.plugins.property.ZODBMutablePropertyProvider"
@@ -26,6 +29,7 @@
     replacement=".patches.testMemberData"
     />
 
+  <!-- OK por ahora lo dejo py3 -->
   <monkey:patch
     description="Force the creation of users to lowercase"
     class="plone.app.users.browser.register.BaseRegistrationForm"
@@ -33,6 +37,7 @@
     replacement=".patches.generate_user_id"
     />
 
+  <!-- BORRAR ya comentado en py2 no se utilizaba -->
   <!-- OJO Creo que se puede borrar ahora esta en /eggs/Products.CMFPlone-5.0.7-py2.7.egg/Products/CMFPlone/browser/search.py y ya filtra por *
   <monkey:patch
     description="Force the search of the site to be wild always"
@@ -41,6 +46,7 @@
     replacement=".patches.filter_query"
     /> -->
 
+  <!-- OK por ahora lo dejo py3 -->
   <!-- TO REMOVE as soon it got fixed -->
   <monkey:patch
     description="CMFEditions versions_history_form doesn't show the preview for DX and five.pt"
@@ -49,12 +55,14 @@
     replacement=".patches.get_macros"
     />
 
+  <!-- BORRAR ya comentado en py2 no se utilizaba -->
   <!-- <adapter
     for="plone.dexterity.interfaces.IDexterityContent"
     provides="Products.TinyMCE.adapters.interfaces.Save.ISave"
     factory=".patches.Save"
     /> -->
 
+  <!-- OK por ahora lo dejo py3 -->
   <monkey:patch
     description="Enable event of update user member data properties"
     class="Products.PlonePAS.tools.memberdata.MemberData"
@@ -62,6 +70,7 @@
     replacement=".patches.setMemberProperties"
     />
 
+  <!-- OK por ahora lo dejo py3 -->
   <monkey:patch
     description="pas_member view override to user the user local catalog"
     class="Products.PlonePAS.browser.member.PASMemberView"
@@ -69,6 +78,7 @@
     replacement=".patches.info"
     />
 
+  <!-- OK por ahora lo dejo py3 -->
   <monkey:patch
     description="DocumentByLine method override to user the user local catalog"
     class="plone.app.layout.viewlets.content.DocumentBylineViewlet"
@@ -76,7 +86,7 @@
     replacement=".patches.author"
     />
 
-  <!-- TODO Modificado py3 -->
+  <!-- OK por ahora lo dejo py3 -->
   <monkey:patch
     description="Add subjects to searchableText"
     module="plone.app.contenttypes.indexers"
@@ -84,6 +94,7 @@
     replacement=".patches.SearchableText"
     />
 
+  <!-- BORRAR ya comentado en py2 no se utilizaba -->
   <!-- <monkey:patch
     description="Force to all dexterity types to hide the right portlet on the add form"
     module="plone.dexterity.browser.add.DefaultAddForm"
@@ -91,6 +102,7 @@
     replacement=".browser.dxforms.update"
     /> -->
 
+  <!-- OK por ahora lo dejo py3 -->
   <monkey:patch
     description="Force to the comments portlet to show comments in descending order from most newest to the most older"
     module="plone.app.discussion.conversation.Conversation"
@@ -98,6 +110,7 @@
     replacement=".patches.getThreads"
     />
 
+  <!-- OK por ahora lo dejo py3 -->
   <monkey:patch
     description="Patch to extend the features of the changeMemberPortrait"
     class="Products.PlonePAS.tools.membership.MembershipTool"
@@ -105,6 +118,7 @@
     replacement=".patches.changeMemberPortrait"
     />
 
+  <!-- OK por ahora lo dejo py3 -->
   <monkey:patch
     description="Patch to extend the features of the deletePersonalPortrait"
     class="Products.PlonePAS.tools.membership.MembershipTool"
@@ -113,7 +127,7 @@
     />
 
   <!-- LDAP and user objects related patches -->
-  <!-- TODO Modificado py3 -->
+  <!-- TODO Modificado py3 NO FUNCIONA y por ahora lo comento ya veremos si hace falta -->
   <!-- <monkey:patch
     description="Que el LDAP no haga consulta dos veces si la primera vez el usuario devuelve Invalid credentials"
     module="Products.LDAPUserFolder.LDAPDelegate.LDAPDelegate"
@@ -121,7 +135,7 @@
     replacement=".patches.connect"
     /> -->
 
-  <!-- TODO Modificado py3 -->
+  <!-- OK por ahora lo dejo py3 -->
   <monkey:patch
     description="Para que si el osiris devuelve BadUsernameOrPasswordError no siga validando los plugins de autenticacion"
     module="Products.PluggableAuthService.PluggableAuthService.PluggableAuthService"
@@ -137,7 +151,7 @@
     replacement=".patches.getUserByAttr"
     />
 
-  <!-- TODO Modificado py3 -->
+  <!-- OK por ahora lo dejo py3 -->
   <monkey:patch
     description="Force LDAP plugin enumerate to normalize userids and usernames to lowercase"
     module="Products.LDAPMultiPlugins.LDAPMultiPlugin.LDAPMultiPlugin"
@@ -145,21 +159,23 @@
     replacement=".patches.enumerateUsers"
     />
 
-  <monkey:patch
+  <!-- OK No hace falta en py3 ya no esta el #dn = to_utf8(urllib.unquote(encoded_dn)) que daba error accentos -->
+  <!-- <monkey:patch
     description="Solucionar usuarios con accento en el campo DN del LDAP"
     module="Products.LDAPUserFolder.LDAPUserFolder.LDAPUserFolder"
     original="getUserDetails"
     replacement=".patches.getUserDetails"
-    />
+    /> -->
 
-  <!-- TODO Modificado py3 -->
-  <monkey:patch
+  <!-- OK No hace falta en py3 -->
+  <!-- <monkey:patch
     description="Solucionar permisos del sharing cuando un usuario con el CN = DN con acento esta dentro de un grupo"
     module="Products.LDAPUserFolder.LDAPUserFolder.LDAPUser"
     original="getUserDN"
     replacement=".patches.getUserDN"
-    />
+    /> -->
 
+  <!-- OK por ahora lo dejo py3 -->
   <monkey:patch
     description="Que no haya un batch huerfano"
     module="plone.app.contenttypes.browser.folder.FolderView"
@@ -167,6 +183,7 @@
     replacement=".patches.batch"
     />
 
+  <!-- OK por ahora lo dejo py3 -->
   <monkey:patch
     description="Que al guardar el profile se borren y se añadan todos los campos en el view_user_catalog"
     module="plone.app.users.browser.account.AccountPanelForm"
