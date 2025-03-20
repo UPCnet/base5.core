@@ -158,7 +158,7 @@ def get_safe_member_by_id(username):
 
         if 'fullname' not in properties:
             properties['fullname'] = ''
-        
+
         return properties
     else:
         # No such member: removed?  We return something useful anyway.
@@ -211,7 +211,7 @@ def get_all_user_properties(user):
 def remove_user_from_catalog(username):
     user_properties = get_or_initialize_annotation('user_properties')
     record_key, record = next(
-        ((k, v) for k, v in user_properties.items() if v.get('id') == username), 
+        ((k, v) for k, v in user_properties.items() if v.get('id') == username),
         (None, None)
     )
     if record_key is not None:
@@ -243,7 +243,7 @@ def add_user_to_catalog(user, properties={}, notlegit=False, overwrite=False):
     'overwrite' indica si se deben sobrescribir valores existentes.
     """
     user_properties = get_or_initialize_annotation('user_properties')
-    
+
     if isinstance(user, MemberData):
         username = user.getUserName()
     elif isinstance(user, PloneUser):
@@ -254,7 +254,7 @@ def add_user_to_catalog(user, properties={}, notlegit=False, overwrite=False):
 
     record = next((r for r in user_properties.values() if r.get('id') == username), None)
     user_properties_utility = getUtility(ICatalogFactory, name='user_properties')
-    
+
     if record:
         # Just in case that a user became a legit one and previous was a nonlegit
         record['notlegit'] = False
@@ -321,7 +321,7 @@ def add_user_to_catalog(user, properties={}, notlegit=False, overwrite=False):
             extended_user_properties = get_or_initialize_annotation(extender_name)
             extended_record = next((r for r in extended_user_properties.values() if r.get('id') == username), None)
             extended_user_properties_utility = getUtility(ICatalogFactory, name=extender_name)
-            
+
             if not extended_record:
                 extended_record = {}
                 unique_key_ext = str(uuid.uuid4())
@@ -341,7 +341,7 @@ def add_user_to_catalog(user, properties={}, notlegit=False, overwrite=False):
                             property_different_value = False
                     else:
                         property_different_value = False
-                    
+
                     # Only update it if user has already not property set or it's empty
                     if has_prop_def and (prop_empty or overwrite or property_different_value):
                         if isinstance(properties[attr], str):
@@ -460,7 +460,7 @@ def convertSquareImage(image_file):
     if result.mode not in ["1", "L", "P", "RGB", "RGBA"]:
         result = result.convert("RGB")
 
-    new_file = StringIO()
+    new_file = io.BytesIO()
     result.save(new_file, format, quality=88)
     new_file.seek(0)
 

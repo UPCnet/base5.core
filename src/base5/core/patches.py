@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
-from io import StringIO
+# from io import StringIO
+from io import BytesIO
 from urllib.parse import quote_plus
 
 from AccessControl import Unauthorized
@@ -919,6 +920,13 @@ def changeMemberPortrait(self, portrait, id=None):
         if not _checkPermission(ManageUsers, self):
             raise Unauthorized
 
+    # Convertir el archivo de imagen a BytesIO si es necesario
+    filename = portrait.filename
+    if not isinstance(portrait, BytesIO):
+        portrait.seek(0)
+        portrait = BytesIO(portrait.read())
+        portrait.filename = filename
+
     # The plugable actions for how to handle the portrait.
     adapter = getMultiAdapter((self, self.REQUEST), IPortraitUploadAdapter)
     adapter(portrait, safe_id)
@@ -938,7 +946,8 @@ def deletePersonalPortrait(self, id=None):
     # The plugable actions for how to handle the portrait.
     portrait_url = portal_url()+'/++theme++ulearn5/assets/images/defaultUser.png'
     imgData = requests.get(portrait_url, verify=False).content
-    image = StringIO(imgData)
+    # image = StringIO(imgData)
+    image = BytesIO(imgData)
     image.filename = 'defaultUser'
     adapter = getMultiAdapter((self, self.REQUEST), IPortraitUploadAdapter)
     adapter(image, safe_id)
