@@ -26,6 +26,9 @@ from ulearn5.core.utils import get_or_initialize_annotation
 from zope.component import getUtility
 from zope.component.hooks import getSite
 from zope.interface import alsoProvides
+from repoze.catalog.query import Eq
+from souper.soup import get_soup
+from souper.soup import Record
 
 try:
     pkg_resources.get_distribution('Products.PloneLDAP')
@@ -417,9 +420,19 @@ class view_user_catalog(BrowserView):
         except:
             pass
 
-        user_properties = get_or_initialize_annotation('user_properties')
-        result = { record.get('id'): record for record in user_properties.values() }
-        return result        
+        portal = api.portal.get()
+        soup = get_soup('user_properties', portal)
+        records = [r for r in soup.data.items()]
+
+        result = {}
+        for record in records:
+            item = {}
+            for key in record[1].attrs:
+                item[key] = record[1].attrs[key]
+
+            result[record[1].attrs['id']] = item
+
+        return result
 
 class reset_user_catalog(BrowserView):
     """ Reset the OMEGA13 repoze.catalog for user properties data.
@@ -654,12 +667,12 @@ class DeleteUserMaxNotLDAP(BrowserView):
 
                                         if user_record:
                                             acl['users'].remove(user_record)
-                                            record['acl'] = acl 
-                                            
+                                            record['acl'] = acl
+
                                             adapter = obj.adapted()
                                             adapter.remove_acl_atomic(member_id)
                                             adapter.set_plone_permissions(adapter.get_acl())
-                                            
+
                                             adapter.update_hub_subscriptions()
 
                                             if obj.notify_activity_via_mail and obj.type_notify == 'Automatic':
@@ -709,27 +722,26 @@ En ACL_USERS / LDAP / Properties / Active Plugins ha de estar ordenado así:
         try:
             acl = pplugin._getLDAPUserFolder()
 
-            user_properties = get_or_initialize_annotation('user_properties')
-            keys_to_delete = []
+            soup = get_soup('user_properties', portal)
+            records = [r for r in soup.data.items()]
 
-            for key, value in user_properties.items():
-                user_obj = acl.getUserById(value.get('id'))
+            for record in records:
+                # For each user in catalog search user in ldap
+                user_obj = acl.getUserById(record[1].attrs['id'])
                 if not user_obj:
-                    logger.info(f'No user found in user repository (LDAP) {value.get("id")}')
-                    keys_to_delete.append(key)
+                    logger.info('No user found in user repository (LDAP) {}'.format(record[1].attrs['id']))
+                    soup.__delitem__(record[1])
+                    logger.info('User delete soup {}'.format(record[1].attrs['id']))
+                    results.append('User delete soup: {}'.format(record[1].attrs['id']))
 
-            for key in keys_to_delete:
-                del user_properties[key]
-                logger.info(f'User deleted from soup {user_properties[key].get("id", key)}')
-                results.append(f'User deleted from soup: {key}')
-
-            logger.info(f'Finish delete_user_catalog portal {portal}')
+            logger.info('Finish delete_user_catalog portal {}'.format(portal))
             results.append('Finish delete_user_catalog')
             return '\n'.join([str(item) for item in results])
         except:
             logger.info('The order to the plugins in En ACL_USERS / LDAP / Properties / Active Plugins : mutable_properties / auto_group / ldapaspb')
             results.append('The order to the plugins in En ACL_USERS / LDAP / Properties / Active Plugins : mutable_properties / auto_group / ldapaspb')
             return 'Error: ' + '\n'.join([str(item) for item in results])
+
 
 
 class delete_local_roles(BrowserView):
@@ -753,7 +765,7 @@ class delete_local_roles(BrowserView):
                 if isinstance(member_id, str):
                     member_ids = (member_id,)
                     member_ids = list(member_ids)
-                
+
                 mtool = api.portal.get_tool(name='portal_membership')
                 # Delete members' local roles.
                 mtool.deleteLocalRoles(getUtility(ISiteRoot), member_ids,

@@ -6,27 +6,32 @@
 
   <utility
     name="user_properties"
-    factory=".indexers.UserPropertiesSoupCatalogFactory"
+    factory="base5.core.directory.indexers.UserPropertiesSoupCatalogFactory"
+    provides="souper.interfaces.ICatalogFactory"
     />
 
   <utility
     name="ldap_groups"
     factory=".indexers.GroupsSoupCatalogFactory"
+    provides="souper.interfaces.ICatalogFactory"
     />
 
   <utility
     name="user_news_searches"
     factory=".indexers.UserNewsSearchSoupCatalog"
+    provides="souper.interfaces.ICatalogFactory"
     />
 
   <utility
     name="users_delete_local_roles"
     factory=".indexers.UsersDeleteLocalRoles"
+    provides="souper.interfaces.ICatalogFactory"
     />
 
   <utility
     name="users_portrait"
     factory=".indexers.UsersDeleteLocalRoles"
+    provides="souper.interfaces.ICatalogFactory"
     />
 
   <subscriber

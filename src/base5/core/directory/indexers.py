@@ -5,7 +5,7 @@ from repoze.catalog.indexes.field import CatalogFieldIndex
 from repoze.catalog.indexes.keyword import CatalogKeywordIndex
 from repoze.catalog.indexes.text import CatalogTextIndex
 from souper.interfaces import ICatalogFactory
-#from souper.soup import NodeAttributeIndexer
+from souper.soup import NodeAttributeIndexer
 from ulearn5.core.utils import get_or_initialize_annotation
 from zope.interface import implementer
 
@@ -55,7 +55,7 @@ class UserPropertiesSoupCatalogFactory(object):
     directory_icons = {'email': 'fa fa-envelope', 'location': 'fa fa-building-o'}
 
 
-    def __call__old(self, context):
+    def __call__(self, context):
         catalog = Catalog()
         idindexer = NodeAttributeIndexer('id')
         catalog['id'] = CatalogFieldIndex(idindexer)
@@ -75,20 +75,10 @@ class UserPropertiesSoupCatalogFactory(object):
         home_page = NodeAttributeIndexer('home_page')
         catalog['home_page'] = CatalogTextIndex(home_page)
         return catalog
-    
-    def __call__(self, context):
-        user_properties = get_or_initialize_annotation('user_properties')
-        return {
-            'id': user_properties.get('id', None),
-            'searchable_text': user_properties.get('searchable_text', None),
-            'notlegit': user_properties.get('notlegit', None),
-            'username': user_properties.get('username', None),
-            'fullname': user_properties.get('fullname', None),
-            'email': user_properties.get('email', None),
-            'location': user_properties.get('location', None),
-            'home_page': user_properties.get('home_page', None),
-        }
-        
+
+
+# grok.global_utility(UserPropertiesSoupCatalogFactory, name='user_properties')
+
 
 
 @implementer(ICatalogFactory)
@@ -103,21 +93,15 @@ class GroupsSoupCatalogFactory(object):
         :index searchable_id: FullTextIndex - The group id used for wildcard
             queries
     """
-    def __call__old(self, context):
+    def __call__(self, context):
         catalog = Catalog()
         groupindexer = NodeAttributeIndexer('id')
         catalog['id'] = CatalogFieldIndex(groupindexer)
         idsearchableindexer = NodeAttributeIndexer('searchable_id')
         catalog['searchable_id'] = CatalogTextIndex(idsearchableindexer)
         return catalog
-    
-    def __call__(self, context):
-        ldap_groups = get_or_initialize_annotation('ldap_groups')
-        return {
-            'id': ldap_groups.get('id', None),
-            'searchable_id': ldap_groups.get('searchable_id', None),
-        }
-        
+
+# grok.global_utility(GroupsSoupCatalogFactory, name='ldap_groups')
 
 @implementer(ICatalogFactory)
 class UserNewsSearchSoupCatalog(object):
@@ -129,7 +113,7 @@ class UserNewsSearchSoupCatalog(object):
         catalog['searches'] = CatalogKeywordIndex(hashindex)
 
         return catalog
-    
+
     def __call__(self, context):
         user_news_searches = get_or_initialize_annotation('user_news_searches')
         return {
@@ -155,7 +139,7 @@ class UsersDeleteLocalRoles(object):
         return {
             'id_username': users_delete_local_roles.get('id_username', None),
         }
-    
+
 @implementer(ICatalogFactory)
 class UsersPortrait(object):
     """ Usuaris si tenen la foto del perfil o no DefaultImage
@@ -171,7 +155,7 @@ class UsersPortrait(object):
         catalog['portrait'] = CatalogFieldIndex(portrait)
 
         return catalog
-    
+
     def __call__(self, context):
         users_portrait = get_or_initialize_annotation('users_portrait')
         return {

@@ -75,24 +75,23 @@ class SyncLDAPGroups(BrowserView):
             pass
 
         if results:
-            ldap_groups = get_or_initialize_annotation('ldap_groups')
-            ldap_groups.clear()
-
+            portal = api.portal.get()
+            soup = get_soup('ldap_groups', portal)
+            soup.clear()
             to_print = []
 
             for dn, attrs in results:
                 group_id = attrs['cn'][0]
-                record = {
-                    'id': group_id,
-                    'searchable_id': group_id
-                }
-                unique_key = str(uuid.uuid4())
-                ldap_groups[unique_key] = record
+
+                record = Record()
+                record.attrs['id'] = group_id
 
                 # Index entries MUST be unicode in order to search using special chars
+                record.attrs['searchable_id'] = group_id.decode('utf-8')
+                soup.add(record)
                 to_print.append(group_id)
 
-            logger.info(f'[SYNCLDAPGROUPS]: {to_print}')
+            logger.info('[SYNCLDAPGROUPS]: {}'.format(to_print))
             api.portal.send_email(
                 recipient='email.tomatic@upcnet.es',
                 sender='noreply@ulearn.upcnet.es',

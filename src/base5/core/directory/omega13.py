@@ -17,6 +17,8 @@ from souper.interfaces import ICatalogFactory
 from ulearn5.core.utils import get_or_initialize_annotation
 from zope.component import getUtility
 from zope.interface import Interface, implementer
+from repoze.catalog.query import Eq
+from souper.soup import get_soup
 
 logger = logging.getLogger('Omega13')
 
@@ -57,59 +59,64 @@ class Omega13Helper(BasePlugin, Cacheable):
                     'sort_by': sort_by, 'max_results': max_results}
         criteria.update(kw)
 
-        cached_info = self.ZCacheable_get(view_name=view_name, keywords=criteria, default=None)
+        cached_info = self.ZCacheable_get(view_name=view_name,
+                                          keywords=criteria,
+                                          default=None)
 
         if cached_info is not None:
-            logger.warning('Returning cached results from Omega13 enumerateUsers')
+            logger.warning('returning cached results from Omega13 enumerateUsers')
             return cached_info
 
-        user_properties = get_or_initialize_annotation('user_properties')
+        portal = api.portal.get()
+        soup = get_soup('user_properties', portal)
 
         result = []
         if exact_match and (id or login):
             if id:
-                records = [r for r in user_properties.values() if r.get('username') == id]
+                records = [r for r in soup.query(Eq('username', id))]
             elif login:
-                records = [r for r in user_properties.values() if r.get('username') == login]
+                records = [r for r in soup.query(Eq('username', login))]
 
             if records:
-                logger.warning(f'Omega13 found {len(records)} user(s): {records}')
-                result.append({'id': records[0]['username'],
-                            'login': records[0]['username'],
-                            'pluginid': plugin_id})
+                logger.warning('Omega13 found {} user: {}'.format(len(records), records))
+                result.append({'id': records[0].attrs['username'],
+                               'login': records[0].attrs['username'],
+                               'pluginid': plugin_id,
+                               })
         else:
             if id:
-                records = [r for r in user_properties.values() if r.get('username', '').startswith(id)]
+                records = [r for r in soup.query(Eq('username', id + '*'))]
             elif login:
-                records = [r for r in user_properties.values() if r.get('username', '').startswith(login)]
+                records = [r for r in soup.query(Eq('username', login + '*'))]
 
             if records:
-                logger.warning(f'Omega13 found {len(records)} user(s): {records}')
+                logger.warning('Omega13 found {} user: {}'.format(len(records), records))
                 for record in records:
-                    result.append({'id': record['username'],
-                                'login': record['username'],
-                                'pluginid': plugin_id})
+                    result.append({'id': record.attrs['username'],
+                                   'login': record.attrs['username'],
+                                   'pluginid': plugin_id,
+                                   })
 
         result = tuple(result)
         self.ZCacheable_set(result, view_name=view_name, keywords=criteria)
 
         return result
 
-
     security.declarePrivate('getPropertiesForUser')
     def getPropertiesForUser(self, user, request=None):
         """ Fullfill PropertiesPlugin requirements """
         portal = api.portal.get()
+        soup = get_soup('user_properties', portal)
         user_properties_utility = getUtility(ICatalogFactory, name='user_properties')
         indexed_attrs = user_properties_utility(portal).keys()
         properties = {}
-        user_properties = get_or_initialize_annotation('user_properties')
-        user_id = user.getid()
-        record = next((r for r in user_properties.values() if r.get('username') == user_id))
-        if record:
+        user.getId()
+        records = [r for r in soup.query(Eq('username', user.getId()))]
+        if records:
             for attr in indexed_attrs:
-                if record.get(attr, False):
-                    properties[attr] = record.get(attr)
+                if records[0].attrs.get(attr, False):
+                    properties[attr] = records[0].attrs[attr]
+            logger.warning('found properties for user: {}'.format(records[0].attrs['username']))
 
         return properties
 

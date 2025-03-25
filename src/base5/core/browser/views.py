@@ -10,7 +10,9 @@ from Products.Five.browser import BrowserView
 from Products.statusmessages.interfaces import IStatusMessage
 from ulearn5.core.utils import get_or_initialize_annotation
 from zope.component.hooks import getSite
-
+from repoze.catalog.query import Eq
+from souper.soup import get_soup
+from souper.soup import Record
 
 class gwToggleIsImportant(BrowserView):
 
@@ -79,27 +81,26 @@ class gwToggleNewsInApp(BrowserView):
 class gwToggleSubscribedTag(BrowserView):
 
     def __call__(self):
+        portal = api.portal.get()
         current_user = api.user.get_current()
         userid = current_user.id
         tag = self.request.form['tag']
 
-        user_subscribed_tags = get_or_initialize_annotation('user_subscribed_tags')
-        record = next((r for r in user_subscribed_tags.values() if r.get('id') == userid), None)
-        
-        if not record:
-            record = {
-                'id': userid,
-                'tags': tag
-            }
-            unique_key = str(uuid.uuid4())
-            user_subscribed_tags[unique_key] = record
+        soup_tags = get_soup('user_subscribed_tags', portal)
+        exist = [r for r in soup_tags.query(Eq('id', userid))]
 
+        if not exist:
+            record = Record()
+            record.attrs['id'] = userid
+            record.attrs['tags'] = [tag]
+            soup_tags.add(record)
         else:
-            tags = record.setdefault('tags', [])
-            if tag in tags:
-                tags.remove(tag)
+            subscribed = [True for utag in exist[0].attrs['tags'] if utag == tag]
+            if subscribed:
+                exist[0].attrs['tags'].remove(tag)
             else:
-                tags.append(tag)
+                exist[0].attrs['tags'].append(tag)
+        soup_tags.reindex()
 
         if IPloneSiteRoot.providedBy(self.context):
             self.request.response.redirect(self.context.absolute_url() + '/alltags')
