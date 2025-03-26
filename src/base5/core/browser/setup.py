@@ -657,25 +657,31 @@ class DeleteUserMaxNotLDAP(BrowserView):
                                     logger.info(f'Processant {num} de {len(communities_subscription)}. Comunitat {obj}')
                                     gwuuid = IGWUUID(obj).get()
                                     portal = api.portal.get()
+                                    soup = get_soup('communities_acl', portal)
 
-                                    communities_acl = get_or_initialize_annotation('communities_acl')
-                                    record = next((r for r in communities_acl.values() if r.get('gwuuid') == gwuuid), None)
+                                    records = [r
+                                               for r in soup.query(
+                                                   Eq('gwuuid', gwuuid))]
 
-                                    if record:
-                                        acl = record.get('acl')
-                                        user_record = next((user for user in acl.get('users', []) if user.get('id') == str(member_id)), None)
-
-                                        if user_record:
-                                            acl['users'].remove(user_record)
-                                            record['acl'] = acl
-
+                                    # Save ACL into the communities_acl soup
+                                    if records:
+                                        acl_record = records[0]
+                                        acl = acl_record.attrs['acl']
+                                        exist = [
+                                            a for a in acl['users']
+                                            if a['id'] == unicode(member_id)]
+                                        if exist:
+                                            acl['users'].remove(exist[0])
+                                            acl_record.attrs['acl'] = acl
+                                            soup.reindex(records=[acl_record])
                                             adapter = obj.adapted()
                                             adapter.remove_acl_atomic(member_id)
-                                            adapter.set_plone_permissions(adapter.get_acl())
-
+                                            adapter.set_plone_permissions(
+                                                adapter.get_acl())
+                                            # Communicate the change in the community subscription to the uLearnHub
                                             adapter.update_hub_subscriptions()
 
-                                            if obj.notify_activity_via_mail and obj.type_notify == 'Automatic':
+                                            if ((obj.notify_activity_via_mail == True) and (obj.type_notify == 'Automatic')):
                                                 adapter.update_mails_users(obj, acl)
 
                                 except:
