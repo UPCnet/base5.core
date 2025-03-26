@@ -763,22 +763,26 @@ class delete_local_roles(BrowserView):
             pass
 
         portal = api.portal.get()
-        users_delete_local_roles = get_or_initialize_annotation('users_delete_local_roles')
-        users_items = [r for r in users_delete_local_roles.items()]
-        for key, value in users_items:
-            member_id = value.get('id_username')
+        soup_users_delete = get_soup('users_delete_local_roles', portal)
+        users = [r for r in soup_users_delete.data.items()]
+
+        result = {}
+        for user in users:
+            member_id = user[1].attrs['id_username']
             if member_id:
-                if isinstance(member_id, str):
+                if isinstance(member_id, basestring):
                     member_ids = (member_id,)
                     member_ids = list(member_ids)
 
                 mtool = api.portal.get_tool(name='portal_membership')
+
                 # Delete members' local roles.
                 mtool.deleteLocalRoles(getUtility(ISiteRoot), member_ids,
                                    reindex=1, recursive=1)
                 logger.info(f'Eliminat usuari {member_id} del local roles.')
 
-                del users_delete_local_roles[key]
+                # Delete members' del soup
+                del soup_users_delete[user[1]]
                 logger.info(f'Eliminat usuari {member_id} del soup.')
 
         logger.info(f'Finish delete_local_roles portal {portal}')
@@ -801,11 +805,11 @@ class users_to_delete_local_roles(BrowserView):
         results = []
         try:
             portal = api.portal.get()
-            users_delete_local_roles = get_or_initialize_annotation('users_delete_local_roles')
-            users = [r for r in users_delete_local_roles.items()]
+            soup_users_delete = get_soup('users_delete_local_roles', portal)
+            users = [r for r in soup_users_delete.data.items()]
 
-            for key, value in users:
-                member_id = value.get('id_username')
+            for user in users:
+                member_id = user[1].attrs['id_username']
                 if member_id:
                     results.append(f'User to delete: {member_id}')
                     logger.info(f'User to delete: {member_id}')

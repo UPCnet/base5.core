@@ -127,18 +127,15 @@ class UsersDeleteLocalRoles(object):
         :index id: TextIndex - id_username = username
     """
 
-    def __call__old(self, context):
+    def __call__(self, context):
         catalog = Catalog()
         idindexer = NodeAttributeIndexer('id_username')
         catalog['id_username'] = CatalogTextIndex(idindexer)
 
         return catalog
 
-    def __call__(self, context):
-        users_delete_local_roles = get_or_initialize_annotation('users_delete_local_roles')
-        return {
-            'id_username': users_delete_local_roles.get('id_username', None),
-        }
+# grok.global_utility(UsersDeleteLocalRoles, name='users_delete_local_roles')
+
 
 @implementer(ICatalogFactory)
 class UsersPortrait(object):
