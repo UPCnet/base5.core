@@ -105,7 +105,7 @@ class GroupsSoupCatalogFactory(object):
 
 @implementer(ICatalogFactory)
 class UserNewsSearchSoupCatalog(object):
-    def __call__old(self, context):
+    def __call__(self, context):
         catalog = Catalog()
         idindexer = NodeAttributeIndexer('id')
         catalog['id'] = CatalogFieldIndex(idindexer)
@@ -114,12 +114,7 @@ class UserNewsSearchSoupCatalog(object):
 
         return catalog
 
-    def __call__(self, context):
-        user_news_searches = get_or_initialize_annotation('user_news_searches')
-        return {
-            'id': user_news_searches.get('id', None),
-            'searches': user_news_searches.get('searches', None),
-        }
+# grok.global_utility(UserNewsSearchSoupCatalog, name='user_news_searches')
 
 @implementer(ICatalogFactory)
 class UsersDeleteLocalRoles(object):
