@@ -835,7 +835,7 @@ class rebuild_users_portrait(BrowserView):
         except:
             pass
         portal = api.portal.get()
-        users_portrait = get_or_initialize_annotation('users_portrait')
+        soup_users_portrait = get_soup('users_portrait', portal)
         plugins = portal.acl_users.plugins.listPlugins(IPropertiesPlugin)
         # We use the most preferent plugin
         # If the most preferent plugin is:
@@ -863,27 +863,29 @@ class rebuild_users_portrait(BrowserView):
                 # import transaction
                 # transaction.commit()
                 member_info = get_safe_member_by_id(id)
-                if member_info.get('fullname', False) \
-                   and member_info.get('fullname', False) != id \
-                   and isinstance(portrait, Image) and portrait.size != 3566 and portrait.size != 6186:
+                if member_info.get(
+                        'fullname', False) and member_info.get(
+                        'fullname', False) != id and isinstance(
+                        portrait, Image) and portrait.size != 3566 and portrait.size != 6186:
                     portrait_user = True
                     # 3566 is the size of defaultUser.png I don't know how get image
                     # title. This behavior is reproduced in profile portlet. Ahora tambien 6186
                 else:
                     portrait_user = False
 
-                record = next((r for r in users_portrait.values() if r.get('id_username') == id), None)
-                if record:
-                    record['id_username'] = id
-                    record['portrait'] = portrait_user
+                exist = [r for r in soup_users_portrait.query(Eq('id_username', id))]
+                if exist:
+                    user_record = exist[0]
+                    # Just in case that a user became a legit one and previous was a nonlegit
+                    user_record.attrs['id_username'] = id
+                    user_record.attrs['portrait'] = portrait_user
                 else:
-                    record = {
-                        'id_username': id,
-                        'portrait': portrait_user,
-                    }
-                    unique_key = str(uuid.uuid4())
-                    users_portrait[unique_key] = record
-
+                    record = Record()
+                    record_id = soup_users_portrait.add(record)
+                    user_record = soup_users_portrait.get(record_id)
+                    user_record.attrs['id_username'] = id
+                    user_record.attrs['portrait'] = portrait_user
+                soup_users_portrait.reindex(records=[user_record])
             else:
                 logger.info(f'No user found in user repository (LDAP) {user["id"]}')
 
@@ -905,11 +907,16 @@ class view_users_portrait(BrowserView):
             alsoProvides(self.request, IDisableCSRFProtection)
         except:
             pass
-        users_portrait = get_or_initialize_annotation('users_portrait')
+        portal = api.portal.get()
+        soup = get_soup('users_portrait', portal)
+        records = [r for r in soup.data.items()]
 
         result = {}
-        for key, value in users_portrait.items():
-            item = {attr_key: attr_value for attr_key, attr_value in value.items()}
-            result[value.get('id_username')] = item
+        for record in records:
+            item = {}
+            for key in record[1].attrs:
+                item[key] = record[1].attrs[key]
+
+            result[record[1].attrs['id_username']] = item
 
         return result

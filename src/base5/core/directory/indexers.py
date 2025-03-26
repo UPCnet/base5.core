@@ -139,7 +139,7 @@ class UsersPortrait(object):
         :index portrait: FieldIndex - Boolean, if the username has portrait
     """
 
-    def __call__old(self, context):
+    def __call__(self, context):
         catalog = Catalog()
         idindexer = NodeAttributeIndexer('id_username')
         catalog['id_username'] = CatalogTextIndex(idindexer)
@@ -148,9 +148,4 @@ class UsersPortrait(object):
 
         return catalog
 
-    def __call__(self, context):
-        users_portrait = get_or_initialize_annotation('users_portrait')
-        return {
-            'id_username': users_portrait.get('id_username', None),
-            'portrait': users_portrait.get('portrait', None),
-        }
+# grok.global_utility(UsersDeleteLocalRoles, name='users_portrait')
