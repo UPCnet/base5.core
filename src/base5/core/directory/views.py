@@ -11,6 +11,9 @@ from Products.Five.browser import BrowserView
 from ulearn5.core.utils import get_or_initialize_annotation
 from zope.component import queryUtility
 from zope.interface import alsoProvides
+from repoze.catalog.query import Eq
+from souper.soup import get_soup
+from souper.soup import Record
 
 logger = logging.getLogger(__name__)
 
@@ -46,7 +49,7 @@ def search_ldap_groups():
 
 class SyncLDAPGroups(BrowserView):
 
-    def ___call__(self):
+    def __call__(self):
         results = []
         try:
             results = search_ldap_groups()
@@ -81,13 +84,13 @@ class SyncLDAPGroups(BrowserView):
             to_print = []
 
             for dn, attrs in results:
-                group_id = attrs['cn'][0]
+                group_id = attrs['cn'][0].decode('utf-8')
 
                 record = Record()
                 record.attrs['id'] = group_id
 
                 # Index entries MUST be unicode in order to search using special chars
-                record.attrs['searchable_id'] = group_id.decode('utf-8')
+                record.attrs['searchable_id'] = group_id
                 soup.add(record)
                 to_print.append(group_id)
 
