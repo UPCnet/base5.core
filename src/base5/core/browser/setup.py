@@ -52,7 +52,7 @@ logger = logging.getLogger(__name__)
 LDAP_PASSWORD = os.environ.get('ldapbindpasswd', '')
 
 
-class addUserPropertiesCatalog(BrowserView):
+class add_user_catalog(BrowserView):
     """ Rebuild the OMEGA13 repoze.catalog for specific user properties data
 
         For default, we use the mutable_properties (users who have entered into communities)
@@ -118,7 +118,7 @@ class addUserPropertiesCatalog(BrowserView):
                 self.context.plone_utils.addPortalMessage(msg, 'info')
 
 
-class removeUserPropertiesCatalog(BrowserView):
+class remove_user_catalog(BrowserView):
     """ Remove specific user in catalog.
     """
 
@@ -196,7 +196,7 @@ class setupTinyMCEConfigPlone5(BrowserView):
         return "TinyMCE configuration and markdown applied"
 
 
-class setupLDAPUPC(BrowserView):
+class setupldapupc(BrowserView):
     """ Configure LDAPUPC for Plone instance """
 
     def __call__(self):
@@ -252,7 +252,7 @@ class setupLDAPUPC(BrowserView):
             logger.debug('You do not have LDAP libraries in your current buildout configuration. POSOK.')
 
 
-class setupLDAPExterns(BrowserView):
+class setupldapexterns(BrowserView):
     """ Configure LDAPExterns for Plone instance """
 
     def __call__(self):
@@ -335,7 +335,7 @@ class setupLDAPExterns(BrowserView):
             return 'Done. groupOfUniqueNames in LDAP Controlpanel Search'
 
 
-class setupLDAP(BrowserView):
+class setupldap(BrowserView):
     """ Configure basic LDAP for Plone instance """
 
     def __call__(self):
@@ -528,7 +528,7 @@ If the most preferent plugin is:
         return 'Done'
 
 
-class UserMaxNotLDAP(BrowserView):
+class users_max_not_ldap(BrowserView):
     """ Users in MAX not in LDAP.
         Vista per veure quins usuaris estan en el MAX i no al LDAP abans esborrar
 
@@ -589,7 +589,7 @@ class UserMaxNotLDAP(BrowserView):
             return 'Error: ' + '\n'.join([str(item) for item in results])
 
 
-class DeleteUserMaxNotLDAP(BrowserView):
+class delete_users_max_not_ldap(BrowserView):
     """ Delete users in MAX not in LDAP.
         Vista per esborrar del cataleg i que no apareguin al directori
         els usuaris que no estan al LDAP
@@ -702,7 +702,7 @@ class DeleteUserMaxNotLDAP(BrowserView):
             return 'Error: ' + '\n'.join([str(item) for item in results])
 
 
-class DeleteUserPropertiesCatalog(BrowserView):
+class delete_user_catalog(BrowserView):
     """ Delete users in catalog not in LDAP.
         Vista per esborrar del cataleg i que no apareguin al directori
         els usuaris que no estan al LDAP

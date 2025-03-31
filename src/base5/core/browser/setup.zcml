@@ -6,7 +6,7 @@
   <browser:page
     name="add_user_catalog"
     for="Products.CMFPlone.interfaces.IPloneSiteRoot"
-    class=".setup.addUserPropertiesCatalog"
+    class=".setup.add_user_catalog"
     permission="base.webmaster"
     template="views_templates/add_user_catalog.pt"
     />
@@ -14,7 +14,7 @@
   <browser:page
     name="remove_user_catalog"
     for="Products.CMFPlone.interfaces.IPloneSiteRoot"
-    class=".setup.removeUserPropertiesCatalog"
+    class=".setup.remove_user_catalog"
     permission="cmf.ManagePortal"
     template="views_templates/remove_user_catalog.pt"
     />
@@ -22,21 +22,21 @@
   <browser:page
     name="setupldapupc"
     for="Products.CMFPlone.interfaces.IPloneSiteRoot"
-    class=".setup.setupLDAPUPC"
+    class=".setup.setupldapupc"
     permission="zope2.ViewManagementScreens"
     />
 
   <browser:page
     name="setupldapexterns"
     for="Products.CMFPlone.interfaces.IPloneSiteRoot"
-    class=".setup.setupLDAPExterns"
+    class=".setup.setupldapexterns"
     permission="zope2.ViewManagementScreens"
     />
 
   <browser:page
     name="setupldap"
     for="Products.CMFPlone.interfaces.IPloneSiteRoot"
-    class=".setup.setupLDAP"
+    class=".setup.setupldap"
     permission="zope2.ViewManagementScreens"
     />
 
@@ -64,21 +64,21 @@
   <browser:page
     name="users_max_not_ldap"
     for="Products.CMFPlone.interfaces.IPloneSiteRoot"
-    class=".setup.UserMaxNotLDAP"
+    class=".setup.users_max_not_ldap"
     permission="cmf.ManagePortal"
     />
 
   <browser:page
     name="delete_users_max_not_ldap"
     for="Products.CMFPlone.interfaces.IPloneSiteRoot"
-    class=".setup.DeleteUserMaxNotLDAP"
+    class=".setup.delete_users_max_not_ldap"
     permission="cmf.ManagePortal"
     />
 
   <browser:page
     name="delete_user_catalog"
     for="Products.CMFPlone.interfaces.IPloneSiteRoot"
-    class=".setup.DeleteUserPropertiesCatalog"
+    class=".setup.delete_user_catalog"
     permission="cmf.ManagePortal"
     />
 
