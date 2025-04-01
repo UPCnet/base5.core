@@ -110,4 +110,11 @@
     permission="cmf.ManagePortal"
     />
 
+  <browser:page
+    name="setuptinymce"
+    for="Products.CMFPlone.interfaces.IPloneSiteRoot"
+    class=".setup.setuptinymce"
+    permission="cmf.ManagePortal"
+    />
+
 </configure>

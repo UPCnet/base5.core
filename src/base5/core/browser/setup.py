@@ -1,7 +1,6 @@
 # -*- coding: utf-8 -*-
 import logging
 import os
-import urllib
 import uuid
 
 import pkg_resources
@@ -29,6 +28,7 @@ from zope.interface import alsoProvides
 from repoze.catalog.query import Eq
 from souper.soup import get_soup
 from souper.soup import Record
+from urllib.request import urlretrieve
 
 try:
     pkg_resources.get_distribution('Products.PloneLDAP')
@@ -116,6 +116,8 @@ class add_user_catalog(BrowserView):
             print('Finish add_user_catalog')
             if msg != '':
                 self.context.plone_utils.addPortalMessage(msg, 'info')
+        else:
+            return 'Error, you have to add the users parameter'
 
 
 class remove_user_catalog(BrowserView):
@@ -141,9 +143,10 @@ class remove_user_catalog(BrowserView):
             print('Finish remove_user_catalog')
             if msg != '':
                 self.context.plone_utils.addPortalMessage(msg, 'info')
+        else:
+            return 'Error, you have to add the users parameter'
 
-
-class setupTinyMCEConfigPlone5(BrowserView):
+class setuptinymce(BrowserView):
     """ Setup view for tinymce config """
 
     def __call__(self):
@@ -853,7 +856,7 @@ class rebuild_users_portrait(BrowserView):
                 foto = maxclient.people[id].avatar
                 imageUrl = foto.uri + '/large'
 
-                portrait = urllib.urlretrieve(imageUrl)
+                portrait = urlretrieve(imageUrl)
 
                 scaled, mimetype = convertSquareImage(portrait[0])
                 portrait = Image(id=id, file=scaled, title=id)
