@@ -149,30 +149,28 @@ def get_safe_member_by_id(username):
        the original does) and returns a dict. It DOES NOT return a Member
        object.
     """
-    if api.user.is_anonymous():
-        pass
+
+    portal = api.portal.get()
+    soup = get_soup('user_properties', portal)
+    username = username.lower()
+    records = [r for r in soup.query(Eq('id', username))]
+    if records:
+        properties = {}
+        for attr in records[0].attrs:
+            if records[0].attrs.get(attr, False):
+                properties[attr] = records[0].attrs[attr]
+
+        # Make sure that the key 'fullname' is returned anyway for it's used in
+        # the wild without guards
+        if 'fullname' not in properties:
+            properties['fullname'] = ''
+
+        return properties
     else:
-        portal = api.portal.get()
-        soup = get_soup('user_properties', portal)
-        username = username.lower()
-        records = [r for r in soup.query(Eq('id', username))]
-        if records:
-            properties = {}
-            for attr in records[0].attrs:
-                if records[0].attrs.get(attr, False):
-                    properties[attr] = records[0].attrs[attr]
-
-            # Make sure that the key 'fullname' is returned anyway for it's used in
-            # the wild without guards
-            if 'fullname' not in properties:
-                properties['fullname'] = ''
-
-            return properties
-        else:
-            # No such member: removed?  We return something useful anyway.
-            return {'username': username, 'description': '', 'language': '',
-                    'home_page': '', 'name_or_id': username, 'location': '',
-                    'fullname': ''}
+        # No such member: removed?  We return something useful anyway.
+        return {'username': username, 'description': '', 'language': '',
+                'home_page': '', 'name_or_id': username, 'location': '',
+                'fullname': ''}
 
 
 def get_all_user_properties(user):
