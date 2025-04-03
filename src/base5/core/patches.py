@@ -17,7 +17,7 @@ from Products.CMFPlone.browser.navtree import getNavigationRoot
 from Products.CMFPlone.browser.search import EVER, quote_chars
 from Products.CMFPlone.PloneBatch import Batch
 from Products.LDAPUserFolder.LDAPUser import LDAPUser, NonexistingUser
-# from Products.LDAPUserFolder.SharedResource import getResource
+from Products.LDAPUserFolder.cache import getResource
 # from Products.LDAPUserFolder.utils import encoding
 from Products.PlonePAS.interfaces.propertysheets import IMutablePropertySheet
 from Products.PlonePAS.utils import safe_unicode
@@ -515,9 +515,9 @@ def connect(self, bind_dn='', bind_pwd=''):
 
     e = None
 
-    # TODO
-    #conn = getResource('%s-connection' % self._hash)
-    conn = 'conn'
+    # TODO Modificado pero no se como probarlo por eso por ahora lo dejo comentado
+    conn = getResource('%s-connection' % self._hash)
+    #conn = 'conn'
     if (conn._type() != str):
         try:
             # Mensajes para calcular tiempos LDAP
