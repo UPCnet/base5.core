@@ -22,6 +22,7 @@ from zope import schema
 from zope.component import getAdapter, getMultiAdapter, getUtility
 from zope.interface import implementer
 from zope.schema.interfaces import ICollection
+import ulearn5.core.content.video
 
 
 class ISmart(IPortletDataProvider):
