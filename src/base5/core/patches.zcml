@@ -191,4 +191,18 @@
     replacement=".patches._on_save"
     />
 
+  <monkey:patch
+    description="Que no peten los soups migrados que tengan datos con bytes no str"
+    module="zope.index.text.widcode"
+    original="decode"
+    replacement=".patches.decode"
+    />
+
+  <monkey:patch
+    description="Que no peten los soups migrados que tengan datos con str y necesite bytes"
+    module="zope.index.text.widcode"
+    original="encode"
+    replacement=".patches.encode"
+    />
+
 </configure>

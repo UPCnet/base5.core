@@ -220,6 +220,16 @@ def remove_user_from_catalog(username):
     exists = [r for r in soup.query(Eq('id', username))]
     if exists:
         user_record = exists[0]
+
+        # Limpiar los campos problemáticos (si hay alguno de tipo bytes)
+        for key, val in user_record.attrs.items():
+            if isinstance(val, bytes):
+                user_record.attrs[key] = val.decode('utf-8', errors='ignore')
+
+        # Limpiar 'searchable_text' si está presente
+        if isinstance(user_record.attrs.get('searchable_text', ''), bytes):
+            user_record.attrs['searchable_text'] = user_record.attrs['searchable_text'].decode('utf-8', errors='ignore')
+
         del soup[user_record]
 
     if IAMULEARN:
@@ -311,11 +321,19 @@ def add_user_to_catalog(user, properties={}, notlegit=False, overwrite=False):
     # Build the searchable_text field for wildcard searchs
     user_record.attrs['searchable_text'] = ''
     for key in user_properties_utility.properties:
-        if user_record.attrs.get(key, False) and 'check_' not in key:
+        value = user_record.attrs.get(key, False)
+        if value and 'check_' not in key:
             checkKey = 'check_' + key
             hasCheck = checkKey in user_record.attrs
             if not hasCheck or (hasCheck and user_record.attrs[checkKey] != 'False'):
-                user_record.attrs['searchable_text'] += unicodedata.normalize('NFKD', user_record.attrs[key]).encode('ascii', errors='ignore').decode('ascii') + ' '
+                if isinstance(value, bytes):
+                    try:
+                        value = value.decode('utf-8')
+                    except UnicodeDecodeError:
+                        value = value.decode('latin1')  # alternativa en caso de fallo
+                user_record.attrs['searchable_text'] += unicodedata.normalize('NFKD', value).encode('ascii', errors='ignore').decode('ascii') + ' '
+                # user_record.attrs['searchable_text'] += unicodedata.normalize('NFKD', user_record.attrs[key]).encode('ascii', errors='ignore').decode('ascii') + ' '
+
     soup.reindex(records=[user_record])
 
     # If uLearn is present, then lookup for a customized set of fields and its

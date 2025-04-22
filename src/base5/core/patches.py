@@ -34,6 +34,7 @@ from Products.PluggableAuthService.utils import createKeywords, createViewName
 from pyquery import PyQuery as pq
 from zope.component import getMultiAdapter
 from zope.event import notify
+from zope.index.text.widcode import _decoding, _prog, _decode, _encoding, _encode
 
 try:
     from hashlib import sha1 as sha_new
@@ -1034,3 +1035,25 @@ def _on_save(self, data=None):
 #     #         return self._dn.encode(encoding)
 
 #     return self._dn
+
+def decode(code):
+    """Decode a string into a list of wids."""
+    get = _decoding.get
+    # Obscure:  while _decoding does have the key '\x80', its value is 0,
+    # so the "or" here calls _decode('\x80') anyway.
+    if isinstance(code, bytes):
+        code = code.decode('utf-8', errors='ignore')  # Convertimos bytes a str (UTF-8)
+
+    try:
+        return [get(p) or _decode(p) for p in _prog.findall(code)]
+    except Exception as e:
+        raise e  # Para capturar el error de forma más específica si ocurre
+
+def encode(wids):
+    """Encode a list of wids as bytes."""
+    wid2enc = _encoding
+    n = len(wid2enc)
+    return b"".join([
+        (wid2enc[w] if w < n else _encode(w)).encode('latin-1')
+        for w in wids
+    ])
