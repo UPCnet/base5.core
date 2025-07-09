@@ -438,7 +438,11 @@ def add_user_to_catalog(user, properties={}, notlegit=False, overwrite=False):
                         else:
                             user_record.attrs[attr] = properties[attr]
 
-            soup.reindex(records=[user_record])
+            try:
+                soup.reindex(records=[user_record])
+            except:
+                pass
+
             extended_soup.reindex(records=[extended_user_record])
 
 

@@ -293,8 +293,11 @@ def setMemberProperties(self, mapping, force_local=0, force_empty=False):
             if not sheet.hasProperty(k):
                 continue
             if IMutablePropertySheet.providedBy(sheet):
-                sheet.setProperty(user, k, v)
-                modified = True
+                try:
+                    sheet.setProperty(user, k, v)
+                    modified = True
+                except Exception:
+                    pass
             else:
                 break
                 # raise RuntimeError, ("Mutable property provider "
