@@ -485,6 +485,10 @@ If the most preferent plugin is:
         #    mutable_properties --> users who have entered into communities
         #    ldap --> users in LDAP
         pplugin = plugins[0][1]
+        if '' in pplugin._storage:
+           pplugin._storage.pop('')
+           import transaction; transaction.commit()
+           return 'He borrado el registro vacío.'
         all_user_properties = pplugin.enumerateUsers()
 
         results = []
