@@ -117,4 +117,12 @@
     permission="cmf.ManagePortal"
     />
 
+  <browser:page
+    name="saveeditacl"
+    for="Products.CMFPlone.interfaces.IPloneSiteRoot"
+    class=".setup.saveeditacl"
+    permission="cmf.ManagePortal"
+    />
+
+
 </configure>

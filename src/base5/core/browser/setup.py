@@ -22,13 +22,14 @@ from Products.PluggableAuthService.interfaces.plugins import (
 from ulearn5.core.gwuuid import IGWUUID
 from ulearn5.core.patches import deleteMembers
 from ulearn5.core.utils import get_or_initialize_annotation
-from zope.component import getUtility
+from zope.component import getUtility, queryUtility
 from zope.component.hooks import getSite
 from zope.interface import alsoProvides
 from repoze.catalog.query import Eq
 from souper.soup import get_soup
 from souper.soup import Record
 from urllib.request import urlretrieve
+from ulearn5.core.controlpanel import IUlearnControlPanelSettings
 
 try:
     pkg_resources.get_distribution('Products.PloneLDAP')
@@ -777,7 +778,7 @@ class delete_local_roles(BrowserView):
         for user in users:
             member_id = user[1].attrs['id_username']
             if member_id:
-                if isinstance(member_id, basestring):
+                if isinstance(member_id, str):
                     member_ids = (member_id,)
                     member_ids = list(member_ids)
 
@@ -927,3 +928,41 @@ class view_users_portrait(BrowserView):
             result[record[1].attrs['id_username']] = item
 
         return result
+
+class saveeditacl(BrowserView):
+    """ Redirect to the REST API endpoint for saveeditacl.
+        Vista per redirigir a l'endpoint REST de saveeditacl
+    """
+
+    def __call__(self):
+        try:
+            from plone.protect.interfaces import IDisableCSRFProtection
+            alsoProvides(self.request, IDisableCSRFProtection)
+        except:
+            pass
+
+        portal = api.portal.get()
+        registry = queryUtility(IRegistry)
+        ulearn_settings = registry.forInterface(IUlearnControlPanelSettings)
+        if ulearn_settings.url_site != None and ulearn_settings.url_site != '':
+            url_site = ulearn_settings.url_site
+        else:
+            url_site = portal.absolute_url()
+        # Redirect to the REST API endpoint
+        api_url = f"{url_site}/api/saveeditacl"
+
+        # Make the request to the API
+        import requests
+        username = api.user.get_current().id
+        token = api.user.get(username).getProperty('oauth_token')
+        headers = {'X-Oauth-Username': username,
+                   'X-Oauth-Token': token,
+                   'X-Oauth-Scope': 'widgetcli',
+                   'Accept': 'application/json',
+                   }
+
+        try:
+            response = requests.get(api_url, headers=headers, verify=False)
+            return f"API Response: {response.status_code} - {response.text}"
+        except Exception as e:
+            return f"Error calling API: {e}"
